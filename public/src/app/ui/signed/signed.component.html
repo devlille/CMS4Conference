@@ -1,0 +1,15 @@
+@if (company.conventionSignedUrl) {
+<p>
+    Vous trouverez ci-dessous la convention et le devis relatifs à notre partenariat.
+    <cms-files [files]="files"></cms-files>
+</p>
+}
+
+@if (!company.conventionSignedUrl) {
+<p>Vous pouvez transférer ci-dessous la convention signée:</p>
+@if (!company.conventionSignedUrl) {
+<div class="inline-bloc">
+    <cms-upload (uploadFile)="uploadConvention($event)" [isEnable]="" accept=".pdf" label="Convention"></cms-upload>
+</div>
+}
+}

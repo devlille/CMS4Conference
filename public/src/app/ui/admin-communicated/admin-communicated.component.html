@@ -1,0 +1,32 @@
+<mat-form-field class="full-width">
+  <input
+    matInput
+    type="date"
+    placeholder="date de publication"
+    [(ngModel)]="company.publicationDate"
+  />
+</mat-form-field>
+
+<br />
+
+@if (company.flyerUrl) {
+<cms-files [files]="files"></cms-files>
+}
+
+<div class="inline-bloc">
+  <button mat-raised-button color="primary" (click)="setDone()">
+    <mat-icon>done</mat-icon>
+    Valider cette étape
+  </button>
+  <button mat-raised-button color="primary" (click)="setDate()">
+    <mat-icon>event</mat-icon>
+    Programmer le communication
+  </button>
+  <cms-upload
+    (uploadFile)="uploadFlyer($event)"
+    [isEnable]=""
+    accept=".png,.svg,.jpg,.jpeg"
+    label="Flyer (.png,.svg,.jpg,.jpeg)"
+    >Choisir un flyer</cms-upload
+  >
+</div>

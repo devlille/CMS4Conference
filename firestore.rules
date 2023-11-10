@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /companies-2023/{companyId} {
+      allow list, update: if isGdgLille() || notUpdating('name');
+      allow create, get: if true;
+    }
+    match /companies-2024/{companyId} {
+      allow list, update: if isGdgLille() || notUpdating('name');
+      allow create, get: if true;
+    }
+    match /workflows/{workflowId} {
+      allow list: if true;
+      allow get: if true;
+    }
+    match /configuration/{configurationId} {
+      allow get: if true;
+    }
+  }
+}
+
+function notUpdating(field) {
+ return !(field in request.resource.data)
+  || resource.data[field] == request.resource.data[field]
+}
+function isOwner(companyId) {
+    return request.auth.token.email in resource.data.email;
+}
+function isGdgLille() {
+    return request.auth.token.email.matches(".*@gdglille.org")
+}

@@ -1,0 +1,86 @@
+<form [formGroup]="companyProfile" (ngSubmit)="onSubmitForm()">
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="Nom de la Société" type="text" formControlName="name" />
+        @if (companyProfile.controls.name.errors && companyProfile.controls.name.errors.required) {
+        <mat-error>Le nom de la société est obligatoire</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <input
+            matInput
+            placeholder="Nom de la Société pour la facture et convention (si différent du nom précédent)"
+            type="text"
+            formControlName="officialName"
+        />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="Emails des contacts (séparés par des virgules)" type="text" formControlName="email" />
+        @if (companyProfile.controls.email.errors && companyProfile.controls.email.errors.required) {
+        <mat-error>Vous devez absolument définir au moins un email</mat-error>
+        } @if (companyProfile.controls.email.errors && companyProfile.controls.email.errors.emails) {
+        <mat-error>Vos emails ne sont pas valides</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="URL du site de la société" type="url" formControlName="siteUrl" />
+        @if (companyProfile.controls.siteUrl.errors && companyProfile.controls.name.errors?.required) {
+        <mat-error>L'URL du site de la société est obligatoire</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="Numéro de téléphone" type="tel" formControlName="tel" />
+        @if (companyProfile.controls.tel.errors && companyProfile.controls.tel.errors.required) {
+        <mat-error>Le numéro de téléphone est obligatoire</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <input autocomplete="chrome-off" #address matInput placeholder="Adresse" type="text" formControlName="googleAddress" />
+        @if (companyProfile.controls.googleAddress.errors && companyProfile.controls.googleAddress.errors.required) {
+        <mat-error>L'adresse' est obligatoire</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="SIRET" type="text" formControlName="siret" />
+        @if (companyProfile.controls.siret.errors && companyProfile.controls.siret.errors.required) {
+        <mat-error>Le numéro de siret est obligatoire</mat-error>
+        } @if (companyProfile.controls.siret.errors && companyProfile.controls.siret.errors.siret) {
+        <mat-error>Le numéro de siret n'est pas valide</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="Représentant" type="text" formControlName="representant" />
+        @if (companyProfile.controls.representant.errors && companyProfile.controls.representant.errors.required) {
+        <mat-error>Le représentant est obligatoire</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="Role dans l'entreprise" type="text" formControlName="role" />
+        @if (companyProfile.controls.role.errors && companyProfile.controls.role.errors.required) {
+        <mat-error>Le rôle du représentant est obligatoire</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Partenariat</mat-label>
+        <select matNativeControl formControlName="sponsoring">
+            @for (option of options; track option) { @if (option.enabled) {
+            <option [value]="option.value">{{ option.label }}</option>
+            } }
+        </select>
+        @if (companyProfile.controls.sponsoring.errors && companyProfile.controls.sponsoring.errors.required) {
+        <mat-error>Le pack de sponsoring est obligatoire</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Partenariat de second choix (si votre premier choix n'est plus disponible)</mat-label>
+        <select matNativeControl formControlName="secondSponsoring">
+            <option value="">Je ne suis pas intéressé</option>
+            @for (option of options; track option) { @if (option.enabled && companyProfile.controls.sponsoring.value !== option.value) {
+            <option [value]="option.value">
+                {{ option.label }}
+            </option>
+            } }
+        </select>
+    </mat-form-field>
+    <button mat-button color="primary" type="submit" [disabled]="!companyProfile.valid || submitted">Submit</button>
+</form>

@@ -1,0 +1,24 @@
+.navbar-brand {
+  .navbar-item {
+    font-size: 11px;
+    font-weight: bold;
+
+    img {
+      margin-right: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #logout {
+    display: none;
+  }
+}
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.container {
+  width: 70%;
+  margin: 1em auto auto;
+}

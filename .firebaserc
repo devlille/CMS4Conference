@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "cms4partners-ce427",
+    "staging": "csm4partners-staging"
+  }
+}

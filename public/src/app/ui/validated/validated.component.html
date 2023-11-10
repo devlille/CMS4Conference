@@ -1,0 +1,28 @@
+@if (company?.status?.validated !== 'done') {
+
+    <p>
+        Etant donné la forte affluence des demandes de partenariat, nous reviendrons vers vous par email dans une dizaine de jours maximum
+        pour vous valider la réservation du pack <strong>{{ company?.sponsoring }}</strong> ou de votre choix de pack sponsor de replis le
+        cas échéant.
+    </p>
+
+}
+@if (company?.status?.validated === 'done') {
+
+    <p>
+        Bonne nouvelle ! Votre demande de pack <strong>{{ company?.sponsoring }}</strong> pour le Devfest Lille 2024 a été validé.
+    </p>
+    <p>Vous trouverez ci joint :</p>
+    <ul>
+        <li>la convention pour ce partenariat à nous retourner signée</li>
+        <li>la facture proforma à acquitter</li>
+        <li>le RIB du GDG Lille</li>
+    </ul>
+    <p>
+        Vous pouvez nous faire parvenir la convention soit en retour de ce mail, soit en la transférant sur ce site cms4devfest. Ce pack
+        {{ company?.sponsoring }} vous est reservé jusqu'au {{ company?.creationDate | add : 15 | date }}.
+    </p>
+
+    <cms-files [files]="files"></cms-files>
+
+}

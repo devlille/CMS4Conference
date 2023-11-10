@@ -1,0 +1,28 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>CMS4Partners - Devfest Lille</span>
+        <span class="example-spacer"></span>
+
+        @if (isLoggedIn === true) {
+<a mat-icon-button aria-label="Administration" [routerLink]="['admin']" routerLinkActive="mat-accent">
+            <mat-icon> settings </mat-icon>
+        </a>
+}
+
+        @if (isLoggedIn === false) {
+<button (click)="login()" mat-icon-button aria-label="Log in">
+            <mat-icon>login</mat-icon>
+        </button>
+}
+
+        @if (isLoggedIn === true) {
+<button (click)="logout()" mat-icon-button aria-label="Log out">
+            <mat-icon>logout</mat-icon>
+        </button>
+}
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<section class="container">
+    <router-outlet></router-outlet>
+</section>

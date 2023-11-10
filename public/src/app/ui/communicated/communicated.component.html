@@ -1,0 +1,17 @@
+@if (company.status?.communicated === 'pending') {
+<p>
+    L'équipe du Devfest Lille est en train de programmer la communication sur les réseaux sociaux.
+    @if (company.publicationDate) {
+La date de publication est prévue pour le {{ company.publicationDate | date }}
+}
+</p>
+}
+@if (company.status?.communicated === 'done') {
+<p>
+    L'èquipe du Devfest Lille a publié la communication sur les réseaux sociaux le {{ company.publicationDate | date }}
+</p>
+}
+
+@if (company.flyerUrl) {
+<cms-files [files]="files"></cms-files>
+}

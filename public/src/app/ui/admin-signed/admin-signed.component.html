@@ -1,0 +1,17 @@
+<cms-files [files]="files"></cms-files>
+
+<div class="inline-bloc">
+  @if (company?.status?.[step.key] !== 'done') {
+  <button mat-raised-button color="primary" (click)="setDone()">
+    <mat-icon>done</mat-icon>
+    Valider cette étape
+  </button>
+  }
+  <cms-upload
+    (uploadFile)="uploadConvention($event)"
+    [isEnable]=""
+    accept=".pdf"
+    label="Convention"
+    >Choisir une convention signée</cms-upload
+  >
+</div>

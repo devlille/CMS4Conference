@@ -1,0 +1,21 @@
+<mat-form-field appearance="fill">
+  <mat-label>URL Billetweb</mat-label>
+  <input
+    matInput
+    placeholder="URL Billetweb"
+    type="text"
+    [(ngModel)]="company.billetWebUrl"
+  />
+</mat-form-field>
+
+<div class="inline-bloc">
+  <button color="primary" mat-raised-button (click)="updateBilletwebUrl()">
+    <mat-icon>save</mat-icon>
+    Sauvegarder
+  </button>
+  <button color="primary" mat-raised-button (click)="updateBilletwebDone()">
+    <mat-icon>confirmation_number</mat-icon>
+
+    Places Récupérées
+  </button>
+</div>

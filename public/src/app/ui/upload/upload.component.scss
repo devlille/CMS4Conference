@@ -1,0 +1,50 @@
+:host {
+  flex-grow: 1;
+  align-content: flex-start;
+}
+.hide {
+  display: none;
+}
+
+.container {
+  position: relative;
+  margin: 0;
+
+  &:hover {
+    .upload-icon {
+      transform: scale(0.9);
+    }
+  }
+}
+
+label {
+  position: absolute;
+  top: 0;
+  width: 200px;
+  left: 0px;
+  height: 50px;
+  z-index: 2;
+  cursor: pointer;
+
+  .upload-icon {
+    transition: 0.2s;
+    background: #ff4081;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: #ffffff;
+    float: right;
+  }
+}
+
+mat-spinner {
+  display: inline-block;
+  margin-left: 2em;
+}
+
+.input_fileupload--hidden {
+  display: none;
+}

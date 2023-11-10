@@ -1,0 +1,103 @@
+<button (click)="copyEmails()" mat-raised-button color="primary">
+  Copier les emails
+</button>
+
+<mat-card>
+  <mat-card-title>Filter</mat-card-title>
+  <p>Par Statut</p>
+  <mat-radio-group
+    [ngModel]="filterValue"
+    (ngModelChange)="filterByValue($event)"
+    aria-label="Select an option"
+    [labelPosition]="'before'"
+  >
+    @for (option of filterByStatus; track option) {
+    <mat-radio-button [value]="option.value">{{
+      option.label
+    }}</mat-radio-button>
+    }
+  </mat-radio-group>
+
+  <p>Par Pack</p>
+  <mat-radio-group
+    [ngModel]="filterByTypeValue"
+    (ngModelChange)="filterByPackHandler($event)"
+    aria-label="Select an option"
+    [labelPosition]="'before'"
+  >
+    @for (option of filterByPack; track option) {
+    <mat-radio-button [value]="option.value">{{
+      option.label
+    }}</mat-radio-button>
+    }
+  </mat-radio-group>
+
+  <p>Par Type</p>
+  <mat-radio-group
+    [ngModel]="filterByType"
+    (ngModelChange)="filterByTypeHandler($event)"
+    aria-label="Select an option"
+    [labelPosition]="'before'"
+  >
+    @for (option of filterByType; track option) {
+    <mat-radio-button [value]="option.value">{{
+      option.label
+    }}</mat-radio-button>
+    }
+  </mat-radio-group>
+</mat-card>
+
+<table
+  matSort
+  mat-table
+  [dataSource]="dataSource"
+  class="mat-elevation-z8 full-width"
+>
+  <ng-container matColumnDef="creationDate">
+    <th mat-header-cell mat-sort-header *matHeaderCellDef>
+      Date Enregistrement
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element.formattedDate }}</td>
+  </ng-container>
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell mat-sort-header *matHeaderCellDef>Nom</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="sponsoring">
+    <th mat-header-cell mat-sort-header *matHeaderCellDef>Sponsoring</th>
+    <td mat-cell *matCellDef="let element">{{ element.sponsoring }}</td>
+  </ng-container>
+  <ng-container matColumnDef="secondSponsoring">
+    <th mat-header-cell mat-sort-header *matHeaderCellDef>2e Sponsoring</th>
+    <td mat-cell *matCellDef="let element">{{ element.secondSponsoring }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="pending">
+    <th mat-header-cell mat-sort-header *matHeaderCellDef>Pending Actions</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.pending }}
+    </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>Action</th>
+    <td mat-cell *matCellDef="let element">
+      <a [href]="'/admin/partner/' + element.id" mat-button color="primary">
+        Modifier
+      </a>
+      <button (click)="archive(element.id)" mat-button color="warn">
+        Archiver
+      </button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr
+    [ngClass]="{ 'need-some-work': row.needAction }"
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+  ></tr>
+</table>

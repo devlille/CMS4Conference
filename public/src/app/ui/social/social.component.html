@@ -29,7 +29,7 @@
       utiles.
     </p>
     <div class="social-fields">
-      @if (company.sponsoring !== 'Bronze') {
+      @if (company.sponsoring !== 'Bronze' && company.sponsoring !== 'Party') {
       <mat-checkbox [(ngModel)]="company.keepDevFestTeam" class="example-margin"
         >Laissez l'équipe du Devfest écrire vos messages!</mat-checkbox
       >
@@ -43,7 +43,7 @@
           [(ngModel)]="company.twitterAccount"
         />
       </mat-form-field>
-      @if (company.sponsoring !== 'Bronze') {
+      @if (company.sponsoring !== 'Bronze' && company.sponsoring !== 'Party') {
       <mat-form-field class="full-width">
         <textarea
           [(ngModel)]="company.twitter"
@@ -62,7 +62,7 @@
           [(ngModel)]="company.linkedinAccount"
         />
       </mat-form-field>
-      @if (company.sponsoring !== 'Bronze') {
+      @if (company.sponsoring !== 'Bronze' && company.sponsoring !== 'Party') {
       <mat-form-field class="full-width">
         <textarea
           [(ngModel)]="company.linkedin"

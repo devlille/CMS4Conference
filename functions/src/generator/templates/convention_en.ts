@@ -25,14 +25,16 @@ Broadly, the Association is committed to give the Partner a large visibility on 
 <% if (SPONSORING === 'Platinium') { %>- 2 Communication on social media: Twitter and LinkedIN and Retweet during the event <% } %>
 <% if (SPONSORING === 'Gold') { %>- 1 Communication on social media: Twitter and LinkedIN <% } %>
 <% if (SPONSORING === 'Silver') { %>- 1 Communication on social media: Twitter and LinkedIN <% } %>
-<% if (SPONSORING === 'Bronze') { %>- 1 Communication on social media: Twitter and LinkedIN <% } %>
+<% if (SPONSORING === 'Bronze' || SPONSORING === 'Party') { %>- 1 Communication on social media: Twitter and LinkedIN <% } %>
+<% if (SPONSORING === 'Party') { %>- 1 speech during the party <% } %>
+<% if (SPONSORING === 'Party') { %>- 8 extra party tickets <% } %>
 <% if (SPONSORING === 'Platinium') { %>- 5 stand tickets <% } %>
 <% if (SPONSORING === 'Gold') { %>- 3 stand tickets <% } %>
 <% if (SPONSORING === 'Silver') { %>- 2 stand tickets <% } %>
 <% if (SPONSORING === 'Platinium') { %>- 12 free tickets <% } %>
 <% if (SPONSORING === 'Gold') { %>- 10 free tickets <% } %>
 <% if (SPONSORING === 'Silver') { %>- 6 free tickets <% } %>
-<% if (SPONSORING === 'Bronze') { %>- 4 free tickets <% } %>
+<% if (SPONSORING === 'Bronze' || SPONSORING === 'Party') { %>- 4 free tickets <% } %>
 - The Partner's logo on the web site  https://devfest.gdglille.org and on our mobile application
 - The Partner's logo on screens (conference room)
 <% if (SPONSORING === 'Platinium') { %>- Write the message we will post on our own social medias about the partnership <% } %>
@@ -43,7 +45,7 @@ Broadly, the Association is committed to give the Partner a large visibility on 
 <% if (SPONSORING === 'Silver') { %>- Job offers on WLD <% } %>
 <% if (SPONSORING === 'Platinium') { %>- Logo on published YouTube videos <% } %>
 <% if (SPONSORING === 'Gold') { %>- Logo on published YouTube videos <% } %>
-<% if (SPONSORING !== 'Bronze') { %>
+<% if (SPONSORING !== 'Bronze' && SPONSORING !== 'Party') { %>
 The Association is committed to provide to the Partner an electrical power strip, a table and two chairs. The rest will be the responsibility of the Partner.
 <% } %>
 
@@ -60,7 +62,7 @@ As indicated in the invoice, here are the Banking Information of the association
 - IBAN FR7630027170150002067180121
 - BIC CMCIFRPP
 
-<% if (SPONSORING !== 'Bronze') { %>
+<% if (SPONSORING !== 'Bronze' && SPONSORING !== 'Party') { %>
 The Partner is committed to install its stand on May, the 25th. A security team will be present the night of the 25th of May in the exhibition room.
 <% } %>
 

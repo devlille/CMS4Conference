@@ -8,14 +8,16 @@ import ProformaInvoiceFr from "../templates/proforma_invoice_fr";
 
 function getSponsoringFees(sponsoring: string): [string, number, number] {
   switch (sponsoring) {
+    case "Party":
+      return ["cinq milles euros", 5000, 4];
     case "Bronze":
-      return ["mille euros", 1000, 4];
+      return ["deux milles euros", 2000, 4];
     case "Silver":
-      return ["deux mille cinq cents euros", 2500, 6];
+      return ["cinq milles euros", 5000, 6];
     case "Gold":
-      return ["cinq milles euros", 5000, 10];
+      return ["neuf milles euros", 9000, 10];
     default:
-      return ["six mille cinq cents euros", 6500, 12];
+      return ["douze milles", 1200, 12];
   }
 }
 

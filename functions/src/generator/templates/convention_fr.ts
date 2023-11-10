@@ -34,14 +34,16 @@ D’une manière générale, l'association s’engage à donner une forte visibi
 <% if (SPONSORING === 'Platinium') { %>- 2 mentions sur nos réseaux sociaux et RT le jour J<% } %>
 <% if (SPONSORING === 'Gold') { %>- 1 mention sur nos réseaux sociaux <% } %>
 <% if (SPONSORING === 'Silver') { %>- 1 mention sur nos réseaux sociaux <% } %>
-<% if (SPONSORING === 'Bronze') { %>- 1 mention sur nos réseaux sociaux <% } %>
+<% if (SPONSORING === 'Bronze' || SPONSORING === 'Party') { %>- 1 mention sur nos réseaux sociaux <% } %>
+<% if (SPONSORING === 'Party') { %>- 1 intervention pendant la soirée <% } %>
+<% if (SPONSORING === 'Party') { %>- 8 tickets supplémentaires pour la soirée <% } %>
 <% if (SPONSORING === 'Platinium') { %>- 5 entrées stand <% } %>
 <% if (SPONSORING === 'Gold') { %>- 3 entrées stand <% } %>
 <% if (SPONSORING === 'Silver') { %>- 2 entrées stand <% } %>
 <% if (SPONSORING === 'Platinium') { %>- 12 entrées standards <% } %>
 <% if (SPONSORING === 'Gold') { %>- 10 entrées standards <% } %>
 <% if (SPONSORING === 'Silver') { %>- 6 entrées standards <% } %>
-<% if (SPONSORING === 'Bronze') { %>- 4 entrées standards <% } %>
+<% if (SPONSORING === 'Bronze' || SPONSORING === 'Party') { %>- 4 entrées standards <% } %>
 - Logo partenaire sur l'application mobile et sur le site web https://devfest.gdglille.org
 - Logo sur les écrans (salle conférence)
 <% if (SPONSORING === 'Platinium') { %>- Personnalisation de vos communications <% } %>
@@ -52,7 +54,7 @@ D’une manière générale, l'association s’engage à donner une forte visibi
 <% if (SPONSORING === 'Silver') { %>- Offres d'emploi sur WLD <% } %>
 <% if (SPONSORING === 'Platinium') { %>- Logo sur les replays <% } %>
 <% if (SPONSORING === 'Gold') { %>- Logo sur les replays <% } %>
-<% if (SPONSORING !== 'Bronze') { %>
+<% if (SPONSORING !== 'Bronze' && SPONSORING !== 'Party') { %>
 L'association s'engage à fournir une multiprise, une table et deux chaises pour le stand. Le reste du matériel sera à la charge du partenaire. 
 <% } %>
 
@@ -69,7 +71,7 @@ Comme indiqué sur le devis, vous trouverez ci-dessous les informations bancaire
 - IBAN FR7630027170150002067180121
 - BIC CMCIFRPP
 
-<% if (SPONSORING !== 'Bronze') { %>
+<% if (SPONSORING !== 'Bronze' && SPONSORING !== 'Party') { %>
 Le partenaire s'engage à installer son stand le jeudi 25 mai après-midi. Une équipe de sécurité sera présente dans la nuit du 25 au 26 mai pour surveiller la zone d'expositions. 
 
 Le stand doit respecter les contraintes suivante : 

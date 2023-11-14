@@ -5,46 +5,40 @@
 <mat-card>
   <mat-card-title>Filter</mat-card-title>
   <p>Par Statut</p>
-  <mat-radio-group
+  <mat-button-toggle-group
     [ngModel]="filterValue"
     (ngModelChange)="filterByValue($event)"
-    aria-label="Select an option"
-    [labelPosition]="'before'"
   >
     @for (option of filterByStatus; track option) {
-    <mat-radio-button [value]="option.value">{{
+    <mat-button-toggle [value]="option.value">{{
       option.label
-    }}</mat-radio-button>
+    }}</mat-button-toggle>
     }
-  </mat-radio-group>
+  </mat-button-toggle-group>
 
   <p>Par Pack</p>
-  <mat-radio-group
+  <mat-button-toggle-group
     [ngModel]="filterByTypeValue"
     (ngModelChange)="filterByPackHandler($event)"
-    aria-label="Select an option"
-    [labelPosition]="'before'"
   >
     @for (option of filterByPack; track option) {
-    <mat-radio-button [value]="option.value">{{
+    <mat-button-toggle [value]="option.value">{{
       option.label
-    }}</mat-radio-button>
+    }}</mat-button-toggle>
     }
-  </mat-radio-group>
+  </mat-button-toggle-group>
 
   <p>Par Type</p>
-  <mat-radio-group
+  <mat-button-toggle-group
     [ngModel]="filterByType"
     (ngModelChange)="filterByTypeHandler($event)"
-    aria-label="Select an option"
-    [labelPosition]="'before'"
   >
     @for (option of filterByType; track option) {
-    <mat-radio-button [value]="option.value">{{
+    <mat-button-toggle [value]="option.value">{{
       option.label
-    }}</mat-radio-button>
+    }}</mat-button-toggle>
     }
-  </mat-radio-group>
+  </mat-button-toggle-group>
 </mat-card>
 
 <table

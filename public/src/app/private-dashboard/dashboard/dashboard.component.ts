@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 type FilterValueType = 'sign' | 'validated' | 'all';
 type FilterByPackValueType =
@@ -31,6 +32,7 @@ type filterByTypeValueType = 'esn' | 'other' | 'all';
     MatCardModule,
     MatButtonModule,
     MatSortModule,
+    MatButtonToggleModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],

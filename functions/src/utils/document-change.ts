@@ -25,9 +25,9 @@ export async function onDocumentChange(
   console.log(`onDocumentChange ${id}: ${JSON.stringify(before.status)} -> ${JSON.stringify(after.status)}`);
   const status = after.status;
   if (
-    before.status.validated !== status.validated &&
-    ((status.validated === StatusEnum.DONE && before.status.validated !== StatusEnum.RETRY) ||
-      status.validated === StatusEnum.RETRY)
+    before.status.generated !== status.generated &&
+    ((status.generated === StatusEnum.DONE && before.status.generated !== StatusEnum.RETRY) ||
+      status.generated === StatusEnum.RETRY)
   ) {
     await generateAndStoreProformaInvoiceAndConvention(after, id, settings);
     await generateAndStoreInvoice(firestore, after, id, settings);
@@ -36,7 +36,7 @@ export async function onDocumentChange(
     await decreasePacks(firestore, sponsoringType);
 
     return firestore.doc("companies-2024/" + id).update({
-      ...partnershipValidated(after, id, settings, status.validated === StatusEnum.DONE),
+      ...partnershipValidated(after, id, settings, status.generated === StatusEnum.DONE),
     });
   } else if (before.status.validated !== status.validated && status.validated === StatusEnum.REFUSED) {
     await sendKoEmails(after, settings);

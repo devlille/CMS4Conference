@@ -8,20 +8,9 @@
       </option>
     </select>
   </mat-form-field>
-
-  <mat-form-field class="full-width">
-    <mat-label>Numéro de Commande</mat-label>
-    <input matInput type="text" [(ngModel)]="company!.PO" />
-  </mat-form-field>
 </div>
 
 <br />
-
-@if (company?.status?.validated === 'done') {
-<div>
-  <cms-files [files]="files"></cms-files>
-</div>
-}
 
 <div class="inline-bloc">
   <button mat-raised-button color="primary" (click)="updateSponsoring()">
@@ -29,35 +18,10 @@
     Sauvegarder
   </button>
   @if (company?.status?.validated !== 'done') {
-  <button mat-raised-button color="primary" (click)="setDone()">
-    <mat-icon>precision_manufacturing</mat-icon>
 
-    Générer
-  </button>
   <button mat-raised-button color="primary" (click)="setKo()">
     <mat-icon>send</mat-icon>
     Envoyer un email de refus
   </button>
-  } @if (company?.status?.validated === 'done') {
-  <button mat-raised-button color="primary" (click)="regenerate()">
-    <mat-icon>redo</mat-icon>
-    Regénérer
-  </button>
   }
-
-  <cms-upload
-    (uploadFile)="uploadConvention($event)"
-    [isEnable]=""
-    accept=".pdf"
-    label="Convention"
-  >
-    Choisir une convention
-  </cms-upload>
-  <cms-upload
-    (uploadFile)="uploadDevis($event)"
-    [isEnable]=""
-    accept=".pdf"
-    label="Facture"
-    >Choisir un devis</cms-upload
-  >
 </div>

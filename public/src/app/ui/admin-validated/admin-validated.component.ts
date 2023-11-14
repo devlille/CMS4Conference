@@ -44,28 +44,6 @@ export class AdminValidatedComponent {
       return;
     }
 
-    this.storageService.getDepositInvoice(this.company.id!).then((deposit) => {
-      this.files = {
-        ...this.files,
-        'Facture Accompte 100%': deposit,
-      };
-    });
-
-    Promise.all([
-      this.storageService.getConvention(this.company.id!),
-      this.storageService.getProformaInvoice(this.company.id!),
-      this.storageService.getDevis(this.company.id!),
-      this.storageService.getInvoice(this.company.id!),
-    ]).then(([convention, proforma, devis, invoice]) => {
-      this.files = {
-        Convention: convention,
-        'Facture Proforma': proforma,
-        Devis: devis,
-        Facture: invoice,
-        'RIB du GDG Lille': '/assets/RIB.pdf',
-      };
-    });
-
     this.choice = this.company.sponsoring;
   }
 
@@ -91,7 +69,6 @@ export class AdminValidatedComponent {
   }
   updateSponsoring() {
     this.partnerService.update(this.id!, {
-      PO: this.company?.PO,
       sponsoring: this.choice,
       secondSponsoring:
         this.choice === this.company?.sponsoring

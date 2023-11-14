@@ -25,6 +25,7 @@ import { CommunicatedComponent } from '../communicated/communicated.component';
 import { SocialComponent } from '../social/social.component';
 import { PaidComponent } from '../paid/paid.component';
 import { SignedComponent } from '../signed/signed.component';
+import { GeneratedComponent } from '../../generated/generated.component';
 
 @Component({
   selector: 'cms-panel-item',
@@ -41,6 +42,7 @@ export class PanelItemComponent {
   publicComponents = {
     filled: FilledComponent,
     validated: ValidatedComponent,
+    generated: GeneratedComponent,
     sign: SignedComponent,
     paid: PaidComponent,
     received: SocialComponent,
@@ -50,7 +52,8 @@ export class PanelItemComponent {
 
   adminComponent = {
     filled: AdminFilledComponent,
-    validated: AdminValidatedComponent,
+    validated: ValidatedComponent, //AdminValidatedComponent,
+    generated: GeneratedComponent,
     sign: AdminSignedComponent,
     paid: AdminPaidComponent,
     received: AdminSocialComponent,

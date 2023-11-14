@@ -24,27 +24,5 @@ export class ValidatedComponent {
     if (!this.company) {
       return;
     }
-
-    this.storageService.getDepositInvoice(this.company.id!).then((deposit) => {
-      this.files = {
-        ...this.files,
-        'Facture Accompte 100%': deposit,
-      };
-    });
-
-    Promise.all([
-      this.storageService.getConvention(this.company.id!),
-      this.storageService.getProformaInvoice(this.company.id!),
-      this.storageService.getDevis(this.company.id!),
-      this.storageService.getInvoice(this.company.id!),
-    ]).then(([convention, proforma, devis, invoice]) => {
-      this.files = {
-        Convention: convention,
-        'Facture Proforma': proforma,
-        Devis: devis,
-        Facture: invoice,
-        'RIB du GDG Lille': '/assets/RIB.pdf',
-      };
-    });
   }
 }

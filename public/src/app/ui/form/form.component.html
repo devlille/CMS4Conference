@@ -7,13 +7,6 @@
     <mat-error>Le nom de la société est obligatoire</mat-error>
     }
   </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label
-      >Nom de la Société pour la facture et convention (si différent du nom
-      précédent)</mat-label
-    >
-    <input matInput type="text" formControlName="officialName" />
-  </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Emails des contacts (séparés par des virgules)</mat-label>
@@ -27,15 +20,7 @@
     <mat-error>Vos emails ne sont pas valides</mat-error>
     }
   </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>URL du site de la société</mat-label>
 
-    <input matInput type="url" formControlName="siteUrl" />
-    @if (companyProfile.controls.siteUrl.errors &&
-    companyProfile.controls.name.errors?.required) {
-    <mat-error>L'URL du site de la société est obligatoire</mat-error>
-    }
-  </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Numéro de téléphone</mat-label>
 
@@ -45,51 +30,7 @@
     <mat-error>Le numéro de téléphone est obligatoire</mat-error>
     }
   </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Adresse</mat-label>
 
-    <input
-      autocomplete="chrome-off"
-      #address
-      matInput
-      type="text"
-      formControlName="googleAddress"
-    />
-    @if (companyProfile.controls.googleAddress.errors &&
-    companyProfile.controls.googleAddress.errors.required) {
-    <mat-error>L'adresse' est obligatoire</mat-error>
-    }
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>SIRET</mat-label>
-
-    <input matInput type="text" formControlName="siret" />
-    @if (companyProfile.controls.siret.errors &&
-    companyProfile.controls.siret.errors.required) {
-    <mat-error>Le numéro de siret est obligatoire</mat-error>
-    } @if (companyProfile.controls.siret.errors &&
-    companyProfile.controls.siret.errors.siret) {
-    <mat-error>Le numéro de siret n'est pas valide</mat-error>
-    }
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Représentant</mat-label>
-
-    <input matInput type="text" formControlName="representant" />
-    @if (companyProfile.controls.representant.errors &&
-    companyProfile.controls.representant.errors.required) {
-    <mat-error>Le représentant est obligatoire</mat-error>
-    }
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Rôle dans l'entreprise</mat-label>
-
-    <input matInput type="text" formControlName="role" />
-    @if (companyProfile.controls.role.errors &&
-    companyProfile.controls.role.errors.required) {
-    <mat-error>Le rôle du représentant est obligatoire</mat-error>
-    }
-  </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Partenariat</mat-label>
     <select matNativeControl formControlName="sponsoring">

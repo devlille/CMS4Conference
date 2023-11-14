@@ -11,3 +11,11 @@ tr.need-some-work {
   margin: 1em 0;
   padding: 1em;
 }
+
+mat-button-toggle-group {
+  display: flex;
+  margin-bottom: 1em;
+  mat-button-toggle {
+    flex: 1;
+  }
+}

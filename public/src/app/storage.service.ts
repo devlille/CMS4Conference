@@ -4,7 +4,6 @@ import {
   getDownloadURL,
   ref,
   uploadBytes,
-  uploadBytesResumable,
 } from '@angular/fire/storage';
 
 @Injectable({

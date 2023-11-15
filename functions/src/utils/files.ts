@@ -44,7 +44,11 @@ export async function generateAndStoreInvoice(
   id: string,
   settings: any
 ) {
-  const invoiceNumber = await generateInvoiceNumber(firestore, id);
+  let invoiceNumber = company.invoiceNumber;
+
+  if (!invoiceNumber) {
+    invoiceNumber = await generateInvoiceNumber(firestore, id);
+  }
 
   const invoice = await generateInvoice(
     {
@@ -60,6 +64,7 @@ export async function generateAndStoreInvoice(
     .doc("companies-2024/" + id)
     .update({
       invoiceUrl: publicInvoiceUrl,
+      invoiceNumber,
     })
     .catch((err) => console.error(err));
 }

@@ -1,6 +1,11 @@
-export default ({ sponsoring }: any, sponsor_reservation_end_date: string, address_cms4devfest: string, edition: string) => ({
-    subject: `Partenariat Devfest Lille ${edition}: Contrat et facture à acquitter`,
-    body: `
+export default (
+  { sponsoring }: any,
+  sponsor_reservation_end_date: string,
+  address_cms4devfest: string,
+  edition: string
+) => ({
+  subject: `Partenariat Devfest Lille ${edition}: Contrat et facture à acquitter`,
+  body: `
 Bonjour
 <br><br>
 Bonne nouvelle ! Votre demande de pack ${sponsoring} pour le Devfest Lille ${edition} a été validé.
@@ -18,5 +23,5 @@ Nous restons à votre disposition pour tout complément via l'adresse email cont
 Cordialement     
 <br><br>
 L'équipe du Devfest Lille ${edition}
-    `
+    `,
 });

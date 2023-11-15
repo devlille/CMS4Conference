@@ -1,6 +1,6 @@
 export default (company: any, adress_cms4devfest: string, edition: string) => ({
-    subject: `Devfest Lille ${edition} : Place à la communication de notre partenariat`,
-    body: `
+  subject: `Devfest Lille ${edition} : Place à la communication de notre partenariat`,
+  body: `
 Bonjour
 <br><br>
 Nous avons bien reçu votre paiement et nous vous remercions pour votre réactivité.
@@ -18,5 +18,5 @@ Nous restons à votre disposition pour tout complément via l'adresse contact@gd
 Cordialement  
 <br><br>
 L'équipe du Devfest Lille ${edition}
-    `
+    `,
 });

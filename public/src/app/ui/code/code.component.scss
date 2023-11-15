@@ -1,7 +1,11 @@
 ul {
-    list-style: inherit;
+  list-style: inherit;
 }
 
 .done {
-    text-decoration: line-through;
+  text-decoration: line-through;
+}
+
+mat-form-field {
+  flex: 1 1 0px;
 }

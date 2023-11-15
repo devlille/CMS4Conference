@@ -52,13 +52,13 @@ export class PanelItemComponent {
 
   adminComponent = {
     filled: AdminFilledComponent,
-    validated: ValidatedComponent, //AdminValidatedComponent,
+    validated: AdminValidatedComponent,
     generated: GeneratedComponent,
     sign: AdminSignedComponent,
     paid: AdminPaidComponent,
     received: AdminSocialComponent,
     communicated: AdminCommunicatedComponent,
-    code: AdminCodeComponent,
+    code: CodeComponent,
   };
 
   @ViewChild('content', { read: ViewContainerRef, static: false })

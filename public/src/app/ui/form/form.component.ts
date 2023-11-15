@@ -1,5 +1,3 @@
-/// <reference  types="@types/googlemaps"  />
-
 import {
   Component,
   ElementRef,
@@ -74,28 +72,9 @@ export class FormComponent {
   submitted = false;
 
   options: Options = [];
-  place: google.maps.places.PlaceResult | undefined;
   updatedCompany: Company = {} as Company;
 
   private partnerService = inject(PartnerService);
-
-  @ViewChild('address', { static: false }) address: ElementRef | undefined;
-
-  ngAfterViewInit(): void {
-    //this.getPlaceAutocomplete();
-  }
-  getPlaceAutocomplete() {
-    const autocomplete = new google.maps.places.Autocomplete(
-      this.address!.nativeElement,
-      {
-        componentRestrictions: { country: 'FR' },
-        types: ['establishment', 'geocode'],
-      }
-    );
-    google.maps.event.addListener(autocomplete, 'place_changed', () => {
-      this.place = autocomplete.getPlace();
-    });
-  }
 
   async ngOnInit() {
     const config = (await this.partnerService.getCurrentConfiguration()) as any;

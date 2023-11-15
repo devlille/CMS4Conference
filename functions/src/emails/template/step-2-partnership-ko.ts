@@ -1,6 +1,6 @@
 export default (edition: string) => ({
-    subject: `Partenariat Devfest Lille ${edition}: RDV l'année prochaine ?`,
-    body: `
+  subject: `Partenariat Devfest Lille ${edition}: RDV l'année prochaine ?`,
+  body: `
 Bonjour
 <br><br>
 Nous sommes dans le regret de vous annoncer que votre demande de partenariat pour le Devfest Lille ${edition} n'a malheureusement pas pu être retenu. 
@@ -12,5 +12,5 @@ Nous restons à votre disposition pour tout complément via l'adresse email cont
 Cordialement     
 <br><br>
 L'équipe du Devfest Lille ${edition}
-    `
+    `,
 });

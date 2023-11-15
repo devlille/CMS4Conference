@@ -1,6 +1,19 @@
 @if (billetWebUrl) {
 <div>
-    Vous pouvez à présent récupérer l'ensemble de vos places (participants et pour le stand si vous êtes partenaire gold ou silver) via le
-    le lien BilletWeb suivant : <a [href]="billetWebUrl" target="_blank"> {{ billetWebUrl }} </a>
+  Vous pouvez à présent récupérer l'ensemble de vos places (participants et pour
+  le stand si vous êtes partenaire gold ou silver) via le le lien BilletWeb
+  suivant : <a [href]="billetWebUrl" target="_blank"> {{ billetWebUrl }} </a>
 </div>
 }
+
+<mat-form-field appearance="fill">
+  <mat-label>Animations sur le stand</mat-label>
+  <textarea matInput [(ngModel)]="activities"></textarea>
+</mat-form-field>
+
+<div class="inline-bloc">
+  <button mat-raised-button color="primary" (click)="updateSponsoring()">
+    <mat-icon>save</mat-icon>
+    Sauvegarder
+  </button>
+</div>

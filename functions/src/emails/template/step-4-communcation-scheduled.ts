@@ -1,6 +1,6 @@
 export default (date: string, edition: string) => ({
-    subject: `Devfest Lille ${edition} : Votre programmation a été programmée`,
-    body: `
+  subject: `Devfest Lille ${edition} : Votre programmation a été programmée`,
+  body: `
 Bonjour
 <br><br>
 Nous vous envoyons ce mail pour vous annoncer que la communication liée à notre partenariat a été prévue pour le ${date}.
@@ -10,5 +10,5 @@ Nous restons à votre disposition pour tout complément via l'adresse contact@gd
 Cordialement  
 <br><br>
 L'équipe du Devfest Lille ${edition}
-    `
+    `,
 });

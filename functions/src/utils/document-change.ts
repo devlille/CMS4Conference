@@ -82,7 +82,7 @@ export async function onDocumentChange(
       sendEmailToAllContacts(after, emailTemplate, settings);
     }
   } else if (status.code === StatusEnum.PENDING && before.billetWebUrl !== after.billetWebUrl) {
-    const emailTemplate = BilletWebUrlFactory(after.billetWebUrl, settings.convention.edition);
+    const emailTemplate = BilletWebUrlFactory(after.billetWebUrl, after, settings.convention.edition);
     sendEmailToAllContacts(after, emailTemplate, settings);
   } else if (status.code === StatusEnum.PENDING) {
     const billetWebDone = after.billetWebDone;

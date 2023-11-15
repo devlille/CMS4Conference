@@ -15,3 +15,8 @@ body {
 .inline-bloc {
   margin-top: 1em;
 }
+
+cms-code {
+  display: flex;
+  flex-direction: column;
+}

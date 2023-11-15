@@ -1,6 +1,6 @@
 export default ({ sponsoring }: any, adress_cms4devfest: string, edition: string) => ({
-    subject: `Devfest Lille ${edition} : Demande de partenariat bien reçue`,
-    body: `
+  subject: `Devfest Lille ${edition} : Demande de partenariat bien reçue`,
+  body: `
 Bonjour
 <br><br>
 Nous avons bien pris connaissance de votre souhait de devenir partenaire du Devfest Lille ${edition} et nous vous en remercions.
@@ -14,5 +14,5 @@ Nous restons à votre disposition pour tout complément via l'adresse email cont
 Cordialement 
 <br><br>
 L'équipe du Devfest Lille ${edition}
-    `
+    `,
 });

@@ -69,4 +69,5 @@ export interface Company {
   siteUrl?: string;
   keepDevFestTeam?: boolean;
   description?: string;
+  activities?: string;
 }

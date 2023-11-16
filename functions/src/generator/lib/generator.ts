@@ -2,7 +2,8 @@ import * as ejs from "ejs";
 import * as markdownToPDf from "markdown-pdf";
 import * as os from "os";
 
-import ConventionFr from "../templates/convention_en";
+import ConventionEn from "../templates/convention_en";
+import ConventionFr from "../templates/convention_fr";
 import InvoiceFr from "../templates/invoice_fr";
 import ProformaInvoiceFr from "../templates/proforma_invoice_fr";
 
@@ -16,6 +17,7 @@ function getSponsoringFees(sponsoring: string): [string, number, number] {
       return ["cinq milles euros", 5000, 6];
     case "Gold":
       return ["neuf milles euros", 9000, 10];
+
     default:
       return ["douze milles", 1200, 12];
   }
@@ -91,5 +93,11 @@ export function generateInvoice(config: any, settings: any) {
   return generateFile(config, `invoice_${config.id}.pdf`, InvoiceFr, settings, "");
 }
 export function generateConvention(config: any, settings: any) {
-  return generateFile(config, `convention_${config.id}.pdf`, ConventionFr, settings, "");
+  return generateFile(
+    config,
+    `convention_${config.id}.pdf`,
+    config.lang === "fr" ? ConventionFr : ConventionEn,
+    settings,
+    ""
+  );
 }

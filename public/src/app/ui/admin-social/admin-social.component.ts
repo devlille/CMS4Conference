@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { StorageService } from '../../storage.service';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'cms-admin-social',
@@ -25,6 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatCheckboxModule,
   ],
   templateUrl: './admin-social.component.html',
   styleUrls: ['./admin-social.component.scss'],

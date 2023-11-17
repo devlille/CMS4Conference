@@ -6,6 +6,16 @@
   </mat-form-field>
 </div>
 }
+
+<div class="inline-bloc">
+  <mat-form-field class="full-width">
+    <mat-label>Langue utilisée dans la convention</mat-label>
+    <select matNativeControl [(ngModel)]="company!.lang">
+      <option value="fr">Français</option>
+      <option value="en">English</option>
+    </select>
+  </mat-form-field>
+</div>
 <div class="inline-bloc">
   <mat-form-field appearance="fill">
     <mat-label

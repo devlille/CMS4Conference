@@ -112,6 +112,7 @@ export class GeneratedComponent {
       siret: this.company?.siret,
       role: this.company?.role,
       representant: this.company?.representant,
+      lang: this.company?.lang,
     };
 
     if (this.company?.PO) {

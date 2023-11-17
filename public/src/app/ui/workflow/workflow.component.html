@@ -2,7 +2,7 @@
 <mat-accordion multi>
   @for (step of workflow.steps; track step) {
   <mat-expansion-panel
-    [disabled]="step.state !== 'done' && step.state !== 'pending'"
+    [disabled]="false && step.state !== 'done' && step.state !== 'pending'"
     [expanded]="step.state === 'pending'"
   >
     <mat-expansion-panel-header>

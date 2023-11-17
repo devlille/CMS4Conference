@@ -70,4 +70,5 @@ export interface Company {
   keepDevFestTeam?: boolean;
   description?: string;
   activities?: string;
+  lang?: 'fr' | 'en';
 }

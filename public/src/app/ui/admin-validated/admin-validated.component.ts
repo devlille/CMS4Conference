@@ -10,6 +10,7 @@ import { UploadComponent } from '../upload/upload.component';
 import { FormsModule } from '@angular/forms';
 import { StorageService } from '../../storage.service';
 import { MatIconModule } from '@angular/material/icon';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'cms-admin-validated',
@@ -35,11 +36,16 @@ export class AdminValidatedComponent {
 
   files = {};
   choice = '';
+  isAdmin: boolean = false;
 
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);
+  private readonly auth = inject(Auth);
 
   ngOnInit() {
+    this.auth.onAuthStateChanged((state) => {
+      this.isAdmin = state?.email?.endsWith('@gdglille.org') ?? false;
+    });
     if (!this.company) {
       return;
     }

@@ -13,7 +13,6 @@ import { FilledComponent } from '../filled/filled.component';
 import { Auth } from '@angular/fire/auth';
 import { DefaultComponent } from '../default/default.component';
 import { AdminFilledComponent } from '../admin-filled/admin-filled.component';
-import { ValidatedComponent } from '../validated/validated.component';
 import { AdminValidatedComponent } from '../admin-validated/admin-validated.component';
 import { AdminSignedComponent } from '../admin-signed/admin-signed.component';
 import { AdminPaidComponent } from '../admin-paid/admin-paid.component';
@@ -41,7 +40,7 @@ export class PanelItemComponent {
 
   publicComponents = {
     filled: FilledComponent,
-    validated: ValidatedComponent,
+    validated: AdminValidatedComponent,
     generated: GeneratedComponent,
     sign: SignedComponent,
     paid: PaidComponent,
@@ -58,7 +57,7 @@ export class PanelItemComponent {
     paid: AdminPaidComponent,
     received: AdminSocialComponent,
     communicated: AdminCommunicatedComponent,
-    code: CodeComponent,
+    code: AdminCodeComponent,
   };
 
   @ViewChild('content', { read: ViewContainerRef, static: false })

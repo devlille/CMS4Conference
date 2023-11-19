@@ -1,4 +1,11 @@
-import { Component, ViewChild, inject, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  inject,
+  AfterViewInit,
+  signal,
+  computed,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Company, WorkflowStatus } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
@@ -19,7 +26,7 @@ type FilterByPackValueType =
   | 'Bronze'
   | 'Party'
   | 'all';
-type filterByTypeValueType = 'esn' | 'other' | 'all';
+type FilterByTypeValueType = 'esn' | 'other' | 'all';
 
 @Component({
   selector: 'cms-dashboard',
@@ -40,8 +47,6 @@ type filterByTypeValueType = 'esn' | 'other' | 'all';
 export class DashboardComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
-  dataSource!: MatTableDataSource<Partial<Company & { pending: string }>>;
-
   displayedColumns: string[] = [
     'creationDate',
     'name',
@@ -51,7 +56,6 @@ export class DashboardComponent implements AfterViewInit {
     'action',
   ];
   partners: Partial<Company>[] = [];
-  originalPartners: Partial<Company>[] = [];
   filterByPack: { value: string; label: string }[] = [];
   filterByType: { value: string; label: string }[] = [];
 
@@ -63,11 +67,35 @@ export class DashboardComponent implements AfterViewInit {
     { value: 'communicated', label: 'A lancer la communication' },
     { value: 'all', label: 'Tous' },
   ];
-  filterValue: FilterValueType = 'all';
 
-  filterByPackValue: FilterByPackValueType = 'all';
-  filterByTypeValue: filterByTypeValueType = 'all';
-  sortByValues: string[] = ['date', 'name'];
+  originalPartners = signal<Partial<Company>[]>([]);
+  filterValue = signal<FilterValueType>('all');
+  filterByPackValue = signal<FilterByPackValueType>('all');
+  filterByTypeValue = signal<FilterByTypeValueType>('all');
+  dataSource = computed(() => {
+    const pack = this.filterByPackValue();
+    const type = this.filterByTypeValue();
+    const filterValue = this.filterValue();
+
+    const dataSource = new MatTableDataSource(
+      this.originalPartners()
+        .filter((partner) => pack === 'all' || partner.sponsoring === pack)
+        .filter(
+          (partner) =>
+            filterValue === 'all' || partner.pending!.indexOf(filterValue) >= 0
+        )
+        .filter((partner) => {
+          return (
+            type === 'all' ||
+            partner.type === type ||
+            (!partner.type && type === 'other')
+          );
+        })
+    );
+    dataSource.sort = this.sort;
+
+    return dataSource;
+  });
 
   private readonly partnerService: PartnerService = inject(PartnerService);
 
@@ -134,92 +162,43 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   filterByValue(filterValue: FilterValueType) {
-    this.filterValue = filterValue;
-    this.sortAndFilter(
-      this.originalPartners,
-      this.filterValue,
-      this.filterByPackValue,
-      this.filterByTypeValue
-    );
+    this.filterValue.set(filterValue);
   }
 
   ngAfterViewInit() {
     this.partnerService.getAll().subscribe((partners) => {
-      console.log(partners);
-      this.originalPartners = partners.map((p) => ({
-        email: p.email,
-        id: p.id,
-        name: p.name,
-        sponsoring: p.sponsoring,
-        secondSponsoring: p.secondSponsoring,
-        creationDate: p.creationDate,
-        formattedDate: new Intl.DateTimeFormat('fr', {
-          dateStyle: 'full',
-          timeStyle: 'long',
-        } as any).format((p.creationDate as Timestamp).toDate()),
-        pending: this.getPendingStatus(p.status),
-        type: p.type,
-        needAction: !!p.conventionSignedUrl && p.status!.sign === 'pending',
-      }));
+      this.originalPartners.set(
+        partners.map((p) => ({
+          email: p.email,
+          id: p.id,
+          name: p.name,
+          sponsoring: p.sponsoring,
+          secondSponsoring: p.secondSponsoring,
+          creationDate: p.creationDate,
+          formattedDate: new Intl.DateTimeFormat('fr', {
+            dateStyle: 'full',
+            timeStyle: 'long',
+          } as any).format((p.creationDate as Timestamp).toDate()),
+          pending: this.getPendingStatus(p.status),
+          type: p.type,
+          needAction: !!p.conventionSignedUrl && p.status!.sign === 'pending',
+        }))
+      );
       this.countByPack(partners);
       this.countByType(partners);
-      this.sortAndFilter(
-        this.originalPartners,
-        this.filterValue,
-        this.filterByPackValue,
-        this.filterByTypeValue
-      );
-      this.dataSource.sort = this.sort;
     });
   }
 
-  private sortAndFilter(
-    originalPartners: Array<Partial<Company & { pending: string }>>,
-    filterValue: FilterValueType,
-    pack: FilterByPackValueType,
-    type: filterByTypeValueType
-  ) {
-    this.dataSource = new MatTableDataSource(
-      originalPartners
-        .filter((partner) => pack === 'all' || partner.sponsoring === pack)
-        .filter(
-          (partner) =>
-            filterValue === 'all' || partner.pending!.indexOf(filterValue) >= 0
-        )
-        .filter((partner) => {
-          return (
-            type === 'all' ||
-            partner.type === type ||
-            (!partner.type && type === 'other')
-          );
-        })
-    );
-    this.dataSource.sort = this.sort;
-  }
-
   filterByPackHandler(pack: FilterByPackValueType) {
-    this.filterByPackValue = pack;
-    this.sortAndFilter(
-      this.originalPartners,
-      this.filterValue,
-      this.filterByPackValue,
-      this.filterByTypeValue
-    );
+    this.filterByPackValue.set(pack);
   }
 
-  filterByTypeHandler(type: filterByTypeValueType) {
-    this.filterByTypeValue = type;
-    console.log(this.filterByTypeValue);
-    this.sortAndFilter(
-      this.originalPartners,
-      this.filterValue,
-      this.filterByPackValue,
-      this.filterByTypeValue
-    );
+  filterByTypeHandler(type: FilterByTypeValueType) {
+    this.filterByTypeValue.set(type);
   }
 
   copyEmails() {
-    const emails = this.originalPartners
+    const emails = this.originalPartners()
       .reduce((acc: any, partner: any) => {
         return [...acc, partner.email];
       }, [])

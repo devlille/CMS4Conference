@@ -71,4 +71,5 @@ export interface Company {
   description?: string;
   activities?: string;
   lang?: 'fr' | 'en';
+  pending?: string;
 }

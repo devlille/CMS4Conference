@@ -55,7 +55,7 @@ export interface Company {
   devisUrl: string;
   conventionUrl: string;
   invoiceUrl: string;
-  type?: 'esn' | 'other';
+  type?: PartnerType;
   twitter?: string;
   twitterAccount?: string;
   linkedin?: string;
@@ -73,3 +73,5 @@ export interface Company {
   lang?: 'fr' | 'en';
   pending?: string;
 }
+
+export type PartnerType = 'esn' | 'other';

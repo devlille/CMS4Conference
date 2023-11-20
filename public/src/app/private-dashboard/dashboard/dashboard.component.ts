@@ -7,7 +7,7 @@ import {
   computed,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Company, WorkflowStatus } from '../../model/company';
+import { Company, PartnerType, WorkflowStatus } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
 import { Timestamp } from '@angular/fire/firestore';
 import { MatRadioModule } from '@angular/material/radio';
@@ -26,7 +26,7 @@ type FilterByPackValueType =
   | 'Bronze'
   | 'Party'
   | 'all';
-type FilterByTypeValueType = 'esn' | 'other' | 'all';
+type FilterByTypeValueType = PartnerType | 'all';
 
 @Component({
   selector: 'cms-dashboard',

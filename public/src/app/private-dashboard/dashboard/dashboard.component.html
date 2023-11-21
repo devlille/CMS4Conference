@@ -10,9 +10,9 @@
     (ngModelChange)="filterByValue($event)"
   >
     @for (option of filterByStatus; track option) {
-    <mat-button-toggle [value]="option.value">{{
-      option.label
-    }}</mat-button-toggle>
+      <mat-button-toggle [value]="option.value">{{
+        option.label
+      }}</mat-button-toggle>
     }
   </mat-button-toggle-group>
 
@@ -22,9 +22,9 @@
     (ngModelChange)="filterByPackHandler($event)"
   >
     @for (option of filterByPack; track option) {
-    <mat-button-toggle [value]="option.value">{{
-      option.label
-    }}</mat-button-toggle>
+      <mat-button-toggle [value]="option.value">{{
+        option.label
+      }}</mat-button-toggle>
     }
   </mat-button-toggle-group>
 
@@ -34,9 +34,9 @@
     (ngModelChange)="filterByTypeHandler($event)"
   >
     @for (option of filterByType; track option) {
-    <mat-button-toggle [value]="option.value">{{
-      option.label
-    }}</mat-button-toggle>
+      <mat-button-toggle [value]="option.value">{{
+        option.label
+      }}</mat-button-toggle>
     }
   </mat-button-toggle-group>
 </mat-card>

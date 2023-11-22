@@ -1,119 +1,163 @@
-@if(isAdmin){
-<div class="inline-bloc">
-  <mat-form-field class="full-width">
-    <mat-label>Numéro de Commande</mat-label>
-    <input matInput type="text" [(ngModel)]="company!.PO" />
-  </mat-form-field>
-</div>
+<form [formGroup]="form">
+  @if (isAdmin) {
+    <div class="inline-bloc">
+      <mat-form-field class="full-width">
+        <mat-label>Numéro de Commande</mat-label>
+        <input matInput type="text" formControlName="PO" />
+      </mat-form-field>
+    </div>
+  }
+
+  <div class="inline-bloc">
+    <mat-form-field class="full-width">
+      <mat-label>Type de document souhaité</mat-label>
+      <select matNativeControl formControlName="invoiceType">
+        <option value="devis">Devis</option>
+        <option value="facture">Facture</option>
+        <option value="proforma">Facture Proforma</option>
+      </select>
+      <mat-error *ngIf="form.controls['invoiceType']?.errors?.['required']"
+        >Le type de document est obligatoire</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div class="inline-bloc">
+    <mat-form-field class="full-width">
+      <mat-label>Langue utilisée dans la convention</mat-label>
+      <select matNativeControl formControlName="lang">
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+      </select>
+      <mat-error *ngIf="form.controls['lang']?.errors?.['required']"
+        >La langue est obligatoire</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div class="inline-bloc">
+    <mat-form-field appearance="fill">
+      <mat-label
+        >Nom de la Société pour la facture et convention (si différent du nom
+        déjà connu)</mat-label
+      >
+      <input matInput type="text" formControlName="officialName" />
+    </mat-form-field>
+  </div>
+  <div class="inline-bloc">
+    <mat-form-field appearance="fill">
+      <mat-label>URL du site de la société</mat-label>
+
+      <input matInput type="url" formControlName="siteUrl" />
+      <mat-error *ngIf="form.controls['siteUrl']?.errors?.['required']"
+        >L'URL du site est obligatoire</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div class="inline-bloc">
+    <mat-form-field appearance="fill">
+      <mat-label>Adresse</mat-label>
+
+      <input
+        autocomplete="chrome-off"
+        matInput
+        type="text"
+        formControlName="address"
+      />
+
+      <mat-error *ngIf="form.controls['address']?.errors?.['required']"
+        >L'adresse est obligatoire</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div class="inline-bloc">
+    <mat-form-field appearance="fill">
+      <mat-label>SIRET</mat-label>
+
+      <input matInput type="text" formControlName="siret" />
+      <mat-error *ngIf="form.controls['siret']?.errors?.['required']"
+        >Le siret est obligatoire</mat-error
+      >
+      <mat-error *ngIf="form.controls['siret']?.errors?.['siret']"
+        >Le numéro de siret n'est pas valide</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div class="inline-bloc">
+    <mat-form-field appearance="fill">
+      <mat-label>Représentant</mat-label>
+
+      <input matInput type="text" formControlName="representant" />
+      <mat-error *ngIf="form.controls['representant']?.errors?.['required']"
+        >Le Représentant est obligatoire</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div class="inline-bloc">
+    <mat-form-field appearance="fill">
+      <mat-label>Rôle dans l'entreprise</mat-label>
+
+      <input matInput type="text" formControlName="role" />
+      <mat-error *ngIf="form.controls['role']?.errors?.['required']"
+        >Le role est obligatoire</mat-error
+      >
+    </mat-form-field>
+  </div>
+</form>
+@if (company?.status?.generated === "done") {
+  <p>Vous trouverez ci joint :</p>
+  <ul>
+    <li>la convention pour ce partenariat à nous retourner signée</li>
+    <li>la facture proforma à acquitter</li>
+    <li>le RIB du GDG Lille</li>
+  </ul>
+  <p>
+    Vous pouvez nous faire parvenir la convention soit en retour de ce mail,
+    soit en la transférant sur ce site cms4devfest. Ce pack
+    {{ company?.sponsoring }} vous est reservé jusqu'au
+    {{ company?.creationDate | add: 15 | date }}.
+  </p>
+  <div>
+    <cms-files [files]="files"></cms-files>
+  </div>
 }
 
 <div class="inline-bloc">
-  <mat-form-field class="full-width">
-    <mat-label>Langue utilisée dans la convention</mat-label>
-    <select matNativeControl [(ngModel)]="company!.lang">
-      <option value="fr">Français</option>
-      <option value="en">English</option>
-    </select>
-  </mat-form-field>
-</div>
-<div class="inline-bloc">
-  <mat-form-field appearance="fill">
-    <mat-label
-      >Nom de la Société pour la facture et convention (si différent du nom
-      précédent)</mat-label
-    >
-    <input matInput type="text" [(ngModel)]="company!.officialName" />
-  </mat-form-field>
-</div>
-<div class="inline-bloc">
-  <mat-form-field appearance="fill">
-    <mat-label>URL du site de la société</mat-label>
-
-    <input matInput type="url" [(ngModel)]="company!.siteUrl" />
-  </mat-form-field>
-</div>
-<div class="inline-bloc">
-  <mat-form-field appearance="fill">
-    <mat-label>Adresse</mat-label>
-
-    <input
-      autocomplete="chrome-off"
-      matInput
-      type="text"
-      [(ngModel)]="company!.address"
-    />
-  </mat-form-field>
-</div>
-<div class="inline-bloc">
-  <mat-form-field appearance="fill">
-    <mat-label>SIRET</mat-label>
-
-    <input matInput type="text" [(ngModel)]="company!.siret" />
-  </mat-form-field>
-</div>
-<div class="inline-bloc">
-  <mat-form-field appearance="fill">
-    <mat-label>Représentant</mat-label>
-
-    <input matInput type="text" [(ngModel)]="company!.representant" />
-  </mat-form-field>
-</div>
-<div class="inline-bloc">
-  <mat-form-field appearance="fill">
-    <mat-label>Rôle dans l'entreprise</mat-label>
-
-    <input matInput type="text" [(ngModel)]="company!.role" />
-  </mat-form-field>
-</div>
-@if (company?.status?.generated === 'done') {
-<p>Vous trouverez ci joint :</p>
-<ul>
-  <li>la convention pour ce partenariat à nous retourner signée</li>
-  <li>la facture proforma à acquitter</li>
-  <li>le RIB du GDG Lille</li>
-</ul>
-<p>
-  Vous pouvez nous faire parvenir la convention soit en retour de ce mail, soit
-  en la transférant sur ce site cms4devfest. Ce pack
-  {{ company?.sponsoring }} vous est reservé jusqu'au
-  {{ company?.creationDate | add : 15 | date }}.
-</p>
-<div>
-  <cms-files [files]="files"></cms-files>
-</div>
-}
-
-<div class="inline-bloc">
-  <button mat-raised-button color="primary" (click)="updateSponsoring()">
+  <button
+    [disabled]="!form.valid"
+    mat-raised-button
+    color="primary"
+    (click)="updateSponsoring()"
+  >
     <mat-icon>save</mat-icon>
     Sauvegarder
   </button>
-  @if (isAdmin && company?.status?.generated !== 'done') {
-  <button mat-raised-button color="primary" (click)="setDone()">
-    <mat-icon>precision_manufacturing</mat-icon>
+  @if (isAdmin && company?.status?.generated !== "done") {
+    <button mat-raised-button color="primary" (click)="setDone()">
+      <mat-icon>precision_manufacturing</mat-icon>
 
-    Générer
-  </button>
-  } @if (isAdmin && company?.status?.generated === 'done') {
-  <button mat-raised-button color="primary" (click)="regenerate()">
-    <mat-icon>redo</mat-icon>
-    Regénérer
-  </button>
-  } @if(isAdmin){
-  <cms-upload
-    (uploadFile)="uploadConvention($event)"
-    [isEnable]=""
-    accept=".pdf"
-    label="Convention"
-  >
-    Choisir une convention
-  </cms-upload>
-  <cms-upload
-    (uploadFile)="uploadDevis($event)"
-    [isEnable]=""
-    accept=".pdf"
-    label="Facture"
-    >Choisir un devis</cms-upload
-  >
+      Générer
+    </button>
+  }
+  @if (isAdmin && company?.status?.generated === "done") {
+    <button mat-raised-button color="primary" (click)="regenerate()">
+      <mat-icon>redo</mat-icon>
+      Regénérer
+    </button>
+  }
+  @if (isAdmin) {
+    <cms-upload
+      (uploadFile)="uploadConvention($event)"
+      [isEnable]=""
+      accept=".pdf"
+      label="Convention"
+    >
+      Choisir une convention
+    </cms-upload>
+    <cms-upload
+      (uploadFile)="uploadDevis($event)"
+      [isEnable]=""
+      accept=".pdf"
+      label="Facture"
+      >Choisir un devis</cms-upload
+    >
   }
 </div>

@@ -35,6 +35,7 @@ const defaultCompany: Company = {
   conventionUrl: '',
   invoiceUrl: '',
   siteUrl: '',
+  invoiceType: 'facture',
 };
 
 interface Option {
@@ -130,7 +131,7 @@ export class FormComponent {
       ]),
       sponsoring: new FormControl(
         { value: company.sponsoring, disabled: this.readOnly },
-        [Validators.required]
+        [Validators.required],
       ),
       secondSponsoring: new FormControl({
         value: company.secondSponsoring,

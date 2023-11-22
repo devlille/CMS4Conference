@@ -72,6 +72,7 @@ export interface Company {
   activities?: string;
   lang?: 'fr' | 'en';
   pending?: string;
+  invoiceType: 'devis' | 'facture' | 'proforma';
 }
 
 export type PartnerType = 'esn' | 'other';

@@ -9,9 +9,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AddPipe } from '../pipe/add.pipe';
 import { Auth } from '@angular/fire/auth';
+import { Siret } from '../ui/form/validators';
 
 @Component({
   selector: 'cms-generated',
@@ -24,7 +31,7 @@ import { Auth } from '@angular/fire/auth';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule,
+    ReactiveFormsModule,
     AddPipe,
   ],
   templateUrl: './generated.component.html',
@@ -40,11 +47,32 @@ export class GeneratedComponent {
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);
   private readonly auth: Auth = inject(Auth);
+  form!: FormGroup;
 
   ngOnInit() {
     if (!this.company) {
       return;
     }
+    console.log(this.company);
+    this.form = new FormGroup({
+      officialName: new FormControl(this.company.officialName),
+      address: new FormControl(this.company.address, Validators.required),
+      siret: new FormControl(this.company.siret, {
+        validators: [Validators.required, Siret()],
+      }),
+      representant: new FormControl(
+        this.company.representant,
+        Validators.required,
+      ),
+      role: new FormControl(this.company.role, Validators.required),
+      siteUrl: new FormControl(this.company.siteUrl, Validators.required),
+      invoiceType: new FormControl(
+        this.company.invoiceType,
+        Validators.required,
+      ),
+      PO: new FormControl(this.company.PO),
+      lang: new FormControl(this.company.lang, Validators.required),
+    });
 
     this.storageService.getDepositInvoice(this.company.id!).then((deposit) => {
       this.files = {
@@ -105,19 +133,7 @@ export class GeneratedComponent {
   }
 
   updateSponsoring() {
-    const sponsor: Partial<Company> = {
-      officialName: this.company?.officialName,
-      siteUrl: this.company?.siteUrl,
-      address: this.company?.address,
-      siret: this.company?.siret,
-      role: this.company?.role,
-      representant: this.company?.representant,
-      lang: this.company?.lang,
-    };
-
-    if (this.company?.PO) {
-      sponsor.PO = this.company?.PO;
-    }
+    const sponsor: Partial<Company> = this.form.value;
     this.partnerService.update(this.id!, sponsor);
   }
 }

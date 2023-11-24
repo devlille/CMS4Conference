@@ -29,47 +29,35 @@
       utiles.
     </p>
     <div class="social-fields">
-      @if (company.sponsoring !== 'Bronze' && company.sponsoring !== 'Party') {
-      <mat-checkbox [(ngModel)]="company.keepDevFestTeam"
-        >Laissez l'équipe du Devfest écrire vos messages!</mat-checkbox
-      >
-      }
       <mat-form-field class="full-width">
-        <input
-          matInput
-          type="text"
-          aria-label="Compte Twitter"
-          placeholder="Compte Twitter"
-          [(ngModel)]="company.twitterAccount"
-        />
+        <mat-label>Compte Twitter</mat-label>
+        <input matInput type="text" [(ngModel)]="company.twitterAccount" />
       </mat-form-field>
-      @if (company.sponsoring !== 'Bronze' && company.sponsoring !== 'Party') {
+
       <mat-form-field class="full-width">
-        <textarea
-          [(ngModel)]="company.twitter"
-          matInput
-          placeholder="Message Twitter"
-          maxlength="280"
-        ></textarea>
+        <mat-label>Compte Linkedin</mat-label>
+        <input matInput type="text" [(ngModel)]="company.linkedinAccount" />
       </mat-form-field>
-      }
-      <mat-form-field class="full-width">
-        <input
-          matInput
-          type="text"
-          aria-label="Compte LinkedIn"
-          placeholder="Compte LinkedIn"
-          [(ngModel)]="company.linkedinAccount"
-        />
-      </mat-form-field>
-      @if (company.sponsoring !== 'Bronze' && company.sponsoring !== 'Party') {
-      <mat-form-field class="full-width">
-        <textarea
-          [(ngModel)]="company.linkedin"
-          matInput
-          placeholder="Message LinkedIN"
-        ></textarea>
-      </mat-form-field>
+      @if (
+        isAdmin ||
+        company.sponsoring === "Platinium" ||
+        company.sponsoring === "Silver"
+      ) {
+        <mat-checkbox [(ngModel)]="company.keepDevFestTeam"
+          >Laissez l'équipe du Devfest écrire vos messages!</mat-checkbox
+        >
+        <mat-form-field class="full-width">
+          <mat-label>Message Twitter</mat-label>
+          <textarea
+            [(ngModel)]="company.twitter"
+            matInput
+            maxlength="280"
+          ></textarea>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Message LinkedIN</mat-label>
+          <textarea [(ngModel)]="company.linkedin" matInput></textarea>
+        </mat-form-field>
       }
     </div>
   </div>
@@ -87,6 +75,10 @@
           maxlength="280"
         ></textarea>
       </mat-form-field>
+      <mat-checkbox [(ngModel)]="company.socialInformationComplete"
+        >Je confirme que toutes les informations ci-dessus sont
+        complètes</mat-checkbox
+      >
     </div>
   </div>
 </div>

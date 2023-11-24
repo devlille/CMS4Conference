@@ -55,7 +55,7 @@ export class PanelItemComponent {
     generated: GeneratedComponent,
     sign: AdminSignedComponent,
     paid: AdminPaidComponent,
-    received: AdminSocialComponent,
+    received: SocialComponent,
     communicated: AdminCommunicatedComponent,
     code: AdminCodeComponent,
   };
@@ -86,7 +86,7 @@ export class PanelItemComponent {
           : DefaultComponent;
         const componentFactory =
           this.componentFactoryResolver.resolveComponentFactory(
-            componentInstance
+            componentInstance,
           );
         const component = this.content!.createComponent(componentFactory);
         (component.instance as any).step = this.step;

@@ -12,7 +12,6 @@ import { MatInputModule } from '@angular/material/input';
 import {
   FormControl,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';

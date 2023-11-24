@@ -12,6 +12,7 @@ import { StorageService } from '../../storage.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'cms-social',
@@ -36,14 +37,20 @@ export class SocialComponent {
   @Input({ required: true }) id!: string;
   @Input({ required: true }) step!: WorkflowStep;
   files = {};
+  isAdmin: boolean = false;
 
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);
+  private readonly auth = inject(Auth);
 
   ngOnInit() {
     this.files = {
       Logo: this.company.logoUrl,
     };
+
+    this.auth.onAuthStateChanged((state) => {
+      this.isAdmin = state?.email?.endsWith('@gdglille.org') ?? false;
+    });
   }
   update() {
     this.partnerService.update(this.id, {
@@ -53,6 +60,8 @@ export class SocialComponent {
       linkedin: this.company.linkedin || '',
       description: this.company.description || '',
       keepDevFestTeam: this.company.keepDevFestTeam || false,
+      socialInformationComplete:
+        this.company.socialInformationComplete ?? false,
     });
   }
   upload(file: Blob) {

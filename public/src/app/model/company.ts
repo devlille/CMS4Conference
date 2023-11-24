@@ -68,6 +68,7 @@ export interface Company {
   edition?: number;
   siteUrl?: string;
   keepDevFestTeam?: boolean;
+  socialInformationComplete?: boolean;
   description?: string;
   activities?: string;
   lang?: 'fr' | 'en';

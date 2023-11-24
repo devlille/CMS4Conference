@@ -82,7 +82,7 @@ export class DashboardComponent implements AfterViewInit {
         .filter((partner) => pack === 'all' || partner.sponsoring === pack)
         .filter(
           (partner) =>
-            filterValue === 'all' || partner.pending!.indexOf(filterValue) >= 0
+            filterValue === 'all' || partner.pending!.indexOf(filterValue) >= 0,
         )
         .filter((partner) => {
           return (
@@ -90,7 +90,7 @@ export class DashboardComponent implements AfterViewInit {
             partner.type === type ||
             (!partner.type && type === 'other')
           );
-        })
+        }),
     );
     dataSource.sort = this.sort;
 
@@ -182,7 +182,7 @@ export class DashboardComponent implements AfterViewInit {
           pending: this.getPendingStatus(p.status),
           type: p.type,
           needAction: !!p.conventionSignedUrl && p.status!.sign === 'pending',
-        }))
+        })),
       );
       this.countByPack(partners);
       this.countByType(partners);
@@ -198,8 +198,8 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   copyEmails() {
-    const emails = this.originalPartners()
-      .reduce((acc: any, partner: any) => {
+    const emails = this.dataSource()
+      .filteredData.reduce((acc: any, partner: any) => {
         return [...acc, partner.email];
       }, [])
       .flat()

@@ -1,7 +1,3 @@
-<button (click)="copyEmails()" mat-raised-button color="primary">
-  Copier les emails
-</button>
-
 <mat-card>
   <mat-card-title>Filter</mat-card-title>
   <p>Par Statut</p>
@@ -40,6 +36,10 @@
     }
   </mat-button-toggle-group>
 </mat-card>
+
+<button id="copy" (click)="copyEmails()" mat-raised-button color="primary">
+  Copier les emails des sociétés affichées
+</button>
 
 <table
   matSort

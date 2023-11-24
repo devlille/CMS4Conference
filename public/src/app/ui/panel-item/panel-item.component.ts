@@ -16,7 +16,6 @@ import { AdminFilledComponent } from '../admin-filled/admin-filled.component';
 import { AdminValidatedComponent } from '../admin-validated/admin-validated.component';
 import { AdminSignedComponent } from '../admin-signed/admin-signed.component';
 import { AdminPaidComponent } from '../admin-paid/admin-paid.component';
-import { AdminSocialComponent } from '../admin-social/admin-social.component';
 import { AdminCommunicatedComponent } from '../admin-communicated/admin-communicated.component';
 import { AdminCodeComponent } from '../admin-code/admin-code.component';
 import { CodeComponent } from '../code/code.component';

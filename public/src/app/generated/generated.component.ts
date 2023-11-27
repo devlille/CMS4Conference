@@ -96,6 +96,8 @@ export class GeneratedComponent {
         Devis: devis,
         Facture: invoice,
         'RIB du GDG Lille': '/assets/RIB.pdf',
+        'Journal Officiel suite à la création du GDG Lille':
+          '/assets/JournalOfficiel.pdf',
       };
     });
   }

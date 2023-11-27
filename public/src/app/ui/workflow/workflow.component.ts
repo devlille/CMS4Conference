@@ -8,6 +8,7 @@ import { LoaderComponent } from '../loader/loader.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { switchMap, tap } from 'rxjs';
 import { PanelItemComponent } from '../panel-item/panel-item.component';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'cms-workflow',
@@ -26,13 +27,19 @@ export class WorkflowComponent {
   public workflow: Workflow | undefined;
   public partner: Company | undefined;
   public isLoading: boolean = true;
+  public isAdmin: boolean = false;
 
   private readonly route = inject(ActivatedRoute);
   private readonly partnerStore = inject(StoreService);
   private readonly workflowService = inject(WorkflowService);
+  private readonly auth = inject(Auth);
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
+
+    this.auth.onAuthStateChanged((state) => {
+      this.isAdmin = state?.email?.endsWith('@gdglille.org') ?? false;
+    });
 
     this.workflowService
       .getAll()
@@ -40,7 +47,7 @@ export class WorkflowComponent {
         tap((workflow) => (this.workflow = workflow[0])),
         switchMap(() => {
           return this.partnerStore.partner$;
-        })
+        }),
       )
       .subscribe((partner) => {
         this.partner = partner as Company;

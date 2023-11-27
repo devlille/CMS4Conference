@@ -74,6 +74,7 @@ export interface Company {
   lang?: 'fr' | 'en';
   pending?: string;
   invoiceType: 'devis' | 'facture' | 'proforma';
+  wldId?: string;
 }
 
 export type PartnerType = 'esn' | 'other';

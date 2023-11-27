@@ -32,8 +32,13 @@ export class AdminCodeComponent {
   ngOnInit() {}
 
   updateBilletwebUrl() {
-    this.partnerService.update(this.id, {
+    console.log({
       billetWebUrl: this.company.billetWebUrl,
+      wldId: this.company.wldId,
+    });
+    this.partnerService.update(this.id, {
+      billetWebUrl: this.company.billetWebUrl ?? '',
+      wldId: this.company.wldId ?? '',
     });
   }
 

@@ -1,12 +1,15 @@
-<mat-form-field appearance="fill">
-  <mat-label>URL Billetweb</mat-label>
-  <input
-    matInput
-    placeholder="URL Billetweb"
-    type="text"
-    [(ngModel)]="company.billetWebUrl"
-  />
-</mat-form-field>
+<div class="inline-bloc">
+  <mat-form-field appearance="fill">
+    <mat-label>URL Billetweb</mat-label>
+    <input matInput type="text" [(ngModel)]="company.billetWebUrl" />
+  </mat-form-field>
+</div>
+<div class="inline-bloc">
+  <mat-form-field appearance="fill">
+    <mat-label>Identifiant WeLoveDevs</mat-label>
+    <input matInput type="text" [(ngModel)]="company.wldId" />
+  </mat-form-field>
+</div>
 
 <div class="inline-bloc">
   <button color="primary" mat-raised-button (click)="updateBilletwebUrl()">

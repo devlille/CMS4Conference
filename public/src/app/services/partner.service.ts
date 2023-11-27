@@ -36,14 +36,14 @@ export class PartnerService {
 
   public async get(id: string) {
     const data = await firstValueFrom(
-      docData(doc(this.firestore, `companies-2024/${id}`))
+      docData(doc(this.firestore, `companies-2024/${id}`)),
     );
     return { ...data, id } as Company;
   }
 
   public async getCurrentConfiguration() {
     const data = await firstValueFrom(
-      docData(doc(this.firestore, 'configuration/invoice_2024'))
+      docData(doc(this.firestore, 'configuration/invoice_2024')),
     );
     return data as Company;
   }
@@ -59,10 +59,10 @@ export class PartnerService {
       map((snapshots: QueryDocumentSnapshot[]) => {
         return snapshots
           .map(
-            (snapshot) => ({ ...snapshot.data(), id: snapshot.id } as Company)
+            (snapshot) => ({ ...snapshot.data(), id: snapshot.id }) as Company,
           )
           .filter((company) => !company.archived);
-      })
+      }),
     );
   }
 

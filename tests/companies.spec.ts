@@ -13,22 +13,22 @@ describe("Testing users (users/{userId}) security rule", () => {
       firestore: {
         rules: readFileSync("firestore.rules", "utf8"),
         host: "localhost",
-        port: 8080,
+        port: require("../firebase.json").emulators.firestore.port,
       },
     });
 
-    await testEnv.withSecurityRulesDisabled((context) => {
+    await testEnv.withSecurityRulesDisabled(async (context) => {
       const firestoreWithoutRule = context.firestore();
-      return firestoreWithoutRule.collection("companies-2024").doc("1").set({ name: "initial user name" });
+      await firestoreWithoutRule.collection("companies-2024").doc("1").set({ name: "initial user name" });
     });
   });
 
-  it("", async () => {
+  it("should not be able to access to the collection", async () => {
     const user = testEnv.unauthenticatedContext();
     await testing.assertFails(getDocs(collection(user.firestore(), "companies-2024")));
   });
 
-  it("", async () => {
+  it("should be able to access to the collection", async () => {
     const user = testEnv.authenticatedContext("manu", { email: "manu@gdglille.org" });
     await testing.assertSucceeds(getDocs(collection(user.firestore(), "companies-2024")));
   });

@@ -41,7 +41,11 @@ export class GeneratedComponent {
   @Input() step: WorkflowStep | undefined;
   @Input() company: Company | undefined;
   @Input() id: string | undefined;
-  files = {};
+  files: { [key: string]: string } = {
+    'RIB du GDG Lille': '/assets/RIB.pdf',
+    'Journal Officiel suite à la création du GDG Lille':
+      '/assets/JournalOfficiel.pdf',
+  };
   isAdmin = false;
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);
@@ -52,7 +56,6 @@ export class GeneratedComponent {
     if (!this.company) {
       return;
     }
-    console.log(this.company);
     this.form = new FormGroup({
       officialName: new FormControl(this.company.officialName),
       address: new FormControl(this.company.address, Validators.required),
@@ -73,33 +76,37 @@ export class GeneratedComponent {
       lang: new FormControl(this.company.lang, Validators.required),
     });
 
-    this.storageService.getDepositInvoice(this.company.id!).then((deposit) => {
-      this.files = {
-        ...this.files,
-        'Facture Accompte 100%': deposit,
-      };
-    });
+    if (this.step?.state === 'done') {
+      this.storageService
+        .getDepositInvoice(this.company.id!)
+        .then((deposit) => {
+          this.files = {
+            ...this.files,
+            'Facture Accompte 100%': deposit,
+          };
+        });
+    }
 
     this.auth.onAuthStateChanged((state) => {
       this.isAdmin = state?.email?.endsWith('@gdglille.org') ?? false;
     });
 
-    Promise.all([
-      this.storageService.getConvention(this.company.id!),
-      this.storageService.getProformaInvoice(this.company.id!),
-      this.storageService.getDevis(this.company.id!),
-      this.storageService.getInvoice(this.company.id!),
-    ]).then(([convention, proforma, devis, invoice]) => {
-      this.files = {
-        Convention: convention,
-        'Facture Proforma': proforma,
-        Devis: devis,
-        Facture: invoice,
-        'RIB du GDG Lille': '/assets/RIB.pdf',
-        'Journal Officiel suite à la création du GDG Lille':
-          '/assets/JournalOfficiel.pdf',
-      };
-    });
+    if (this.step?.state === 'done') {
+      Promise.all([
+        this.storageService.getConvention(this.company.id!),
+        this.storageService.getProformaInvoice(this.company.id!),
+        this.storageService.getDevis(this.company.id!),
+        this.storageService.getInvoice(this.company.id!),
+      ]).then(([convention, proforma, devis, invoice]) => {
+        this.files = {
+          ...this.files,
+          Convention: convention,
+          'Facture Proforma': proforma,
+          Devis: devis,
+          Facture: invoice,
+        };
+      });
+    }
   }
 
   uploadConvention(file: Blob) {

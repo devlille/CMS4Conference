@@ -2,15 +2,23 @@ import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Workflow, WorkflowStep, Company, State } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
-import { getDownloadURL, ref, Storage } from '@angular/fire/storage';
 import { UploadComponent } from '../upload/upload.component';
 import { FilesComponent } from '../files/files.component';
 import { StorageService } from '../../storage.service';
+import { MatIconModule } from '@angular/material/icon';
+import { Auth } from '@angular/fire/auth';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'cms-signed',
   standalone: true,
-  imports: [CommonModule, UploadComponent, FilesComponent],
+  imports: [
+    CommonModule,
+    UploadComponent,
+    FilesComponent,
+    MatIconModule,
+    MatButtonModule,
+  ],
   templateUrl: './signed.component.html',
   styleUrls: ['./signed.component.scss'],
 })
@@ -19,17 +27,26 @@ export class SignedComponent {
   @Input({ required: true }) step!: WorkflowStep;
   @Input({ required: true }) company!: Company;
   @Input({ required: true }) id!: string;
+
   files = {};
+  isAdmin = false;
 
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);
+  private readonly auth = inject(Auth);
 
   ngOnInit() {
-    this.storageService.getSignedConvention(this.id).then((invoice) => {
-      this.files = {
-        'Convention signée': invoice,
-      };
+    this.auth.onAuthStateChanged((state) => {
+      this.isAdmin = state?.email?.endsWith('@gdglille.org') ?? false;
     });
+
+    if (this.company.conventionSignedUrl) {
+      this.storageService.getSignedConvention(this.id).then((invoice) => {
+        this.files = {
+          'Convention signée': invoice,
+        };
+      });
+    }
   }
 
   updateStatus(status: State) {
@@ -39,6 +56,10 @@ export class SignedComponent {
         [this.step.key]: status,
       },
     });
+  }
+
+  setDone() {
+    this.updateStatus('done');
   }
 
   uploadConvention(file: Blob) {

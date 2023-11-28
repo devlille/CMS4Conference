@@ -1,15 +1,35 @@
 @if (company.conventionSignedUrl) {
-<p>
-    Vous trouverez ci-dessous la convention et le devis relatifs à notre partenariat.
+  <p>
+    Vous trouverez ci-dessous la convention et le devis relatifs à notre
+    partenariat.
     <cms-files [files]="files"></cms-files>
-</p>
+  </p>
 }
 
-@if (!company.conventionSignedUrl) {
-<p>Vous pouvez transférer ci-dessous la convention signée:</p>
-@if (!company.conventionSignedUrl) {
 <div class="inline-bloc">
-    <cms-upload (uploadFile)="uploadConvention($event)" [isEnable]="" accept=".pdf" label="Convention"></cms-upload>
+  @if (!company.conventionSignedUrl || isAdmin) {
+    <cms-upload
+      (uploadFile)="uploadConvention($event)"
+      [isEnable]=""
+      accept=".pdf"
+      label="Convention"
+    >
+      Envoyer la convention signée</cms-upload
+    >
+  }
+  @if (isAdmin) {
+    @if (company.status?.[step.key] !== "done") {
+      <button mat-raised-button color="primary" (click)="setDone()">
+        <mat-icon>done</mat-icon>
+        Valider cette étape
+      </button>
+    }
+    <cms-upload
+      (uploadFile)="uploadConvention($event)"
+      [isEnable]=""
+      accept=".pdf"
+      label="Convention"
+      >Choisir une convention signée</cms-upload
+    >
+  }
 </div>
-}
-}

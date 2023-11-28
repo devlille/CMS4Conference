@@ -2,6 +2,7 @@
   <mat-accordion multi>
     @for (step of workflow.steps; track step) {
       <mat-expansion-panel
+        #panel
         [disabled]="
           !isAdmin && step.state !== 'done' && step.state !== 'pending'
         "
@@ -20,11 +21,13 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <cms-panel-item
-          [step]="step"
-          [id]="id!"
-          [company]="partner"
-        ></cms-panel-item>
+        @defer (when panel.expanded) {
+          <cms-panel-item
+            [step]="step"
+            [id]="id!"
+            [company]="partner"
+          ></cms-panel-item>
+        }
       </mat-expansion-panel>
     }
   </mat-accordion>

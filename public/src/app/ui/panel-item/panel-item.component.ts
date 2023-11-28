@@ -14,7 +14,6 @@ import { Auth } from '@angular/fire/auth';
 import { DefaultComponent } from '../default/default.component';
 import { AdminFilledComponent } from '../admin-filled/admin-filled.component';
 import { AdminValidatedComponent } from '../admin-validated/admin-validated.component';
-import { AdminSignedComponent } from '../admin-signed/admin-signed.component';
 import { AdminPaidComponent } from '../admin-paid/admin-paid.component';
 import { AdminCommunicatedComponent } from '../admin-communicated/admin-communicated.component';
 import { AdminCodeComponent } from '../admin-code/admin-code.component';
@@ -52,7 +51,7 @@ export class PanelItemComponent {
     filled: AdminFilledComponent,
     validated: AdminValidatedComponent,
     generated: GeneratedComponent,
-    sign: AdminSignedComponent,
+    sign: SignedComponent,
     paid: AdminPaidComponent,
     received: SocialComponent,
     communicated: AdminCommunicatedComponent,

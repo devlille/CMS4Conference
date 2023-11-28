@@ -59,8 +59,6 @@ export class WorkflowComponent {
     workflow.steps = workflow.steps
       .sort((s1, s2) => s1.order - s2.order)
       .map((step: WorkflowStep) => {
-        console.log(this.partner?.status?.[step.key], step.key);
-
         if (
           step.key === 'validated' &&
           this.partner?.status?.[step.key] === 'done' &&

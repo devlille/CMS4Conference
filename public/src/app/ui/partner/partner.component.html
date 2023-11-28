@@ -1,35 +1,41 @@
 @if (isLoading) {
-<cms-loader></cms-loader>
-} @if (!isLoading) {
-
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>{{ partner?.name }} - Suivi du Partenariat</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <p>
-      Espace partenaire: Tout ce que vous avez besoin dans
-      <strong>un même outils</strong> 👌
-    </p>
-    <p>Nous avons reçu votre demande le {{ creationDate | date : "long" }}</p>
-  </mat-card-content>
-  <mat-card-actions>
-    <a mat-button [routerLink]="['/partner', partner?.id]"
-      >Page dédié pour le partenaire</a
-    >
-    <a
-      mat-button
-      href="https://devfest.gdglille.org/code-conduite/"
-      rel="noreferrer noopener"
-      target="_blank"
-      >Code de conduite</a
-    >
-  </mat-card-actions>
-</mat-card>
-
+  <cms-loader></cms-loader>
+}
 @if (!isLoading) {
-<mat-tab-group>
-  <mat-tab label="Avancement"> <cms-workflow></cms-workflow></mat-tab>
-  <mat-tab label="Mes Informations"> <cms-info></cms-info></mat-tab>
-</mat-tab-group>
-} }
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title
+        >{{ partner?.name }} - Suivi du Partenariat</mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        Espace partenaire: Tout ce que vous avez besoin dans
+        <strong>un même outils</strong> 👌
+      </p>
+      <p>Nous avons reçu votre demande le {{ creationDate | date: "long" }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-button [routerLink]="['/partner', partner?.id]"
+        >Page dédié pour le partenaire</a
+      >
+      <a
+        mat-button
+        href="https://devfest.gdglille.org/code-conduite/"
+        rel="noreferrer noopener"
+        target="_blank"
+        >Code de conduite</a
+      >
+    </mat-card-actions>
+  </mat-card>
+
+  @if (!isLoading) {
+    <mat-tab-group>
+      <mat-tab label="Avancement"> <cms-workflow></cms-workflow></mat-tab>
+      <mat-tab label="Tous les documents">
+        <cms-all-files></cms-all-files
+      ></mat-tab>
+      <mat-tab label="Mes Informations"> <cms-info></cms-info></mat-tab>
+    </mat-tab-group>
+  }
+}

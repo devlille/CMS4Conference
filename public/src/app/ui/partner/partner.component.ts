@@ -12,6 +12,7 @@ import { InfoComponent } from '../info/info.component';
 import { WorkflowComponent } from '../workflow/workflow.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { AllFilesComponent } from '../../all-files/all-files.component';
 
 @Component({
   selector: 'cms-partner',
@@ -25,6 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
     WorkflowComponent,
     MatCardModule,
     MatButtonModule,
+    AllFilesComponent,
   ],
   templateUrl: './partner.component.html',
   styleUrls: ['./partner.component.scss'],

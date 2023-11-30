@@ -33,7 +33,6 @@ export class AllFilesComponent implements OnInit {
     if (!company) {
       return;
     }
-    console.log(company);
     if (company?.flyerUrl) {
       this.storageService.getFlyers(company.id!).then((flyer) => {
         this.files = {

@@ -18,7 +18,13 @@ import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
-type FilterValueType = 'sign' | 'validated' | 'all';
+type FilterValueType =
+  | 'sign'
+  | 'validated'
+  | 'paid'
+  | 'received'
+  | 'communicated'
+  | 'all';
 type FilterByPackValueType =
   | 'Platinium'
   | 'Gold'
@@ -56,10 +62,10 @@ export class DashboardComponent implements AfterViewInit {
     'action',
   ];
   partners: Partial<Company>[] = [];
-  filterByPack: { value: string; label: string }[] = [];
-  filterByType: { value: string; label: string }[] = [];
+  filterByPack: { value: FilterByPackValueType; label: string }[] = [];
+  filterByType: { value: FilterByTypeValueType; label: string }[] = [];
 
-  filterByStatus = [
+  filterByStatus: { value: FilterValueType; label: string }[] = [
     { value: 'validated', label: 'A valider' },
     { value: 'sign', label: 'En attente de signature' },
     { value: 'paid', label: 'En attente de paiement' },

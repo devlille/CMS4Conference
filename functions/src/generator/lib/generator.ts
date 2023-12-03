@@ -17,13 +17,12 @@ function getSponsoringFees(sponsoring: string): [string, number, number] {
       return ["cinq milles euros", 5000, 6];
     case "Gold":
       return ["neuf milles euros", 9000, 10];
-
     default:
-      return ["douze milles", 1200, 12];
+      return ["mille deux cents euros", 1200, 12];
   }
 }
 
-function generateFile(config: any, fileName: string, fileFr: any, settings: any, invoiceType: any) {
+function generateFile(config: any, fileName: string, file: any, settings: any, invoiceType: any) {
   const getOfficialName = () => {
     if (!!config.officialName) {
       return config.officialName;
@@ -64,7 +63,7 @@ function generateFile(config: any, fileName: string, fileFr: any, settings: any,
     };
     try {
       console.log("Generator:", "generate " + fileName);
-      const str = ejs.render(fileFr, data);
+      const str = ejs.render(file, data);
       markdownToPDf({
         paperBorder: "3cm",
       })

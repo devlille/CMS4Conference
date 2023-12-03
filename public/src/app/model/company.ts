@@ -1,5 +1,14 @@
 import { Timestamp } from '@angular/fire/firestore';
 
+export type Configuration = {
+  party: number;
+  bronze: number;
+  silver: number;
+  gold: number;
+  platinium: number;
+  next_value: string;
+  enabled: boolean
+}
 export interface Workflow {
   id: number;
   steps: WorkflowStep[];

@@ -37,7 +37,7 @@ export class UploadComponent {
   @ViewChild('fileUpload')
   fileUpload: ElementRef | undefined;
 
-  uploading = false;
+  uploaded = false;
 
   public id = Math.random().toString(36).substring(2);
   public fileInputId: string;
@@ -49,13 +49,13 @@ export class UploadComponent {
 
   uploadFileEvent(event: any) {
     this.fileName = event.target.files[0].name;
-    this.uploading = true;
+    this.uploaded = true;
     const files = event.target.files;
     this.uploadFile.emit(files[0]);
   }
   inputFileName: string | undefined;
 
-  onClick(event: any) {
+  onClick() {
     if (this.fileUpload) this.fileUpload.nativeElement.click();
   }
 }

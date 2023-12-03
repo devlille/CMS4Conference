@@ -1,12 +1,24 @@
-<button
+@if(!uploaded){
+  <button
   mat-raised-button
   color="primary"
-  color="primary"
-  (click)="onClick($event)"
+  (click)="onClick()"
 >
   <mat-icon>add</mat-icon>
   <ng-content></ng-content>
+
 </button>
+} @else {
+  <button
+  mat-raised-button
+  color="accent"
+  (click)="onClick()"
+>
+    <mat-icon>done</mat-icon>
+  Fichier enregistré
+
+</button>
+}
 <input
   #fileUpload
   type="file"
@@ -15,6 +27,4 @@
   [(ngModel)]="inputFileName"
   [accept]="accept"
 />
-@if (uploading) {
-<mat-spinner diameter="20"></mat-spinner>
-}
+

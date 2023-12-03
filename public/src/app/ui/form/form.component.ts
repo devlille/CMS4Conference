@@ -1,10 +1,8 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   Output,
-  ViewChild,
   inject,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +11,7 @@ import { Observable, of } from 'rxjs';
 import { Company } from '../../model/company';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PartnerService } from '../../services/partner.service';
-import { Emails, Siret } from './validators';
+import { Emails } from './validators';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -73,12 +71,14 @@ export class FormComponent {
   submitted = false;
 
   options: Options = [];
+  enabled = false;
   updatedCompany: Company = {} as Company;
 
   private partnerService = inject(PartnerService);
 
   async ngOnInit() {
-    const config = (await this.partnerService.getCurrentConfiguration()) as any;
+    const config = (await this.partnerService.getCurrentConfiguration());
+    this.enabled = config.enabled;
     this.options = [
       {
         value: 'Platinium',

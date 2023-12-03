@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Company } from '../model/company';
+import { Company, Configuration } from '../model/company';
 import {
   Firestore,
   QueryDocumentSnapshot,
@@ -23,6 +23,7 @@ import {
 })
 export class PartnerService {
   updateFlag: Subject<boolean> = new BehaviorSubject(true);
+  
   private firestore: Firestore = inject(Firestore);
   private companiesCollection = collection(this.firestore, 'companies-2024');
 
@@ -45,7 +46,7 @@ export class PartnerService {
     const data = await firstValueFrom(
       docData(doc(this.firestore, 'configuration/invoice_2024')),
     );
-    return data as Company;
+    return data as Configuration;
   }
 
   private convertEmailsToArray(emails: string | string[]): string[] {

@@ -40,7 +40,10 @@
     Sauvegarder
   </button>
   @if (company?.status?.validated !== 'done') {
-
+    <button mat-raised-button color="primary" (click)="setDone()">
+      <mat-icon>send</mat-icon>
+      Valider le partenaire
+    </button>
   <button mat-raised-button color="primary" (click)="setKo()">
     <mat-icon>send</mat-icon>
     Envoyer un email de refus

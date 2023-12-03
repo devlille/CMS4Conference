@@ -14,8 +14,9 @@
       accept=".pdf"
       label="Convention"
     >
-      Envoyer la convention signée</cms-upload
-    >
+      Envoyer la convention signée
+      
+      </cms-upload>
   }
   @if (isAdmin) {
     @if (company.status?.[step.key] !== "done") {
@@ -24,12 +25,5 @@
         Valider cette étape
       </button>
     }
-    <cms-upload
-      (uploadFile)="uploadConvention($event)"
-      [isEnable]=""
-      accept=".pdf"
-      label="Convention"
-      >Choisir une convention signée</cms-upload
-    >
   }
 </div>

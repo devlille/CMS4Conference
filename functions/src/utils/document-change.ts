@@ -1,5 +1,6 @@
 import { DocumentData } from "@google-cloud/firestore";
 import partnershipValidated from "./steps/partnershipValidated";
+import partnershipGenerated from "./steps/partnershipGenerated";
 import { sendEmailToAllContacts } from "./mail";
 import { generateAndStoreInvoice, generateAndStoreProformaInvoiceAndConvention } from "./files";
 import PaymentReceivedFactory from "../emails/template/step-3-payment-received";
@@ -32,11 +33,15 @@ export async function onDocumentChange(
     await generateAndStoreProformaInvoiceAndConvention(after, id, settings);
     await generateAndStoreInvoice(firestore, after, id, settings);
 
+    return firestore.doc("companies-2024/" + id).update({
+      ...partnershipGenerated(after, id, settings, status.generated === StatusEnum.DONE),
+    });
+  } else if (before.status.validated !== status.validated && status.validated === StatusEnum.DONE) {
     const sponsoringType = after.sponsoring.toLowerCase();
     await decreasePacks(firestore, sponsoringType);
-
+    
     return firestore.doc("companies-2024/" + id).update({
-      ...partnershipValidated(after, id, settings, status.generated === StatusEnum.DONE),
+      ...partnershipValidated(after, id, settings, status.validated === StatusEnum.DONE),
     });
   } else if (before.status.validated !== status.validated && status.validated === StatusEnum.REFUSED) {
     await sendKoEmails(after, settings);

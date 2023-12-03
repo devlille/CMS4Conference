@@ -1,5 +1,5 @@
 import { DocumentData, Timestamp } from "@google-cloud/firestore";
-import PartnerhipValidatedFactory from "../../emails/template/step-2-partnership-validation";
+import PartnerhipGeneratedFactory from "../../emails/template/step-partnership-generated";
 import { sendEmailToAllContacts } from "../mail";
 import { addDays } from "date-fns";
 
@@ -11,7 +11,7 @@ export default (company: DocumentData, id: string, settings: any, shouldSendEmai
     const dateTimeFormat = new Intl.DateTimeFormat("fr-FR", options as any);
     sendEmailToAllContacts(
       company,
-      PartnerhipValidatedFactory(
+      PartnerhipGeneratedFactory(
         company,
         dateTimeFormat.format(date),
         `${settings.hosting.baseurl}/partner/${id}`,
@@ -24,8 +24,8 @@ export default (company: DocumentData, id: string, settings: any, shouldSendEmai
   return {
     status: {
       ...company.status,
-      validated: StatusEnum.DONE,
-      generated: StatusEnum.PENDING,
+      generated: StatusEnum.DONE,
+      sign: StatusEnum.PENDING,
     },
   };
 };

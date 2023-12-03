@@ -6,7 +6,7 @@
         [disabled]="
           !isAdmin && step.state !== 'done' && step.state !== 'pending'
         "
-        [expanded]="step.state === 'pending'"
+        [expanded]="step.state === 'pending' || step.state === 'done'"
       >
         <mat-expansion-panel-header>
           <mat-panel-title>

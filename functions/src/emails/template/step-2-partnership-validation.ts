@@ -4,7 +4,7 @@ export default (
   address_cms4devfest: string,
   edition: string
 ) => ({
-  subject: `Partenariat Devfest Lille ${edition}: Contrat et facture à acquitter`,
+  subject: `Partenariat Devfest Lille ${edition}: Informations Complémentaires à renseigner`,
   body: `
 Bonjour
 <br><br>

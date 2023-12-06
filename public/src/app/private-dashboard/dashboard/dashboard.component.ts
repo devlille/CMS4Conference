@@ -7,7 +7,7 @@ import {
   computed,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Company, PartnerType, WorkflowStatus } from '../../model/company';
+import { Company, Configuration, PartnerType, WorkflowStatus } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
 import { Timestamp } from '@angular/fire/firestore';
 import { MatRadioModule } from '@angular/material/radio';
@@ -20,6 +20,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 type FilterValueType =
   | 'sign'
+  | 'generated'
   | 'validated'
   | 'paid'
   | 'received'
@@ -32,7 +33,7 @@ type FilterByPackValueType =
   | 'Bronze'
   | 'Party'
   | 'all';
-type FilterByTypeValueType = PartnerType | 'all';
+type FilterByType = PartnerType | 'all' | 'undefined';
 
 @Component({
   selector: 'cms-dashboard',
@@ -53,6 +54,7 @@ type FilterByTypeValueType = PartnerType | 'all';
 export class DashboardComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
+  configuration!: Configuration;
   displayedColumns: string[] = [
     'creationDate',
     'name',
@@ -63,25 +65,19 @@ export class DashboardComponent implements AfterViewInit {
   ];
   partners: Partial<Company>[] = [];
   filterByPack: { value: FilterByPackValueType; label: string }[] = [];
-  filterByType: { value: FilterByTypeValueType; label: string }[] = [];
+  filterByStatus: { value: FilterValueType; label: string }[] = [];
+  filterByType: { value: FilterByType; label: string }[] = [];
 
-  filterByStatus: { value: FilterValueType; label: string }[] = [
-    { value: 'validated', label: 'A valider' },
-    { value: 'sign', label: 'En attente de signature' },
-    { value: 'paid', label: 'En attente de paiement' },
-    { value: 'received', label: 'En attente des éléments de communication' },
-    { value: 'communicated', label: 'A lancer la communication' },
-    { value: 'all', label: 'Tous' },
-  ];
 
   originalPartners = signal<Partial<Company>[]>([]);
   filterValue = signal<FilterValueType>('all');
+  filterByStatusValue = signal<FilterValueType>('all');
   filterByPackValue = signal<FilterByPackValueType>('all');
-  filterByTypeValue = signal<FilterByTypeValueType>('all');
+  filterByTypeValue = signal<FilterByType>('all');
   dataSource = computed(() => {
     const pack = this.filterByPackValue();
     const type = this.filterByTypeValue();
-    const filterValue = this.filterValue();
+    const filterValue = this.filterByStatusValue();
 
     const dataSource = new MatTableDataSource(
       this.originalPartners()
@@ -94,7 +90,7 @@ export class DashboardComponent implements AfterViewInit {
           return (
             type === 'all' ||
             partner.type === type ||
-            (!partner.type && type === 'other')
+            (!partner.type && type === 'undefined')
           );
         }),
     );
@@ -148,11 +144,14 @@ export class DashboardComponent implements AfterViewInit {
   private countByType(partners: Company[]): void {
     let numberESN = 0;
     let numberOther = 0;
+    let numberUndefined = 0;
     partners.forEach((partner) => {
       if (partner.type === 'esn') {
         numberESN++;
-      } else {
+      } else if(partner.type === 'other') {
         numberOther++;
+      } else {
+        numberUndefined++
       }
     });
 
@@ -160,6 +159,7 @@ export class DashboardComponent implements AfterViewInit {
       { value: 'all', label: `Toutes (${numberESN + numberOther})` },
       { value: 'esn', label: `ESN (${numberESN})` },
       { value: 'other', label: `Autres (${numberOther})` },
+      { value: 'undefined', label: `Non défini (${numberUndefined})` },
     ];
   }
 
@@ -172,6 +172,8 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.partnerService.getCurrentConfiguration().then(config => this.configuration = config);
+
     this.partnerService.getAll().subscribe((partners) => {
       this.originalPartners.set(
         partners.map((p) => ({
@@ -192,14 +194,47 @@ export class DashboardComponent implements AfterViewInit {
       );
       this.countByPack(partners);
       this.countByType(partners);
+      this.countByStep(partners)
     });
+  }
+  countByStep(partners: Company[]) {
+    const counter: { [key: string ]: number} = {
+      'sign': 0,
+      'generated': 0,
+      'validated': 0,
+      'paid': 0,
+      'received': 0,
+      'communicated': 0
+    }
+
+    partners.forEach(partner => {
+      Object.entries(partner.status ?? {}).forEach(([ step, status]) => {
+        console.log({ step, status })
+        if(status === 'pending'){
+          counter[step] += 1
+        }
+      })
+    })
+
+    this.filterByStatus = [
+      { value: 'validated', label: `Valider (${counter['validated']})` },
+      { value: 'generated', label: `Informations complémentaires (${counter['generated']})` },
+      { value: 'sign', label: `Signature (${counter['sign']})` },
+      { value: 'paid', label: `Paiement (${counter['paid']})` },
+      { value: 'received', label: `Eléments de communication (${counter['received']})` },
+      { value: 'communicated', label: `Communication (${counter['communicated']})` },
+    ]
   }
 
   filterByPackHandler(pack: FilterByPackValueType) {
     this.filterByPackValue.set(pack);
   }
 
-  filterByTypeHandler(type: FilterByTypeValueType) {
+  ffilterByStatusValueHandler(value: FilterValueType) {
+    this.filterByStatusValue.set(value);
+  }
+
+  filterByTypeHandler(type: FilterByType) {
     this.filterByTypeValue.set(type);
   }
 
@@ -211,5 +246,9 @@ export class DashboardComponent implements AfterViewInit {
       .flat()
       .join(';');
     navigator.clipboard.writeText(emails);
+  }
+
+  changeVisibility(){
+    return this.partnerService.updateVisibility(!this.configuration.enabled)
   }
 }

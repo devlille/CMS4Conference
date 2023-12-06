@@ -1,9 +1,11 @@
 <mat-card>
+
+
   <mat-card-title>Filter</mat-card-title>
   <p>Par Statut</p>
   <mat-button-toggle-group
-    [ngModel]="filterValue"
-    (ngModelChange)="filterByValue($event)"
+    [ngModel]="filterByStatusValue"
+    (ngModelChange)="ffilterByStatusValueHandler($event)"
   >
     @for (option of filterByStatus; track option) {
       <mat-button-toggle [value]="option.value">{{
@@ -45,6 +47,16 @@
   color="primary"
 >
   Copier les emails des sociétés affichées
+</button>
+
+<button
+id="public"
+type="button"
+mat-raised-button
+color="primary"
+(click)="changeVisibility()"
+>
+Inverser la visibilité du formulaire
 </button>
 
 <table

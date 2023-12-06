@@ -15,6 +15,7 @@ service cloud.firestore {
     }
     match /configuration/{configurationId} {
       allow get: if true;
+      allow update: if isGdgLille();
     }
   }
 }

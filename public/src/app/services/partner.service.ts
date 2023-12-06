@@ -49,6 +49,12 @@ export class PartnerService {
     return data as Configuration;
   }
 
+  public async updateVisibility(enabled: boolean) {
+    return updateDoc(doc(this.firestore, 'configuration/invoice_2024'), {
+      enabled
+    })
+  }
+
   private convertEmailsToArray(emails: string | string[]): string[] {
     return Array.isArray(emails)
       ? emails

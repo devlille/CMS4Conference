@@ -183,10 +183,10 @@ export class DashboardComponent implements AfterViewInit {
           sponsoring: p.sponsoring,
           secondSponsoring: p.secondSponsoring,
           creationDate: p.creationDate,
-          formattedDate: new Intl.DateTimeFormat('fr', {
+          formattedDate: p.creationDate ? new Intl.DateTimeFormat('fr', {
             dateStyle: 'full',
             timeStyle: 'long',
-          } as any).format((p.creationDate as Timestamp).toDate()),
+          } as any).format((p.creationDate as Timestamp).toDate()) : '',
           pending: this.getPendingStatus(p.status),
           type: p.type,
           needAction: !!p.conventionSignedUrl && p.status!.sign === 'pending',

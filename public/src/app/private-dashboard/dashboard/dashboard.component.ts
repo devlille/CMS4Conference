@@ -189,7 +189,7 @@ export class DashboardComponent implements AfterViewInit {
           } as any).format((p.creationDate as Timestamp).toDate()) : '',
           pending: this.getPendingStatus(p.status),
           type: p.type,
-          needAction: !!p.conventionSignedUrl && p.status!.sign === 'pending',
+          needAction: (!!p.conventionSignedUrl && p.status!.sign === 'pending') || (p.status!.generated === 'pending' && !!p.address),
         })),
       );
       this.countByPack(partners);
@@ -230,7 +230,7 @@ export class DashboardComponent implements AfterViewInit {
     this.filterByPackValue.set(pack);
   }
 
-  ffilterByStatusValueHandler(value: FilterValueType) {
+  filterByStatusValueHandler(value: FilterValueType) {
     this.filterByStatusValue.set(value);
   }
 

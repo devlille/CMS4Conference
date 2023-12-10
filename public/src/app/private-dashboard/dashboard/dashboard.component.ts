@@ -7,7 +7,12 @@ import {
   computed,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Company, Configuration, PartnerType, WorkflowStatus } from '../../model/company';
+import {
+  Company,
+  Configuration,
+  PartnerType,
+  WorkflowStatus,
+} from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
 import { Timestamp } from '@angular/fire/firestore';
 import { MatRadioModule } from '@angular/material/radio';
@@ -24,8 +29,7 @@ type FilterValueType =
   | 'validated'
   | 'paid'
   | 'received'
-  | 'communicated'
-  | 'all';
+  | 'communicated';
 type FilterByPackValueType =
   | 'Platinium'
   | 'Gold'
@@ -33,7 +37,7 @@ type FilterByPackValueType =
   | 'Bronze'
   | 'Party'
   | 'all';
-type FilterByType = PartnerType | 'all' | 'undefined';
+type FilterByType = PartnerType | 'undefined';
 
 @Component({
   selector: 'cms-dashboard',
@@ -68,29 +72,37 @@ export class DashboardComponent implements AfterViewInit {
   filterByStatus: { value: FilterValueType; label: string }[] = [];
   filterByType: { value: FilterByType; label: string }[] = [];
 
-
   originalPartners = signal<Partial<Company>[]>([]);
-  filterValue = signal<FilterValueType>('all');
-  filterByStatusValue = signal<FilterValueType>('all');
-  filterByPackValue = signal<FilterByPackValueType>('all');
-  filterByTypeValue = signal<FilterByType>('all');
+  filterByStatusValue = signal<FilterValueType[]>(['validated']);
+  filterByPackValue = signal<FilterByPackValueType[]>([
+    'Platinium',
+    'Gold',
+    'Silver',
+    'Bronze',
+    'Party',
+  ]);
+  filterByTypeValue = signal<FilterByType[]>(['esn', 'other', 'undefined']);
   dataSource = computed(() => {
-    const pack = this.filterByPackValue();
-    const type = this.filterByTypeValue();
+    const packs = this.filterByPackValue();
+    const types = this.filterByTypeValue();
     const filterValue = this.filterByStatusValue();
 
+    console.log(this.originalPartners(), 'lol', filterValue);
     const dataSource = new MatTableDataSource(
       this.originalPartners()
-        .filter((partner) => pack === 'all' || partner.sponsoring === pack)
         .filter(
           (partner) =>
-            filterValue === 'all' || partner.pending!.indexOf(filterValue) >= 0,
+            packs.indexOf(partner.sponsoring! as FilterByPackValueType) >= 0,
+        )
+        .filter((partner) =>
+          filterValue.find(
+            (v) => !!partner.status && partner.status[v] === 'pending',
+          ),
         )
         .filter((partner) => {
           return (
-            type === 'all' ||
-            partner.type === type ||
-            (!partner.type && type === 'undefined')
+            types.indexOf(partner.type!) >= 0 ||
+            (!partner.type && types.indexOf('undefined') >= 0)
           );
         }),
     );
@@ -100,16 +112,6 @@ export class DashboardComponent implements AfterViewInit {
   });
 
   private readonly partnerService: PartnerService = inject(PartnerService);
-
-  private getPendingStatus(status: WorkflowStatus | undefined) {
-    if (!status) {
-      return '';
-    }
-    return Object.entries(status)
-      .filter(([key, value]) => value === 'pending')
-      .map(([key, value]) => key)
-      .join(',');
-  }
 
   private countByPack(partners: Company[]) {
     let platiniumCount = 0;
@@ -148,15 +150,14 @@ export class DashboardComponent implements AfterViewInit {
     partners.forEach((partner) => {
       if (partner.type === 'esn') {
         numberESN++;
-      } else if(partner.type === 'other') {
+      } else if (partner.type === 'other') {
         numberOther++;
       } else {
-        numberUndefined++
+        numberUndefined++;
       }
     });
 
     this.filterByType = [
-      { value: 'all', label: `Toutes (${numberESN + numberOther})` },
       { value: 'esn', label: `ESN (${numberESN})` },
       { value: 'other', label: `Autres (${numberOther})` },
       { value: 'undefined', label: `Non défini (${numberUndefined})` },
@@ -167,12 +168,14 @@ export class DashboardComponent implements AfterViewInit {
     this.partnerService.update(id, { archived: true });
   }
 
-  filterByValue(filterValue: FilterValueType) {
-    this.filterValue.set(filterValue);
+  filterByValue(filterValue: FilterValueType[]) {
+    this.filterByStatusValue.set(filterValue);
   }
 
   ngAfterViewInit() {
-    this.partnerService.getCurrentConfiguration().then(config => this.configuration = config);
+    this.partnerService
+      .getCurrentConfiguration()
+      .then((config) => (this.configuration = config));
 
     this.partnerService.getAll().subscribe((partners) => {
       this.originalPartners.set(
@@ -183,58 +186,71 @@ export class DashboardComponent implements AfterViewInit {
           sponsoring: p.sponsoring,
           secondSponsoring: p.secondSponsoring,
           creationDate: p.creationDate,
-          formattedDate: p.creationDate ? new Intl.DateTimeFormat('fr', {
-            dateStyle: 'full',
-            timeStyle: 'long',
-          } as any).format((p.creationDate as Timestamp).toDate()) : '',
-          pending: this.getPendingStatus(p.status),
+          formattedDate: p.creationDate
+            ? new Intl.DateTimeFormat('fr', {
+                dateStyle: 'full',
+                timeStyle: 'long',
+              } as any).format((p.creationDate as Timestamp).toDate())
+            : '',
           type: p.type,
-          needAction: (!!p.conventionSignedUrl && p.status!.sign === 'pending') || (p.status!.generated === 'pending' && !!p.address),
+          status: p.status,
+          needAction:
+            (!!p.conventionSignedUrl && p.status!.sign === 'pending') ||
+            (p.status!.generated === 'pending' && !!p.address),
         })),
       );
       this.countByPack(partners);
       this.countByType(partners);
-      this.countByStep(partners)
+      this.countByStep(partners);
     });
   }
   countByStep(partners: Company[]) {
-    const counter: { [key: string ]: number} = {
-      'sign': 0,
-      'generated': 0,
-      'validated': 0,
-      'paid': 0,
-      'received': 0,
-      'communicated': 0
-    }
+    const counter: { [key: string]: number } = {
+      sign: 0,
+      generated: 0,
+      validated: 0,
+      paid: 0,
+      received: 0,
+      communicated: 0,
+    };
 
-    partners.forEach(partner => {
-      Object.entries(partner.status ?? {}).forEach(([ step, status]) => {
-        console.log({ step, status })
-        if(status === 'pending'){
-          counter[step] += 1
+    partners.forEach((partner) => {
+      Object.entries(partner.status ?? {}).forEach(([step, status]) => {
+        console.log({ step, status });
+        if (status === 'pending') {
+          counter[step] += 1;
         }
-      })
-    })
+      });
+    });
 
     this.filterByStatus = [
       { value: 'validated', label: `Valider (${counter['validated']})` },
-      { value: 'generated', label: `Informations complémentaires (${counter['generated']})` },
+      {
+        value: 'generated',
+        label: `Informations complémentaires (${counter['generated']})`,
+      },
       { value: 'sign', label: `Signature (${counter['sign']})` },
       { value: 'paid', label: `Paiement (${counter['paid']})` },
-      { value: 'received', label: `Eléments de communication (${counter['received']})` },
-      { value: 'communicated', label: `Communication (${counter['communicated']})` },
-    ]
+      {
+        value: 'received',
+        label: `Eléments de communication (${counter['received']})`,
+      },
+      {
+        value: 'communicated',
+        label: `Communication (${counter['communicated']})`,
+      },
+    ];
   }
 
-  filterByPackHandler(pack: FilterByPackValueType) {
+  filterByPackHandler(pack: FilterByPackValueType[]) {
     this.filterByPackValue.set(pack);
   }
 
-  filterByStatusValueHandler(value: FilterValueType) {
-    this.filterByStatusValue.set(value);
+  filterByStatusValueHandler(values: FilterValueType[]) {
+    this.filterByStatusValue.set(values);
   }
 
-  filterByTypeHandler(type: FilterByType) {
+  filterByTypeHandler(type: FilterByType[]) {
     this.filterByTypeValue.set(type);
   }
 
@@ -248,7 +264,7 @@ export class DashboardComponent implements AfterViewInit {
     navigator.clipboard.writeText(emails);
   }
 
-  changeVisibility(){
-    return this.partnerService.updateVisibility(!this.configuration.enabled)
+  changeVisibility() {
+    return this.partnerService.updateVisibility(!this.configuration.enabled);
   }
 }

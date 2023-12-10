@@ -56,6 +56,9 @@ export class WorkflowComponent {
   }
 
   applyWorkflow(workflow: Workflow) {
+    if(!workflow){
+      return;
+    }
     workflow.steps = workflow.steps
       .sort((s1, s2) => s1.order - s2.order)
       .map((step: WorkflowStep) => {

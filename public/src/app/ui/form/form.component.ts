@@ -78,39 +78,43 @@ export class FormComponent {
 
   async ngOnInit() {
     const config = (await this.partnerService.getCurrentConfiguration());
-    this.enabled = config.enabled;
-    this.options = [
-      {
-        value: 'Platinium',
-        label: 'Platinium',
-        enabled: config.platinium > 0,
-      },
-      {
-        value: 'Gold',
-        label: 'Gold',
-        enabled: config.gold > 0,
-      },
-      {
-        value: 'Silver',
-        label: 'Silver',
-        enabled: config.silver > 0,
-      },
-      {
-        value: 'Bronze',
-        label: 'Bronze',
-        enabled: config.bronze > 0,
-      },
-      {
-        value: 'Party',
-        label: 'Party',
-        enabled: config.party > 0,
-      },
-      {
-        value: 'Newsletter',
-        label: 'Etre notifié pour le Devfest Lille 2025',
-        enabled: true,
-      },
-    ];
+
+    if(!!config){
+      this.enabled = config.enabled;
+      this.options = [
+        {
+          value: 'Platinium',
+          label: 'Platinium',
+          enabled: config.platinium > 0,
+        },
+        {
+          value: 'Gold',
+          label: 'Gold',
+          enabled: config.gold > 0,
+        },
+        {
+          value: 'Silver',
+          label: 'Silver',
+          enabled: config.silver > 0,
+        },
+        {
+          value: 'Bronze',
+          label: 'Bronze',
+          enabled: config.bronze > 0,
+        },
+        {
+          value: 'Party',
+          label: 'Party',
+          enabled: config.party > 0,
+        },
+        {
+          value: 'Newsletter',
+          label: 'Etre notifié pour le Devfest Lille 2025',
+          enabled: true,
+        },
+      ];  
+    }
+    
     this.company.subscribe((c) => {
       this.updatedCompany = c;
       this.companyProfile = this.initFormGroup(c);

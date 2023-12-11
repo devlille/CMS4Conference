@@ -63,7 +63,7 @@ As indicated in the invoice, here are the Banking Information of the association
 - BIC CMCIFRPP
 
 <% if (SPONSORING !== 'Bronze' && SPONSORING !== 'Party') { %>
-The Partner is committed to install its stand on May, the 25th. A security team will be present the night of the 25th of May in the exhibition room.
+The Partner is committed to install its stand on June, the 5th. A security team will be present the night in the exhibition room.
 <% } %>
 
 

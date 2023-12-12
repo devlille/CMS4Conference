@@ -42,18 +42,22 @@ export class UploadComponent {
   public id = Math.random().toString(36).substring(2);
   public fileInputId: string;
   public fileName = '';
+  inputFileName: string | undefined;
 
   constructor() {
     this.fileInputId = `input-file-${this.id}`;
   }
 
   uploadFileEvent(event: any) {
+    if(!event.target.files[0]){
+      return;
+    }
     this.fileName = event.target.files[0].name;
     this.uploaded = true;
     const files = event.target.files;
     this.uploadFile.emit(files[0]);
   }
-  inputFileName: string | undefined;
+  
 
   onClick() {
     if (this.fileUpload) this.fileUpload.nativeElement.click();

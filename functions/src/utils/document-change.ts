@@ -4,6 +4,8 @@ import partnershipGenerated from "./steps/partnershipGenerated";
 import { sendEmailToAllContacts } from "./mail";
 import { generateAndStoreInvoice, generateAndStoreProformaInvoiceAndConvention } from "./files";
 import PaymentReceivedFactory from "../emails/template/step-3-payment-received";
+import ConventionSignedFactory from "../emails/template/convention-signed";
+
 import CommunicationScheduledFactory from "../emails/template/step-4-communcation-scheduled";
 import BilletWebUrlFactory from "../emails/template/step-5-billet-web-url";
 import decreasePacks from "./steps/decreasePacks";
@@ -25,7 +27,17 @@ export async function onDocumentChange(
 ) {
   console.log(`onDocumentChange ${id}: ${JSON.stringify(before.status)} -> ${JSON.stringify(after.status)}`);
   const status = after.status;
-  if (
+  if(status.generated === StatusEnum.PENDING){
+    if(!!after.address && !!after.zipCode && !!after.city && !!after.siret && !!after.representant && !!after.role){
+      return firestore.doc("companies-2024/" + id).update({
+        status: {
+          ...status,
+          generated: StatusEnum.DONE,
+        },
+      });
+    }
+  }
+  else if (
     before.status.generated !== status.generated &&
     ((status.generated === StatusEnum.DONE && before.status.generated !== StatusEnum.RETRY) ||
       status.generated === StatusEnum.RETRY)
@@ -46,6 +58,13 @@ export async function onDocumentChange(
   } else if (before.status.validated !== status.validated && status.validated === StatusEnum.REFUSED) {
     await sendKoEmails(after, settings);
   } else if (before.status.sign !== status.sign && status.sign === StatusEnum.DONE) {
+    const emailTemplate = ConventionSignedFactory(
+      after,
+      `${settings.hosting.baseurl}/partner/${id}`,
+      settings.convention.edition
+    );
+    sendEmailToAllContacts(after, emailTemplate, settings);
+
     return firestore.doc("companies-2024/" + id).update({
       status: {
         ...status,

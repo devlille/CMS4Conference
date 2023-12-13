@@ -1,6 +1,4 @@
 <mat-card>
-
-
   <mat-card-title>Filter</mat-card-title>
   <p>Par Statut</p>
   <mat-button-toggle-group
@@ -53,14 +51,26 @@
 </button>
 
 <button
-id="public"
-type="button"
-mat-raised-button
-color="primary"
-(click)="changeVisibility()"
+  id="public"
+  type="button"
+  mat-raised-button
+  color="primary"
+  (click)="changeVisibility()"
 >
-Inverser la visibilité du formulaire
+  Inverser la visibilité du formulaire
 </button>
+
+@if (shouldDisplayRelanceButton()) {
+  <button
+    id="relance"
+    type="button"
+    mat-raised-button
+    color="primary"
+    (click)="relance()"
+  >
+    Relancer ces partenaires
+  </button>
+}
 
 <table
   matSort

@@ -22,6 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import {HttpClientModule, HttpClient} from '@angular/common/http';
 
 type FilterValueType =
   | 'sign'
@@ -51,6 +52,7 @@ type FilterByType = PartnerType | 'undefined';
     MatButtonModule,
     MatSortModule,
     MatButtonToggleModule,
+    HttpClientModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
@@ -71,9 +73,9 @@ export class DashboardComponent implements AfterViewInit {
   filterByPack: { value: FilterByPackValueType; label: string }[] = [];
   filterByStatus: { value: FilterValueType; label: string }[] = [];
   filterByType: { value: FilterByType; label: string }[] = [];
-
+  
   originalPartners = signal<Partial<Company>[]>([]);
-  filterByStatusValue = signal<FilterValueType[]>(['validated']);
+  filterByStatusValue = signal<FilterValueType[]>(['validated', 'generated', 'sign', 'paid', 'received', 'communicated']);
   filterByPackValue = signal<FilterByPackValueType[]>([
     'Platinium',
     'Gold',
@@ -81,6 +83,11 @@ export class DashboardComponent implements AfterViewInit {
     'Bronze',
     'Party',
   ]);
+
+  shouldDisplayRelanceButton = computed(() => {
+    const status = this.filterByStatusValue();
+    return status.length === 1 && ["generated", "sign", "paid"].indexOf(status[0]) >= 0
+  })
   filterByTypeValue = signal<FilterByType[]>(['esn', 'other', 'undefined']);
   dataSource = computed(() => {
     const packs = this.filterByPackValue();
@@ -112,7 +119,20 @@ export class DashboardComponent implements AfterViewInit {
   });
 
   private readonly partnerService: PartnerService = inject(PartnerService);
+  private readonly httpClient: HttpClient = inject(HttpClient);
 
+  relance(){
+    const status = this.filterByStatusValue();
+    if(status[0] === 'generated'){
+      return this.httpClient.get('https://us-central1-cms4partners-ce427.cloudfunctions.net/relanceInformationPourGeneration').subscribe()
+    } else if(status[0] === 'sign'){
+      return this.httpClient.get('https://us-central1-cms4partners-ce427.cloudfunctions.net/relancePartnaireConventionASigner').subscribe()
+    } else if(status[0] === 'paid'){
+      return this.httpClient.get('https://us-central1-cms4partners-ce427.cloudfunctions.net/relancePartnaireFacture').subscribe()
+    }
+
+    return;
+  }
   private countByPack(partners: Company[]) {
     let platiniumCount = 0;
     let goldCount = 0;

@@ -1,10 +1,13 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import { sendEmail, sendEmailToAllContacts } from "./utils/mail";
-import { onDocumentChange } from "./utils/document-change";
+import { StatusEnum, onDocumentChange } from "./utils/document-change";
 import { DocumentData, Timestamp } from "@google-cloud/firestore";
+import relanceConventionSignee from "./emails/template/relanceConventionSignee";
 
 import WelcomeEmailFactory from "./emails/template/step-1-partnership-demand";
+import relancePaiement from "./emails/template/relancePaiement";
+import relanceInformationsComplementaires from "./emails/template/relanceInformationsComplementaires";
 admin.initializeApp();
 const firestore = admin.firestore();
 
@@ -35,6 +38,39 @@ function updatesStatus(id: string, company: any, status: any) {
     })
     .catch((err) => console.log(err));
 }
+
+const relance = (emailFactory: any, partners: any[]) => {
+  const settings = functions.config();
+  partners.forEach((c: any) => {
+    const emailTemplate = emailFactory(
+      c,
+      `${settings.hosting.baseurl}/partner/${c.id}`,
+      settings.convention.edition
+    );
+    sendEmailToAllContacts(c, emailTemplate, settings);
+  });
+}
+export const relancePartnaireConventionASigner = functions.https.onRequest(async (req, res) => {
+  const data = await firestore.collection("companies-2024").get();
+  const partners = data.docs.map((d) => d.data()).filter((p) => p.status.sign === StatusEnum.PENDING);
+  relance(relanceConventionSignee, partners);
+  res.send("ok");
+});
+
+export const relancePartnaireFacture = functions.https.onRequest(async (req, res) => {
+  const data = await firestore.collection("companies-2024").get();
+  const partners = data.docs.map((d) => d.data()).filter((p) => p.status.paid === StatusEnum.PENDING);
+  relance(relancePaiement, partners);
+  res.send("ok");
+});
+
+export const relanceInformationPourGeneration = functions.https.onRequest(async (req, res) => {
+  const data = await firestore.collection("companies-2024").get();
+  const partners = data.docs.map((d) => d.data()).filter((p) => p.status.generated === StatusEnum.PENDING);
+  relance(relanceInformationsComplementaires, partners);
+  res.send("ok");
+});
+
 export const newPartner = functions.firestore.document("companies-2024/{companyId}").onCreate(async (snap) => {
   const company = snap.data() || {};
   const id = snap.id;

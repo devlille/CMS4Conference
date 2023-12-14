@@ -18,7 +18,6 @@ export class AppComponent {
 
     private auth: Auth = inject(Auth);
     constructor() {
-        console.log(this.auth.currentUser);
         this.auth.onAuthStateChanged(state => {
             this.isLoggedIn = !!state?.email?.endsWith('@gdglille.org');
         });

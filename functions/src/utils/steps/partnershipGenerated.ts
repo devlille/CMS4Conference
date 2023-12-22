@@ -14,7 +14,7 @@ export default (company: DocumentData, id: string, settings: any, shouldSendEmai
       PartnerhipGeneratedFactory(
         company,
         dateTimeFormat.format(date),
-        `${settings.hosting.baseurl}/partner/${id}`,
+        `${settings.hosting.baseurl}/partner/${id}`,    
         settings.convention.edition
       ),
       settings

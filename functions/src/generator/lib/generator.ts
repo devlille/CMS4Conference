@@ -7,7 +7,10 @@ import ConventionFr from "../templates/convention_fr";
 import InvoiceFr from "../templates/invoice_fr";
 import ProformaInvoiceFr from "../templates/proforma_invoice_fr";
 
-function getSponsoringFees(sponsoring: string): [string, number, number] {
+function getSponsoringFees(sponsoring: string, partner: any): [string, number, number] {
+  if(partner.name === "WeLoveDevs.com"){
+    return ["deux milles euros", 2000, 6];
+  }
   switch (sponsoring) {
     case "Party":
       return ["cinq milles euros", 5000, 4];
@@ -35,7 +38,7 @@ function generateFile(config: any, fileName: string, file: any, settings: any, i
     year: "numeric",
   }).format(new Date());
 
-  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(config.sponsoring);
+  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(config.sponsoring, config);
   return new Promise((resolve, reject) => {
     const data = {
       COMPANY: getOfficialName(),

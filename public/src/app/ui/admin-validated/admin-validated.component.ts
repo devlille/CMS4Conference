@@ -42,9 +42,51 @@ export class AdminValidatedComponent {
   private readonly storageService = inject(StorageService);
   private readonly auth = inject(Auth);
 
+  options: { value: string; label: string }[] = [];
   ngOnInit() {
     this.auth.onAuthStateChanged((state) => {
       this.isAdmin = state?.email?.endsWith('@gdglille.org') ?? false;
+
+      const options = [
+        {
+          value: 'Platinium',
+          label: 'Platinium',
+        },
+        {
+          value: 'Gold',
+          label: 'Gold',
+        },
+        {
+          value: 'Silver',
+          label: 'Silver',
+        },
+        {
+          value: 'Bronze',
+          label: 'Bronze',
+        },
+        {
+          value: 'Party',
+          label: 'Party',
+        },
+        {
+          value: 'Newsletter',
+          label: 'Etre notifié pour le Devfest Lille 2025',
+        },
+      ];
+      if (this.isAdmin) {
+        this.options = options;
+      } else {
+        this.options = [
+          options.find(({ value }) => value === this.company?.sponsoring)!,
+        ];
+        if (this.company?.secondSponsoring) {
+          this.options.push(
+            options.find(
+              ({ value }) => value === this.company?.secondSponsoring,
+            )!,
+          );
+        }
+      }
     });
     if (!this.company) {
       return;

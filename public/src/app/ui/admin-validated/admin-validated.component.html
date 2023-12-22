@@ -1,54 +1,53 @@
-@if (!isAdmin) { @if (company?.status?.validated !== 'done') {
-
-<p>
-  Etant donné la forte affluence des demandes de partenariat, nous reviendrons
-  vers vous par email dans une dizaine de jours maximum pour vous valider la
-  réservation du pack <strong>{{ company?.sponsoring }}</strong> ou de votre
-  choix de pack sponsor de replis le cas échéant.
-</p>
-
-} @if (company?.status?.validated === 'done') {
-
-<p>
-  Bonne nouvelle ! Votre demande de pack
-  <strong>{{ company?.sponsoring }}</strong> pour le Devfest Lille 2024 a été
-  validé.
-</p>
-<p>
-  Veuillez remplir dans l'étape suivante les informations qui seront utilisées
-  pour la génération de la convention et de la facture.
-</p>
-
-} } @if (isAdmin) {
-<div class="file-bloc">
-  <mat-form-field class="full-width">
-    <mat-label>Sponsoring</mat-label>
-    <select matNativeControl required [(ngModel)]="choice">
-      <option [value]="company?.sponsoring">{{ company?.sponsoring }}</option>
-      <option [value]="company?.secondSponsoring">
-        {{ company?.secondSponsoring }}
-      </option>
-    </select>
-  </mat-form-field>
-</div>
-
-<br />
-
-<div class="inline-bloc">
-  <button mat-raised-button color="primary" (click)="updateSponsoring()">
-    <mat-icon>save</mat-icon>
-    Sauvegarder
-  </button>
-  @if (company?.status?.validated !== 'done') {
-    <button mat-raised-button color="primary" (click)="setDone()">
-      <mat-icon>send</mat-icon>
-      Valider le partenaire
-    </button>
-  <button mat-raised-button color="primary" (click)="setKo()">
-    <mat-icon>send</mat-icon>
-    Envoyer un email de refus
-  </button>
+@if (!isAdmin) {
+  @if (company?.status?.validated !== "done") {
+    <p>
+      Etant donné la forte affluence des demandes de partenariat, nous
+      reviendrons vers vous par email dans une dizaine de jours maximum pour
+      vous valider la réservation du pack
+      <strong>{{ company?.sponsoring }}</strong> ou de votre choix de pack
+      sponsor de replis le cas échéant.
+    </p>
   }
-</div>
+  @if (company?.status?.validated === "done") {
+    <p>
+      Bonne nouvelle ! Votre demande de pack
+      <strong>{{ company?.sponsoring }}</strong> pour le Devfest Lille 2024 a
+      été validé.
+    </p>
+    <p>
+      Veuillez remplir dans l'étape suivante les informations qui seront
+      utilisées pour la génération de la convention et de la facture.
+    </p>
+  }
+}
+@if (isAdmin) {
+  <div class="file-bloc">
+    <mat-form-field class="full-width">
+      <mat-label>Sponsoring</mat-label>
+      <select matNativeControl required [(ngModel)]="choice">
+        @for (option of options; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </mat-form-field>
+  </div>
 
+  <br />
+
+  <div class="inline-bloc">
+    <button mat-raised-button color="primary" (click)="updateSponsoring()">
+      <mat-icon>save</mat-icon>
+      Sauvegarder
+    </button>
+    @if (company?.status?.validated !== "done") {
+      <button mat-raised-button color="primary" (click)="setDone()">
+        <mat-icon>send</mat-icon>
+        Valider le partenaire
+      </button>
+      <button mat-raised-button color="primary" (click)="setKo()">
+        <mat-icon>send</mat-icon>
+        Envoyer un email de refus
+      </button>
+    }
+  </div>
 }

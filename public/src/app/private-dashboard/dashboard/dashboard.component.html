@@ -100,13 +100,6 @@
     <td mat-cell *matCellDef="let element">{{ element.secondSponsoring }}</td>
   </ng-container>
 
-  <ng-container matColumnDef="pending">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>Pending Actions</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.pending }}
-    </td>
-  </ng-container>
-
   <!-- Symbol Column -->
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef>Action</th>

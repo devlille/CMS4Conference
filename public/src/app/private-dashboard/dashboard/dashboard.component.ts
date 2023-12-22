@@ -7,12 +7,7 @@ import {
   computed,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  Company,
-  Configuration,
-  PartnerType,
-  WorkflowStatus,
-} from '../../model/company';
+import { Company, Configuration, PartnerType } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
 import { Timestamp } from '@angular/fire/firestore';
 import { MatRadioModule } from '@angular/material/radio';
@@ -22,7 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import {HttpClientModule, HttpClient} from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 type FilterValueType =
   | 'sign'
@@ -37,7 +32,7 @@ type FilterByPackValueType =
   | 'Silver'
   | 'Bronze'
   | 'Party'
-  | 'all';
+  | 'Newsletter';
 type FilterByType = PartnerType | 'undefined';
 
 @Component({
@@ -52,7 +47,7 @@ type FilterByType = PartnerType | 'undefined';
     MatButtonModule,
     MatSortModule,
     MatButtonToggleModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
@@ -66,35 +61,44 @@ export class DashboardComponent implements AfterViewInit {
     'name',
     'sponsoring',
     'secondSponsoring',
-    'pending',
     'action',
   ];
   partners: Partial<Company>[] = [];
   filterByPack: { value: FilterByPackValueType; label: string }[] = [];
   filterByStatus: { value: FilterValueType; label: string }[] = [];
   filterByType: { value: FilterByType; label: string }[] = [];
-  
+
   originalPartners = signal<Partial<Company>[]>([]);
-  filterByStatusValue = signal<FilterValueType[]>(['validated', 'generated', 'sign', 'paid', 'received', 'communicated']);
+  filterByStatusValue = signal<FilterValueType[]>([
+    'validated',
+    'generated',
+    'sign',
+    'paid',
+    'received',
+    'communicated',
+  ]);
   filterByPackValue = signal<FilterByPackValueType[]>([
     'Platinium',
     'Gold',
     'Silver',
     'Bronze',
     'Party',
+    'Newsletter',
   ]);
 
   shouldDisplayRelanceButton = computed(() => {
     const status = this.filterByStatusValue();
-    return status.length === 1 && ["generated", "sign", "paid"].indexOf(status[0]) >= 0
-  })
+    return (
+      status.length === 1 &&
+      ['generated', 'sign', 'paid'].indexOf(status[0]) >= 0
+    );
+  });
   filterByTypeValue = signal<FilterByType[]>(['esn', 'other', 'undefined']);
   dataSource = computed(() => {
     const packs = this.filterByPackValue();
     const types = this.filterByTypeValue();
     const filterValue = this.filterByStatusValue();
 
-    console.log(this.originalPartners(), 'lol', filterValue);
     const dataSource = new MatTableDataSource(
       this.originalPartners()
         .filter(
@@ -121,14 +125,26 @@ export class DashboardComponent implements AfterViewInit {
   private readonly partnerService: PartnerService = inject(PartnerService);
   private readonly httpClient: HttpClient = inject(HttpClient);
 
-  relance(){
+  relance() {
     const status = this.filterByStatusValue();
-    if(status[0] === 'generated'){
-      return this.httpClient.get('https://us-central1-cms4partners-ce427.cloudfunctions.net/relanceInformationPourGeneration').subscribe()
-    } else if(status[0] === 'sign'){
-      return this.httpClient.get('https://us-central1-cms4partners-ce427.cloudfunctions.net/relancePartnaireConventionASigner').subscribe()
-    } else if(status[0] === 'paid'){
-      return this.httpClient.get('https://us-central1-cms4partners-ce427.cloudfunctions.net/relancePartnaireFacture').subscribe()
+    if (status[0] === 'generated') {
+      return this.httpClient
+        .get(
+          'https://us-central1-cms4partners-ce427.cloudfunctions.net/relanceInformationPourGeneration',
+        )
+        .subscribe();
+    } else if (status[0] === 'sign') {
+      return this.httpClient
+        .get(
+          'https://us-central1-cms4partners-ce427.cloudfunctions.net/relancePartnaireConventionASigner',
+        )
+        .subscribe();
+    } else if (status[0] === 'paid') {
+      return this.httpClient
+        .get(
+          'https://us-central1-cms4partners-ce427.cloudfunctions.net/relancePartnaireFacture',
+        )
+        .subscribe();
     }
 
     return;
@@ -139,6 +155,7 @@ export class DashboardComponent implements AfterViewInit {
     let silverCount = 0;
     let bronzeCount = 0;
     let partyCount = 0;
+    let newsletterCount = 0;
 
     partners.forEach((partner) => {
       if (partner.sponsoring === 'Platinium') {
@@ -151,6 +168,8 @@ export class DashboardComponent implements AfterViewInit {
         bronzeCount++;
       } else if (partner.sponsoring === 'Party') {
         partyCount++;
+      } else if (partner.sponsoring === 'Newsletter') {
+        newsletterCount++;
       }
     });
 
@@ -160,6 +179,7 @@ export class DashboardComponent implements AfterViewInit {
       { value: 'Silver', label: `Silver (${silverCount})` },
       { value: 'Bronze', label: `Bronze (${bronzeCount})` },
       { value: 'Party', label: `Party (${partyCount})` },
+      { value: 'Newsletter', label: `Newsletter (${partyCount})` },
     ];
   }
 
@@ -236,7 +256,6 @@ export class DashboardComponent implements AfterViewInit {
 
     partners.forEach((partner) => {
       Object.entries(partner.status ?? {}).forEach(([step, status]) => {
-        console.log({ step, status });
         if (status === 'pending') {
           counter[step] += 1;
         }

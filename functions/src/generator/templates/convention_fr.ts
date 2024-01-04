@@ -94,12 +94,10 @@ Chacune des parties pourra résilier la convention, de plein droit, à tout mome
 La résiliation à l’initiative du partenaire ne peut en aucun cas donner droit à la restitution de tout ou partie du montant versé par le partenaire lors de la signature de la présente convention, sauf en cas de résiliation liée à un manquement grave de l'Association.
 
 
-## VI - ANNULATION LIE AU COVID
+## VI - ANNULATION
 
 
-Si la pandémie nous ne permet pas d'organiser correctement le Devfest Lille, nous serons bien evidemment obligés de l'annuler. Dans ce cas, l'association devra rembourser
-le partenaire le montant défini dans la section III - OBLIGATIONS DU PARTENAIRE.
-
+L'association sera contrainte d'annuler l'événement en cas de force majeure empêchant l'exécution de l'événement dans le lieu d'accueil prévu initialement. Seront considérés comme cas de force majeure, les événements qui respecteront les conditions de l'Article 1148 du Code Civil ou les événements suivants : grève, lock-out, incendie, inondation, avarie de matériel, émeute, guerre, arrêt de force motrice, suspension des télécommunications. Il en est de même en cas de pandémie. Dans ce cas, l'association s'engage à reprogrammer l'événement à une date ultérieure dans l'année qui suit. Le partenaire pourra alors choisir soit d'être remboursé totalement du montant défini dans la section III - OBLIGATIONS DU PARTENAIRE, soit de reconduire son partenariat à la date qui aura été reprogrammé par l'Association. 
 
 ## VII - MODIFICATIONS
 

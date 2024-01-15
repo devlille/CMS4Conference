@@ -1,16 +1,22 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+import { defineSecret } from "firebase-functions/params";
 import { sendEmail, sendEmailToAllContacts } from "./utils/mail";
 import { StatusEnum, onDocumentChange } from "./utils/document-change";
 import { DocumentData, Timestamp } from "@google-cloud/firestore";
+import { Storage } from '@google-cloud/storage';
 import relanceConventionSignee from "./emails/template/relanceConventionSignee";
 
 import WelcomeEmailFactory from "./emails/template/step-1-partnership-demand";
 import relancePaiement from "./emails/template/relancePaiement";
 import relanceInformationsComplementaires from "./emails/template/relanceInformationsComplementaires";
 import { Settings } from "./model";
+import { saveCompany } from "./conference4hall/save-event";
 admin.initializeApp();
+
+const GEOCODE_API_KEY = defineSecret("GEOCODE_API_KEY");
 const firestore = admin.firestore();
+const storage = new Storage();
 
 function sendWelcomeEmail(
   company: DocumentData,
@@ -109,6 +115,15 @@ La société ${company.name} souhaite devenir partenaire ${company.sponsoring}<b
       validated: "pending",
     });
   });
+
+export const updatePartnerToC4H = functions.runWith({ secrets: [GEOCODE_API_KEY] }).firestore.document("companies-2024/{companyId}").onUpdate(async (changes) => {
+  const newValue = changes.after.data();
+  await saveCompany(firestore, storage, changes.after.id, newValue, {
+    c4hId: "devfest-lille-2024",
+    year: "2024",
+    geocodeApiKey: GEOCODE_API_KEY.value(),
+  });
+})
 
 export const partnershipUpdated = functions.firestore
   .document("companies-2024/{companyId}")

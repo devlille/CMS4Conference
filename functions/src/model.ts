@@ -12,6 +12,7 @@ export type Association = {
     address: string;
     zipcode: string;
     city: string;
+    event: string;
 }
 
 export type Email = {

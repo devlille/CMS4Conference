@@ -8,7 +8,7 @@ import InvoiceFr from "../templates/invoice_fr";
 import ProformaInvoiceFr from "../templates/proforma_invoice_fr";
 import {Settings} from "../../model";
 
-function getSponsoringFees(sponsoring: string, partner: any): [string, number, number] {
+function getSponsoringFees(sponsoring: string): [string, number, number] {
   switch (sponsoring) {
     case "Party":
       return ["cinq milles euros", 5000, 4];
@@ -23,7 +23,7 @@ function getSponsoringFees(sponsoring: string, partner: any): [string, number, n
   }
 }
 
-function generateFile(config: any, fileName: string, file: any, settings: any, invoiceType: any) {
+function generateFile(config: any, fileName: string, file: any, settings: Settings, invoiceType: any) {
   const getOfficialName = () => {
     if (!!config.officialName) {
       return config.officialName;
@@ -36,7 +36,7 @@ function generateFile(config: any, fileName: string, file: any, settings: any, i
     year: "numeric",
   }).format(new Date());
 
-  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(config.sponsoring, config);
+  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(config.sponsoring);
   return new Promise((resolve, reject) => {
     const data = {
       COMPANY: getOfficialName(),

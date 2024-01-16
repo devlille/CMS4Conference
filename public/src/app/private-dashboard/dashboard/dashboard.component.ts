@@ -219,24 +219,17 @@ export class DashboardComponent implements AfterViewInit {
 
     this.partnerService.getAll().subscribe((partners) => {
       this.originalPartners.set(
-        partners.map((p) => ({
-          email: p.email,
-          id: p.id,
-          name: p.name,
-          sponsoring: p.sponsoring,
-          secondSponsoring: p.secondSponsoring,
-          creationDate: p.creationDate,
-          formattedDate: p.creationDate
+        partners.map((partners) => ({
+          ...partners,
+          formattedDate: partners.creationDate
             ? new Intl.DateTimeFormat('fr', {
                 dateStyle: 'full',
                 timeStyle: 'long',
-              } as any).format((p.creationDate as Timestamp).toDate())
+              } as any).format((partners.creationDate as Timestamp).toDate())
             : '',
-          type: p.type,
-          status: p.status,
           needAction:
-            (!!p.conventionSignedUrl && p.status!.sign === 'pending') ||
-            (p.status!.generated === 'pending' && !!p.address),
+            (!!partners.conventionSignedUrl && partners.status!.sign === 'pending') ||
+            (partners.status!.generated === 'pending' && !!partners.address),
         })),
       );
       this.countByPack(partners);

@@ -1,25 +1,12 @@
-import { DocumentData, Timestamp } from "@google-cloud/firestore";
+import { DocumentData } from "@google-cloud/firestore";
 import PartnerhipGeneratedFactory from "../../emails/template/step-partnership-generated";
 import { sendEmailToAllContacts } from "../mail";
-import { addDays } from "date-fns";
 
 import { StatusEnum } from "../document-change";
-import {Settings} from "../../model";
+import { Settings } from "../../model";
 export default (company: DocumentData, id: string, settings: Settings, shouldSendEmail: boolean) => {
   if (shouldSendEmail) {
-    const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
-    const date = addDays((company.creationDate as Timestamp).toDate(), 15);
-    const dateTimeFormat = new Intl.DateTimeFormat("fr-FR", options as any);
-    sendEmailToAllContacts(
-      company,
-      PartnerhipGeneratedFactory(
-        company,
-        dateTimeFormat.format(date),
-        `${settings.hosting.baseurl}/partner/${id}`,    
-        settings.convention.edition
-      ),
-      settings
-    );
+    sendEmailToAllContacts(company, PartnerhipGeneratedFactory(company, id, settings), settings);
   }
 
   return {

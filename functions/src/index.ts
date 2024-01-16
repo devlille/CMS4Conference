@@ -15,8 +15,8 @@ const firestore = admin.firestore();
 function sendWelcomeEmail(company: DocumentData, id: string, settings: Settings) {
   const emailTemplate = WelcomeEmailFactory(
     company,
-    `${settings.hosting.baseurl}/partner/${id}`,
-    settings.convention.edition
+    id,
+    settings
   );
   return sendEmailToAllContacts(company, emailTemplate, settings);
 }
@@ -40,9 +40,9 @@ function updatesStatus(id: string, company: any, status: any) {
     .catch((err) => console.log(err));
 }
 
-const relance = (emailFactory: any, partners: any[], settings: Settings) => {
+const relance = (emailFactory: (partner: Record<string, any>, settings: Settings) => any, partners: any[], settings: Settings) => {
   partners.forEach((c: any) => {
-    const emailTemplate = emailFactory(c, `${settings.hosting.baseurl}/partner/${c.id}`, settings.convention.edition);
+    const emailTemplate = emailFactory(c, settings);
     sendEmailToAllContacts(c, emailTemplate, settings);
   });
 };
@@ -96,7 +96,7 @@ export const partnershipUpdated = functions.firestore.document("companies-2024/{
   }
   const id = changes.after.id;
 
-  return onDocumentChange(firestore, before, after, id, functions.config());
+  return onDocumentChange(firestore, before, after, id, functions.config() as Settings);
 });
 
 exports.updateConventionSignedUrlProperty = functions.storage.object().onFinalize(async (object) => {

@@ -9,7 +9,7 @@ export default (
   const edition = settings.convention.edition;
   const address_cms4devfest = `${settings.hosting.baseurl}/partner/${id}`;
   return ({
-    subject: `Partenariat Devfest Lille ${edition}: Informations Complémentaires à renseigner`,
+    subject: `Partenariat ${settings.gdg.event} ${edition}: Informations Complémentaires à renseigner`,
     body: `
   Bonjour
   <br><br>
@@ -19,7 +19,7 @@ export default (
   <br><br>
   Une fois les informations fournies, nous pourrons générer la convention et la facture.
   <br><br>
-  Nous restons à votre disposition pour tout complément via l'adresse email contact@gdglille.org.
+  Nous restons à votre disposition pour tout complément via l'adresse email ${settings.mail.from}.
   <br><br>
   Cordialement     
   <br><br>

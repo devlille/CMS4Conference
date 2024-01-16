@@ -6,7 +6,7 @@ import ConventionEn from "../templates/convention_en";
 import ConventionFr from "../templates/convention_fr";
 import InvoiceFr from "../templates/invoice_fr";
 import ProformaInvoiceFr from "../templates/proforma_invoice_fr";
-import {Settings} from "../../model";
+import { Settings } from "../../model";
 
 function getSponsoringFees(sponsoring: string): [string, number, number] {
   switch (sponsoring) {
@@ -19,11 +19,17 @@ function getSponsoringFees(sponsoring: string): [string, number, number] {
     case "Gold":
       return ["neuf milles euros", 9000, 10];
     default:
-      return ["mille deux cents euros", 1200, 12];
+      return ["mille deux cents euros", 12000, 12];
   }
 }
 
-function generateFile(config: any, fileName: string, file: any, settings: Settings, invoiceType: any) {
+function generateFile(
+  config: any,
+  fileName: string,
+  file: any,
+  settings: Settings,
+  invoiceType: any,
+) {
   const getOfficialName = () => {
     if (!!config.officialName) {
       return config.officialName;
@@ -36,7 +42,9 @@ function generateFile(config: any, fileName: string, file: any, settings: Settin
     year: "numeric",
   }).format(new Date());
 
-  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(config.sponsoring);
+  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(
+    config.sponsoring,
+  );
   return new Promise((resolve, reject) => {
     const data = {
       COMPANY: getOfficialName(),
@@ -81,16 +89,40 @@ function generateFile(config: any, fileName: string, file: any, settings: Settin
 }
 
 export function generateProformaInvoice(config: any, settings: Settings) {
-  return generateFile(config, `proforma_invoice_${config.id}.pdf`, ProformaInvoiceFr, settings, "FACTURE PRO FORMA");
+  return generateFile(
+    config,
+    `proforma_invoice_${config.id}.pdf`,
+    ProformaInvoiceFr,
+    settings,
+    "FACTURE PRO FORMA",
+  );
 }
 export function generateDevis(config: any, settings: Settings) {
-  return generateFile(config, `devis_${config.id}.pdf`, ProformaInvoiceFr, settings, "DEVIS");
+  return generateFile(
+    config,
+    `devis_${config.id}.pdf`,
+    ProformaInvoiceFr,
+    settings,
+    "DEVIS",
+  );
 }
 export function generateDepositInvoice(config: any, settings: Settings) {
-  return generateFile(config, `deposit_invoice_${config.id}.pdf`, ProformaInvoiceFr, settings, "FACTURE ACCOMPTE 100%");
+  return generateFile(
+    config,
+    `deposit_invoice_${config.id}.pdf`,
+    ProformaInvoiceFr,
+    settings,
+    "FACTURE ACCOMPTE 100%",
+  );
 }
 export function generateInvoice(config: any, settings: Settings) {
-  return generateFile(config, `invoice_${config.id}.pdf`, InvoiceFr, settings, "");
+  return generateFile(
+    config,
+    `invoice_${config.id}.pdf`,
+    InvoiceFr,
+    settings,
+    "",
+  );
 }
 export function generateConvention(config: any, settings: Settings) {
   return generateFile(
@@ -98,6 +130,6 @@ export function generateConvention(config: any, settings: Settings) {
     `convention_${config.id}.pdf`,
     config.lang === "fr" ? ConventionFr : ConventionEn,
     settings,
-    ""
+    "",
   );
 }

@@ -7,8 +7,8 @@ export type Configuration = {
   gold: number;
   platinium: number;
   next_value: string;
-  enabled: boolean
-}
+  enabled: boolean;
+};
 export interface Workflow {
   id: number;
   steps: WorkflowStep[];

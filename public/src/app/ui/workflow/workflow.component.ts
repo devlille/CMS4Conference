@@ -56,7 +56,7 @@ export class WorkflowComponent {
   }
 
   applyWorkflow(workflow: Workflow) {
-    if(!workflow){
+    if (!workflow) {
       return;
     }
     workflow.steps = workflow.steps

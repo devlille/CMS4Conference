@@ -1,4 +1,4 @@
-import {Settings} from "../../model";
+import { Settings } from "../../model";
 
 export default (date: string, settings: Settings) => {
   return {

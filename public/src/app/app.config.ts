@@ -53,8 +53,8 @@ export const appConfig: ApplicationConfig = {
           messagingSenderId: '486924521070',
           appId: '1:486924521070:web:0cb85efacc81b6c896207f',
           measurementId: 'G-S558S2HZ11',
-        })
-      )
+        }),
+      ),
     ),
     importProvidersFrom(provideAuth(() => getAuth())),
     importProvidersFrom(provideFirestore(() => getFirestore())),

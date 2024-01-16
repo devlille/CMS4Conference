@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  inject,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Observable, of } from 'rxjs';
@@ -77,9 +71,9 @@ export class FormComponent {
   private partnerService = inject(PartnerService);
 
   async ngOnInit() {
-    const config = (await this.partnerService.getCurrentConfiguration());
+    const config = await this.partnerService.getCurrentConfiguration();
 
-    if(!!config){
+    if (!!config) {
       this.enabled = config.enabled;
       this.options = [
         {
@@ -112,9 +106,9 @@ export class FormComponent {
           label: 'Etre notifié pour le Devfest Lille 2025',
           enabled: true,
         },
-      ];  
+      ];
     }
-    
+
     this.company.subscribe((c) => {
       this.updatedCompany = c;
       this.companyProfile = this.initFormGroup(c);

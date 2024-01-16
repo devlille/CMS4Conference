@@ -63,11 +63,11 @@ export class StorageService {
   public uploadFile(
     name: string,
     file: Blob,
-    bucket = 'logo'
+    bucket = 'logo',
   ): Promise<string> {
     const storageRef = ref(this.storage, `${bucket}/${name}.pdf`);
     return uploadBytes(storageRef, file).then((snapshot) =>
-      getDownloadURL(snapshot.ref)
+      getDownloadURL(snapshot.ref),
     ) as Promise<string>;
   }
 }

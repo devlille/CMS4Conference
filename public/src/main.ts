@@ -21,5 +21,5 @@ Sentry.init({
 });
 
 bootstrapApplication(AppComponent, appConfig).catch((err) =>
-  console.error(err)
+  console.error(err),
 );

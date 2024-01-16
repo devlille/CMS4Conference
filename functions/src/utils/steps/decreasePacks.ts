@@ -1,4 +1,7 @@
-export default async (firestore: FirebaseFirestore.Firestore, sponsoringType: string) => {
+export default async (
+  firestore: FirebaseFirestore.Firestore,
+  sponsoringType: string,
+) => {
   if (sponsoringType !== "newsletter") {
     const configuration = await firestore
       .doc("configuration/invoice_2024")

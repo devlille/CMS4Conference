@@ -6,8 +6,6 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './sign.component.html',
-  styleUrls: ['./sign.component.scss']
+  styleUrls: ['./sign.component.scss'],
 })
-export class SignComponent {
-
-}
+export class SignComponent {}

@@ -4,9 +4,18 @@ import { sendEmailToAllContacts } from "../mail";
 
 import { StatusEnum } from "../document-change";
 import { Settings } from "../../model";
-export default (company: DocumentData, id: string, settings: Settings, shouldSendEmail: boolean) => {
+export default (
+  company: DocumentData,
+  id: string,
+  settings: Settings,
+  shouldSendEmail: boolean,
+) => {
   if (shouldSendEmail) {
-    sendEmailToAllContacts(company, PartnerhipGeneratedFactory(company, id, settings), settings);
+    sendEmailToAllContacts(
+      company,
+      PartnerhipGeneratedFactory(company, id, settings),
+      settings,
+    );
   }
 
   return {

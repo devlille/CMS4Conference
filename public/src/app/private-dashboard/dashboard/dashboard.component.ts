@@ -228,7 +228,8 @@ export class DashboardComponent implements AfterViewInit {
               } as any).format((partners.creationDate as Timestamp).toDate())
             : '',
           needAction:
-            (!!partners.conventionSignedUrl && partners.status!.sign === 'pending') ||
+            (!!partners.conventionSignedUrl &&
+              partners.status!.sign === 'pending') ||
             (partners.status!.generated === 'pending' && !!partners.address),
         })),
       );

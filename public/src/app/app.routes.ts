@@ -6,28 +6,28 @@ export const routes: Routes = [
     path: '',
     loadComponent: () =>
       import('./register-form/register-form.component').then(
-        (mod) => mod.RegisterFormComponent
+        (mod) => mod.RegisterFormComponent,
       ),
   },
   {
     path: 'partner/:id',
     loadComponent: () =>
       import('./ui/partner/partner.component').then(
-        (mod) => mod.PartnerComponent
+        (mod) => mod.PartnerComponent,
       ),
   },
   {
     path: 'admin',
     loadComponent: () =>
       import('./private-dashboard/dashboard/dashboard.component').then(
-        (mod) => mod.DashboardComponent
+        (mod) => mod.DashboardComponent,
       ),
   },
   {
     path: 'admin/partner/:id',
     loadComponent: () =>
       import('./ui/partner/partner.component').then(
-        (mod) => mod.PartnerComponent
+        (mod) => mod.PartnerComponent,
       ),
   },
 ];

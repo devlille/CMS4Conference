@@ -1,23 +1,13 @@
-@if(!uploaded){
-  <button
-  mat-raised-button
-  color="primary"
-  (click)="onClick()"
->
-  <mat-icon>add</mat-icon>
-  <ng-content></ng-content>
-
-</button>
+@if (!uploaded) {
+  <button mat-raised-button color="primary" (click)="onClick()">
+    <mat-icon>add</mat-icon>
+    <ng-content></ng-content>
+  </button>
 } @else {
-  <button
-  mat-raised-button
-  color="accent"
-  (click)="onClick()"
->
+  <button mat-raised-button color="accent" (click)="onClick()">
     <mat-icon>done</mat-icon>
-  Fichier enregistré
-
-</button>
+    Fichier enregistré
+  </button>
 }
 <input
   #fileUpload
@@ -27,4 +17,3 @@
   [(ngModel)]="inputFileName"
   [accept]="accept"
 />
-

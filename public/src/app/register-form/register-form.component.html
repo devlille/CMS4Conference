@@ -1,12 +1,16 @@
 @if (submitted) {
-<mat-card>
-    <p>Nous avons bien pris en compte votre souhait de devenir partenaire du Devfest Lille 2024 et nous vous en remercions.</p>
+  <mat-card>
     <p>
-        Etant donné la forte affluence des demandes de partenariat, nous reviendrons vers vous par email dans une dizaine de jours maximum
-        pour vous valider la réservation de votre pack.
+      Nous avons bien pris en compte votre souhait de devenir partenaire du
+      Devfest Lille 2024 et nous vous en remercions.
     </p>
-</mat-card>
+    <p>
+      Etant donné la forte affluence des demandes de partenariat, nous
+      reviendrons vers vous par email dans une dizaine de jours maximum pour
+      vous valider la réservation de votre pack.
+    </p>
+  </mat-card>
 }
 @if (!submitted) {
-<cms-form (submitEvent)="createPartner($event)"></cms-form>
+  <cms-form (submitEvent)="createPartner($event)"></cms-form>
 }

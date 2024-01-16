@@ -3,8 +3,17 @@ import { Timestamp } from "@google-cloud/firestore";
 import { DocumentData } from "firebase-admin/firestore";
 import { Settings } from "../../model";
 
-export default ({ sponsoring, creationDate }: DocumentData, id: string, settings: Settings) => {
-  const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+export default (
+  { sponsoring, creationDate }: DocumentData,
+  id: string,
+  settings: Settings,
+) => {
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
   const date = addDays((creationDate as Timestamp).toDate(), 15);
   const dateTimeFormat = new Intl.DateTimeFormat("fr-FR", options as any);
 

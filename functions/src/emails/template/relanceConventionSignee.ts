@@ -1,12 +1,9 @@
-import {Settings} from "../../model";
+import { Settings } from "../../model";
 
-export default (
-    company: Record<string, any>,
-    settings: Settings
-  ) => {
-    return ({
-      subject: `Partenariat ${settings.gdg.event} ${settings.convention.edition}: Relance Convention à Signer`,
-      body: `
+export default (company: Record<string, any>, settings: Settings) => {
+  return {
+    subject: `Partenariat ${settings.gdg.event} ${settings.convention.edition}: Relance Convention à Signer`,
+    body: `
     Bonjour
     <br><br>
     Nous vous envoyons cet email afin de vous annoncer que nous sommes toujours dans l'attente de votre signature pour la convention de partenariat pour le Devfest Lille.
@@ -19,6 +16,5 @@ export default (
     <br><br>
     ${settings.mail.signature} ${settings.convention.edition}
         `,
-    })
   };
-  
+};

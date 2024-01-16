@@ -49,7 +49,7 @@ export class UploadComponent {
   }
 
   uploadFileEvent(event: any) {
-    if(!event.target.files[0]){
+    if (!event.target.files[0]) {
       return;
     }
     this.fileName = event.target.files[0].name;
@@ -57,7 +57,6 @@ export class UploadComponent {
     const files = event.target.files;
     this.uploadFile.emit(files[0]);
   }
-  
 
   onClick() {
     if (this.fileUpload) this.fileUpload.nativeElement.click();

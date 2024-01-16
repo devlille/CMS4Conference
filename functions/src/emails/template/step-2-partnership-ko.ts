@@ -1,4 +1,4 @@
-import {Settings} from "../../model";
+import { Settings } from "../../model";
 
 export default (settings: Settings) => ({
   subject: `Partenariat ${settings.gdg.event} ${settings.convention.edition}: RDV l'année prochaine ?`,

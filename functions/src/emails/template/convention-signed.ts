@@ -1,8 +1,7 @@
 import { Settings } from "../../model";
 
 export default (id: string, settings: Settings) => {
-
-  const adress_cms4devfest= `${settings.hosting.baseurl}/partner/${id}`;
+  const adress_cms4devfest = `${settings.hosting.baseurl}/partner/${id}`;
   return {
     subject: `${settings.gdg.event} ${settings.convention.edition} : Convention Signée`,
     body: `

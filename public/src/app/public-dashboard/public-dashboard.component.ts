@@ -6,8 +6,6 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './public-dashboard.component.html',
-  styleUrls: ['./public-dashboard.component.scss']
+  styleUrls: ['./public-dashboard.component.scss'],
 })
-export class PublicDashboardComponent {
-
-}
+export class PublicDashboardComponent {}

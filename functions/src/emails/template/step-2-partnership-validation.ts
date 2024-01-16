@@ -1,14 +1,9 @@
-import {Settings} from "../../model";
+import { Settings } from "../../model";
 
-export default (
-  { sponsoring }: any,
-  id: string,
-  settings: Settings
-) => {
-
+export default ({ sponsoring }: any, id: string, settings: Settings) => {
   const edition = settings.convention.edition;
   const address_cms4devfest = `${settings.hosting.baseurl}/partner/${id}`;
-  return ({
+  return {
     subject: `Partenariat ${settings.gdg.event} ${edition}: Informations Complémentaires à renseigner`,
     body: `
   Bonjour
@@ -25,5 +20,5 @@ export default (
   <br><br>
   ${settings.mail.signature} ${edition}
       `,
-  })
+  };
 };

@@ -1,19 +1,19 @@
 @if (company.invoiceUrl) {
-<cms-files [files]="files"></cms-files>
-} @if (company.status?.[step.key] !== 'done') {
-<div class="inline-bloc">
-  <button mat-raised-button color="primary" (click)="setDone()">
-    <mat-icon>done</mat-icon>
+  <cms-files [files]="files"></cms-files>
+}
+@if (company.status?.[step.key] !== "done") {
+  <div class="inline-bloc">
+    <button mat-raised-button color="primary" (click)="setDone()">
+      <mat-icon>done</mat-icon>
 
-    Valider cette étape
-  </button>
-  <cms-upload
-    (uploadFile)="uploadInvoice($event)"
-    [isEnable]=""
-    accept=".pdf"
-    label="Facture (*.pdf)s"
-    >Choisir une facture</cms-upload
-  >
-</div>
-
+      Valider cette étape
+    </button>
+    <cms-upload
+      (uploadFile)="uploadInvoice($event)"
+      [isEnable]=""
+      accept=".pdf"
+      label="Facture (*.pdf)s"
+      >Choisir une facture</cms-upload
+    >
+  </div>
 }

@@ -12,17 +12,26 @@
       >
         <mat-icon> settings </mat-icon>
       </a>
-      <button type="button" (click)="logout()" mat-icon-button aria-label="Log out">
+      <button
+        type="button"
+        (click)="logout()"
+        mat-icon-button
+        aria-label="Log out"
+      >
         <mat-icon>logout</mat-icon>
       </button>
     }
 
     @if (isLoggedIn === false) {
-      <button type="button" (click)="login()" mat-icon-button aria-label="Log in">
+      <button
+        type="button"
+        (click)="login()"
+        mat-icon-button
+        aria-label="Log in"
+      >
         <mat-icon>login</mat-icon>
       </button>
     }
-
   </mat-toolbar-row>
 </mat-toolbar>
 

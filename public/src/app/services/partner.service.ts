@@ -23,7 +23,7 @@ import {
 })
 export class PartnerService {
   updateFlag: Subject<boolean> = new BehaviorSubject(true);
-  
+
   private firestore: Firestore = inject(Firestore);
   private companiesCollection = collection(this.firestore, 'companies-2024');
 
@@ -51,8 +51,8 @@ export class PartnerService {
 
   public async updateVisibility(enabled: boolean) {
     return updateDoc(doc(this.firestore, 'configuration/invoice_2024'), {
-      enabled
-    })
+      enabled,
+    });
   }
 
   private convertEmailsToArray(emails: string | string[]): string[] {

@@ -16,7 +16,7 @@ describe('AppComponent', () => {
           useValue: MockAuth,
         },
       ],
-    })
+    }),
   );
 
   it('should create the app', () => {

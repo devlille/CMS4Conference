@@ -20,10 +20,10 @@ jobs:
       - name: Build Back
         run: npm --prefix functions install
       - name: Deploy to Firebase for Devfest Lille
-        run: npw firebase-tools deploy -P default
+        run: npx firebase-tools deploy -P default
         env:
           FIREBASE_TOKEN: ${{ secrets.DEVFEST_FIREBASE_TOKEN }}
       - name: Deploy to Firebase for Devfest Lille
-        run: npw firebase-tools deploy -P cloudnord
+        run: npx firebase-tools deploy -P cloudnord
         env:
           FIREBASE_TOKEN: ${{ secrets.CLOUDNORD_FIREBASE_TOKEN }}

@@ -2,7 +2,7 @@ name: Build and Deploy for Devfest Lille
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   deploy:
     name: Deploy

@@ -1,15 +1,13 @@
+import {Email} from "../../model";
 import { getFrom } from "../../utils/mail";
-const functions = require("firebase-functions");
-jest.mock("firebase-functions");
 
 it("should return from parameters for email", () => {
-  functions.config = jest.fn().mockImplementation(() => ({
-    mail: {
-      from: "mail",
-    },
-  }));
+  const email = {
+    from: "mail",
+    fromname: "GDG Lille"
+  } as Email
 
-  expect(getFrom()).toEqual({
+  expect(getFrom(email)).toEqual({
     From: {
       Email: "mail",
       Name: "GDG Lille",

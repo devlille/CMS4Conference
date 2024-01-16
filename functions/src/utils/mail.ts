@@ -1,7 +1,7 @@
 import { DocumentData } from "@google-cloud/firestore";
 import {Email, Settings} from "../model";
 
-function getFrom(mail: Email) {
+export function getFrom(mail: Email) {
   return {
     From: {
       Email: mail.from,

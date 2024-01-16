@@ -8,14 +8,15 @@ import relanceConventionSignee from "./emails/template/relanceConventionSignee";
 import WelcomeEmailFactory from "./emails/template/step-1-partnership-demand";
 import relancePaiement from "./emails/template/relancePaiement";
 import relanceInformationsComplementaires from "./emails/template/relanceInformationsComplementaires";
+import { Settings } from "./model";
 admin.initializeApp();
 const firestore = admin.firestore();
 
-function sendWelcomeEmail(company: DocumentData, id: string, settings: any) {
+function sendWelcomeEmail(company: DocumentData, id: string, settings: Settings) {
   const emailTemplate = WelcomeEmailFactory(
     company,
-    `${functions.config().hosting.baseurl}/partner/${id}`,
-    functions.config().convention.edition
+    `${settings.hosting.baseurl}/partner/${id}`,
+    settings.convention.edition
   );
   return sendEmailToAllContacts(company, emailTemplate, settings);
 }
@@ -39,49 +40,46 @@ function updatesStatus(id: string, company: any, status: any) {
     .catch((err) => console.log(err));
 }
 
-const relance = (emailFactory: any, partners: any[]) => {
-  const settings = functions.config();
+const relance = (emailFactory: any, partners: any[], settings: Settings) => {
   partners.forEach((c: any) => {
-    const emailTemplate = emailFactory(
-      c,
-      `${settings.hosting.baseurl}/partner/${c.id}`,
-      settings.convention.edition
-    );
+    const emailTemplate = emailFactory(c, `${settings.hosting.baseurl}/partner/${c.id}`, settings.convention.edition);
     sendEmailToAllContacts(c, emailTemplate, settings);
   });
-}
+};
 export const relancePartnaireConventionASigner = functions.https.onRequest(async (req, res) => {
   const data = await firestore.collection("companies-2024").get();
   const partners = data.docs.map((d) => d.data()).filter((p) => p.status.sign === StatusEnum.PENDING);
-  relance(relanceConventionSignee, partners);
+  relance(relanceConventionSignee, partners, functions.config() as Settings);
   res.send("ok");
 });
 
 export const relancePartnaireFacture = functions.https.onRequest(async (req, res) => {
   const data = await firestore.collection("companies-2024").get();
   const partners = data.docs.map((d) => d.data()).filter((p) => p.status.paid === StatusEnum.PENDING);
-  relance(relancePaiement, partners);
+  relance(relancePaiement, partners, functions.config() as Settings);
   res.send("ok");
 });
 
 export const relanceInformationPourGeneration = functions.https.onRequest(async (req, res) => {
   const data = await firestore.collection("companies-2024").get();
   const partners = data.docs.map((d) => d.data()).filter((p) => p.status.generated === StatusEnum.PENDING);
-  relance(relanceInformationsComplementaires, partners);
+  relance(relanceInformationsComplementaires, partners, functions.config() as Settings);
   res.send("ok");
 });
 
 export const newPartner = functions.firestore.document("companies-2024/{companyId}").onCreate(async (snap) => {
+  const settings = functions.config() as Settings;
   const company = snap.data() || {};
   const id = snap.id;
   await addCreationDate(id);
-  await sendWelcomeEmail(company, snap.id, functions.config());
+  await sendWelcomeEmail(company, snap.id, settings);
   await sendEmail(
-    functions.config().mail.to,
+    settings.mail.to,
     "🎉 Nouveau Partenaire " + company.name,
     `
 La société ${company.name} souhaite devenir partenaire ${company.sponsoring}<br>
-`
+`,
+    settings
   );
 
   return updatesStatus(id, company, {

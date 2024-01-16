@@ -8,6 +8,7 @@ import {
 import * as os from "os";
 import * as admin from "firebase-admin";
 import { DocumentData } from "@google-cloud/firestore";
+import {Settings} from "../model";
 
 export async function storeFile(cloudStorageDest: string, tempPath: string) {
   await admin
@@ -21,7 +22,7 @@ export async function storeFile(cloudStorageDest: string, tempPath: string) {
     .file(cloudStorageDest + tempPath)
     .getSignedUrl({ action: "read", expires: "03-17-2025" });
 }
-export async function generateAndStoreProformaInvoiceAndConvention(company: DocumentData, id: string, settings: any) {
+export async function generateAndStoreProformaInvoiceAndConvention(company: DocumentData, id: string, settings: Settings) {
   console.log("Generate Proforma invoice and convention for " + id);
 
   const [convention, proformaInvoice, depositInvoice, devis] = await Promise.all([

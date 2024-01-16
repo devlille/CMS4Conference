@@ -4,7 +4,8 @@ import { sendEmailToAllContacts } from "../mail";
 import { addDays } from "date-fns";
 
 import { StatusEnum } from "../document-change";
-export default (company: DocumentData, id: string, settings: any, shouldSendEmail: boolean) => {
+import {Settings} from "../../model";
+export default (company: DocumentData, id: string, settings: Settings, shouldSendEmail: boolean) => {
   if (shouldSendEmail) {
     const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
     const date = addDays((company.creationDate as Timestamp).toDate(), 15);

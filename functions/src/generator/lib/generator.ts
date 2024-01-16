@@ -6,11 +6,9 @@ import ConventionEn from "../templates/convention_en";
 import ConventionFr from "../templates/convention_fr";
 import InvoiceFr from "../templates/invoice_fr";
 import ProformaInvoiceFr from "../templates/proforma_invoice_fr";
+import {Settings} from "../../model";
 
 function getSponsoringFees(sponsoring: string, partner: any): [string, number, number] {
-  if(partner.name === "WeLoveDevs.com"){
-    return ["deux milles euros", 2000, 6];
-  }
   switch (sponsoring) {
     case "Party":
       return ["cinq milles euros", 5000, 4];
@@ -82,19 +80,19 @@ function generateFile(config: any, fileName: string, file: any, settings: any, i
   });
 }
 
-export function generateProformaInvoice(config: any, settings: any) {
+export function generateProformaInvoice(config: any, settings: Settings) {
   return generateFile(config, `proforma_invoice_${config.id}.pdf`, ProformaInvoiceFr, settings, "FACTURE PRO FORMA");
 }
-export function generateDevis(config: any, settings: any) {
+export function generateDevis(config: any, settings: Settings) {
   return generateFile(config, `devis_${config.id}.pdf`, ProformaInvoiceFr, settings, "DEVIS");
 }
-export function generateDepositInvoice(config: any, settings: any) {
+export function generateDepositInvoice(config: any, settings: Settings) {
   return generateFile(config, `deposit_invoice_${config.id}.pdf`, ProformaInvoiceFr, settings, "FACTURE ACCOMPTE 100%");
 }
-export function generateInvoice(config: any, settings: any) {
+export function generateInvoice(config: any, settings: Settings) {
   return generateFile(config, `invoice_${config.id}.pdf`, InvoiceFr, settings, "");
 }
-export function generateConvention(config: any, settings: any) {
+export function generateConvention(config: any, settings: Settings) {
   return generateFile(
     config,
     `convention_${config.id}.pdf`,

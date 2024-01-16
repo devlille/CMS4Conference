@@ -1,0 +1,27 @@
+name: Build and Deploy for Devfest Lille
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "14.x"
+          cache: "npm"
+      - name: Install firebase tools
+        run: npm i -g firebase-tools
+      - name: Install Front
+        run: npm --prefix public install
+      - name: Build Back
+        run: npm --prefix functions install
+      - name: Deploy to Firebase
+        run: firebase deploy -P default
+        env:
+          FIREBASE_TOKEN: ${{ secrets.DEVFEST_FIREBASE_TOKEN }}

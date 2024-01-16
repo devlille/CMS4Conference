@@ -1,4 +1,4 @@
-name: Build and Deploy for Devfest Lille
+name: Build and Deploy
 on:
   push:
     branches:
@@ -13,15 +13,17 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: "14.x"
+          node-version: "16.x"
           cache: "npm"
-      - name: Install firebase tools
-        run: npm i -g firebase-tools
       - name: Install Front
         run: npm --prefix public install
       - name: Build Back
         run: npm --prefix functions install
-      - name: Deploy to Firebase
-        run: firebase deploy -P default
+      - name: Deploy to Firebase for Devfest Lille
+        run: npw firebase-tools deploy -P default
         env:
           FIREBASE_TOKEN: ${{ secrets.DEVFEST_FIREBASE_TOKEN }}
+      - name: Deploy to Firebase for Devfest Lille
+        run: npw firebase-tools deploy -P cloudnord
+        env:
+          FIREBASE_TOKEN: ${{ secrets.CLOUDNORD_FIREBASE_TOKEN }}

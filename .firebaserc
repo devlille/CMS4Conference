@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "cms4partners-ce427"
-  }
+    "default": "cms4partners-ce427",
+    "cloudnord": "cms4devfest"
+  },
+  "targets": {},
+  "etags": {}
 }

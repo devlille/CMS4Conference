@@ -17,7 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { Functions, httpsCallable } from '@angular/fire/functions';
 
 type FilterValueType =
   | 'sign'
@@ -123,29 +124,22 @@ export class DashboardComponent implements AfterViewInit {
   });
 
   private readonly partnerService: PartnerService = inject(PartnerService);
-  private readonly httpClient: HttpClient = inject(HttpClient);
+  private readonly functions: Functions = inject(Functions);
 
-  //TODO use firebase callable functions ? Or move API endpoint somewhere
-  relance() {
+  async relance() {
     const status = this.filterByStatusValue();
     if (status[0] === 'generated') {
-      return this.httpClient
-        .get(
-          'https://us-central1-cms4partners-ce427.cloudfunctions.net/cms4devfest-relanceInformationPourGeneration',
-        )
-        .subscribe();
+      await httpsCallable(
+        this.functions,
+        'cms-relanceInformationPourGeneration',
+      )();
     } else if (status[0] === 'sign') {
-      return this.httpClient
-        .get(
-          'https://us-central1-cms4partners-ce427.cloudfunctions.net/cms4devfest-relancePartnaireConventionASigner',
-        )
-        .subscribe();
+      await httpsCallable(
+        this.functions,
+        'cms-relancePartnaireConventionASigner',
+      )();
     } else if (status[0] === 'paid') {
-      return this.httpClient
-        .get(
-          'https://us-central1-cms4partners-ce427.cloudfunctions.net/cms4devfest-relancePartnaireFacture',
-        )
-        .subscribe();
+      await httpsCallable(this.functions, 'cms-relancePartnaireFacture')();
     }
 
     return;

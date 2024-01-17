@@ -46,25 +46,22 @@ const relance = (
     sendEmailToAllContacts(c, emailTemplate, settings);
   });
 };
-export const relancePartnaireConventionASigner = functions.https.onRequest(async (req, res) => {
+export const relancePartnaireConventionASigner = functions.https.onCall(async (req, res) => {
   const data = await firestore.collection("companies-2024").get();
   const partners = data.docs.map((d) => d.data()).filter((p) => p.status.sign === StatusEnum.PENDING);
   relance(relanceConventionSignee, partners, functions.config() as Settings);
-  res.send("ok");
 });
 
-export const relancePartnaireFacture = functions.https.onRequest(async (req, res) => {
+export const relancePartnaireFacture = functions.https.onCall(async (req, res) => {
   const data = await firestore.collection("companies-2024").get();
   const partners = data.docs.map((d) => d.data()).filter((p) => p.status.paid === StatusEnum.PENDING);
   relance(relancePaiement, partners, functions.config() as Settings);
-  res.send("ok");
 });
 
-export const relanceInformationPourGeneration = functions.https.onRequest(async (req, res) => {
+export const relanceInformationPourGeneration = functions.https.onCall(async (req, res) => {
   const data = await firestore.collection("companies-2024").get();
   const partners = data.docs.map((d) => d.data()).filter((p) => p.status.generated === StatusEnum.PENDING);
   relance(relanceInformationsComplementaires, partners, functions.config() as Settings);
-  res.send("ok");
 });
 
 export const newPartner = functions.firestore.document("companies-2024/{companyId}").onCreate(async (snap) => {

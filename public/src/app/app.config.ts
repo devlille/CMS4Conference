@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import * as Sentry from '@sentry/angular-ivy';
 
 import { registerLocaleData } from '@angular/common';
+import { getFunctions, provideFunctions } from '@angular/fire/functions';
 registerLocaleData(localeFr);
 
 export const appConfig: ApplicationConfig = {
@@ -59,5 +60,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(provideAuth(() => getAuth())),
     importProvidersFrom(provideFirestore(() => getFirestore())),
     importProvidersFrom(provideStorage(() => getStorage())),
+    importProvidersFrom(provideFunctions(() => getFunctions())),
   ],
 };

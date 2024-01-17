@@ -10,36 +10,19 @@ export function getFrom(mail: Email) {
   };
 }
 
-export function sendEmailToAllContacts(
-  company: DocumentData,
-  emailFactory: any,
-  settings: Settings,
-) {
+export function sendEmailToAllContacts(company: DocumentData, emailFactory: any, settings: Settings) {
   if (settings.mail.enabled === "false") {
     return Promise.resolve();
   }
   return Promise.all(
     [...company.email, settings.mail.cc].map((email: string) => {
-      return sendEmail(
-        email.trim(),
-        emailFactory.subject,
-        emailFactory.body,
-        settings,
-      );
-    }),
+      return sendEmail(email.trim(), emailFactory.subject, emailFactory.body, settings);
+    })
   );
 }
-export function sendEmail(
-  to: string,
-  subject: string,
-  body: string,
-  settings: Settings,
-) {
+export function sendEmail(to: string, subject: string, body: string, settings: Settings) {
   const mailjet = settings.mailjet;
-  const mailjetClient = require("node-mailjet").connect(
-    mailjet.api,
-    mailjet.private,
-  );
+  const mailjetClient = require("node-mailjet").connect(mailjet.api, mailjet.private);
   const request = mailjetClient.post("send", { version: "v3.1" }).request({
     Messages: [
       {

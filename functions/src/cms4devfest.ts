@@ -10,8 +10,8 @@ import relancePaiement from "./emails/template/relancePaiement";
 import relanceInformationsComplementaires from "./emails/template/relanceInformationsComplementaires";
 import { Settings } from "./model";
 
+admin.initializeApp();
 const firestore = admin.firestore();
-
 function sendWelcomeEmail(company: DocumentData, id: string, settings: Settings) {
   const emailTemplate = WelcomeEmailFactory(company, id, settings);
   return sendEmailToAllContacts(company, emailTemplate, settings);

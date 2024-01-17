@@ -125,24 +125,25 @@ export class DashboardComponent implements AfterViewInit {
   private readonly partnerService: PartnerService = inject(PartnerService);
   private readonly httpClient: HttpClient = inject(HttpClient);
 
+  //TODO use firebase callable functions ? Or move API endpoint somewhere
   relance() {
     const status = this.filterByStatusValue();
     if (status[0] === 'generated') {
       return this.httpClient
         .get(
-          'https://us-central1-cms4partners-ce427.cloudfunctions.net/relanceInformationPourGeneration',
+          'https://us-central1-cms4partners-ce427.cloudfunctions.net/cms4devfest-relanceInformationPourGeneration',
         )
         .subscribe();
     } else if (status[0] === 'sign') {
       return this.httpClient
         .get(
-          'https://us-central1-cms4partners-ce427.cloudfunctions.net/relancePartnaireConventionASigner',
+          'https://us-central1-cms4partners-ce427.cloudfunctions.net/cms4devfest-relancePartnaireConventionASigner',
         )
         .subscribe();
     } else if (status[0] === 'paid') {
       return this.httpClient
         .get(
-          'https://us-central1-cms4partners-ce427.cloudfunctions.net/relancePartnaireFacture',
+          'https://us-central1-cms4partners-ce427.cloudfunctions.net/cms4devfest-relancePartnaireFacture',
         )
         .subscribe();
     }

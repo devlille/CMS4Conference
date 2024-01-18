@@ -30,7 +30,7 @@
     </p>
     <div class="social-fields">
       <mat-form-field class="full-width">
-        <mat-label>Compte Twitter</mat-label>
+        <mat-label>Compte X (Twitter)</mat-label>
         <input matInput type="text" [(ngModel)]="company.twitterAccount" />
       </mat-form-field>
 
@@ -44,10 +44,10 @@
         company.sponsoring === "Silver"
       ) {
         <mat-checkbox [(ngModel)]="company.keepDevFestTeam"
-          >Laissez l'équipe du Devfest écrire vos messages!</mat-checkbox
+          >Laissez l'équipe organisatrice écrire vos messages!</mat-checkbox
         >
         <mat-form-field class="full-width">
-          <mat-label>Message Twitter</mat-label>
+          <mat-label>Message X (Twitter)</mat-label>
           <textarea
             [(ngModel)]="company.twitter"
             matInput

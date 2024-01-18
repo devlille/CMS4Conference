@@ -7,6 +7,15 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - org: Devfest Lille
+            secret: DEVFEST_FIREBASE_TOKEN
+            function: 'functions:cms4devfestgdg'
+          - org: Cloud Nord
+            secret: CLOUDNORD_FIREBASE_TOKEN
+            function: 'functions:cms4devfestcloudnord'
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
@@ -19,19 +28,12 @@ jobs:
         run: npm --prefix public install
       - name: Build Back
         run: npm --prefix functions install
-      - name: Deploy to Firebase for Devfest Lille
+      - name: Deploy to Firebase for ${{ matrix.org }}
         run: |
           npx firebase-tools deploy -P default --only hostings
           npx firebase-tools deploy -P default --only firestore:rules
           npx firebase-tools deploy -P default --only functions:cms
-          npx firebase-tools deploy -P default --only functions:cms4devfestgdg
+          npx firebase-tools deploy -P default --only ${{ matrix.function }}
         env:
-          FIREBASE_TOKEN: ${{ secrets.DEVFEST_FIREBASE_TOKEN }}
-      - name: Deploy to Firebase for cloudnord
-        run: |
-          npx firebase-tools deploy -P cloudnord --only hostings
-          npx firebase-tools deploy -P cloudnord --only firestore:rules
-          npx firebase-tools deploy -P cloudnord --only functions:cms4
-          npx firebase-tools deploy -P cloudnord --only functions:cms4devfestcloudnord
-        env:
-          FIREBASE_TOKEN: ${{ secrets.CLOUDNORD_FIREBASE_TOKEN }}
+          FIREBASE_TOKEN: ${{ secrets[matrix.secret] }}
+

@@ -21,7 +21,7 @@ jobs:
         run: npm --prefix functions install
       - name: Deploy to Firebase for Devfest Lille
         run: |
-          npx firebase-tools deploy -P default --only hostings
+          npx firebase-tools deploy -P default --only hosting
           npx firebase-tools deploy -P default --only firestore:rules
           npx firebase-tools deploy -P default --only functions:cms
           npx firebase-tools deploy -P default --only functions:cms4devfestgdg
@@ -29,9 +29,9 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.DEVFEST_FIREBASE_TOKEN }}
       - name: Deploy to Firebase for cloudnord
         run: |
-          npx firebase-tools deploy -P cloudnord --only hostings
+          npx firebase-tools deploy -P cloudnord --only hosting
           npx firebase-tools deploy -P cloudnord --only firestore:rules
-          npx firebase-tools deploy -P cloudnord --only functions:cms4
+          npx firebase-tools deploy -P cloudnord --only functions:cms
           npx firebase-tools deploy -P cloudnord --only functions:cms4devfestcloudnord
         env:
           FIREBASE_TOKEN: ${{ secrets.CLOUDNORD_FIREBASE_TOKEN }}

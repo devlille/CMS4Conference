@@ -18,7 +18,7 @@ Ci-après "le Partenaire".
 
 ## I - OBJET DE LA CONVENTION
 
-Cette convention est destinée à régir, de la manière la plus complète possible, la relation de partenariat conclue entre l'association et le partenaire, en vue principalement de l’organisation du **DevFest Lille <%= DEVFEST_EDITION %>**.
+Cette convention est destinée à régir, de la manière la plus complète possible, la relation de partenariat conclue entre l'association et le partenaire, en vue principalement de l’organisation de l'évènement **<%== EVENT_NAME %> <%= EVENT_EDITION %>**.
 
 Elle précise de façon non exhaustive les droits et les obligations principaux des deux contractants, étant entendu que ceux-ci peuvent évoluer au fil du temps conformément à l'article VI - Modifications ; l’objectif principal étant que le partenariat qui unit les deux parties se développe au maximum et dans le sens des intérêts de chacun.
 
@@ -97,7 +97,7 @@ La résiliation à l’initiative du partenaire ne peut en aucun cas donner droi
 ## VI - ANNULATION
 
 
-L'association sera contrainte d'annuler l'événement en cas de force majeure empêchant l'exécution de l'événement dans le lieu d'accueil prévu initialement. Seront considérés comme cas de force majeure, les événements qui respecteront les conditions de l'Article 1148 du Code Civil ou les événements suivants : grève, lock-out, incendie, inondation, avarie de matériel, émeute, guerre, arrêt de force motrice, suspension des télécommunications. Il en est de même en cas de pandémie. Dans ce cas, l'association s'engage à reprogrammer l'événement à une date ultérieure dans l'année qui suit. Le partenaire pourra alors choisir soit d'être remboursé totalement du montant défini dans la section III - OBLIGATIONS DU PARTENAIRE, soit de reconduire son partenariat à la date qui aura été reprogrammé par l'Association. 
+L'association sera contrainte d'annuler l'évènement en cas de force majeure empêchant l'exécution de l'évènement dans le lieu d'accueil prévu initialement. Seront considérés comme cas de force majeure, les évènement qui respecteront les conditions de l'Article 1148 du Code Civil ou les évènement suivants : grève, lock-out, incendie, inondation, avarie de matériel, émeute, guerre, arrêt de force motrice, suspension des télécommunications. Il en est de même en cas de pandémie. Dans ce cas, l'association s'engage à reprogrammer l'évènement à une date ultérieure dans l'année qui suit. Le partenaire pourra alors choisir soit d'être remboursé totalement du montant défini dans la section III - OBLIGATIONS DU PARTENAIRE, soit de reconduire son partenariat à la date qui aura été reprogrammé par l'Association. 
 
 ## VII - MODIFICATIONS
 

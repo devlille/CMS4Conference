@@ -7,7 +7,7 @@ export default ({ sponsoring }: any, id: string, settings: Settings) => {
     body: `
   Bonjour
   <br><br>
-  Nous avons bien pris connaissance de votre souhait de devenir partenaire du Devfest Lille ${settings.convention.edition} et nous vous en remercions.
+  Nous avons bien pris connaissance de votre souhait de devenir partenaire ${settings.gdg.event} ${settings.convention.edition} et nous vous en remercions.
   <br><br>
   Etant donné la forte affluence des demandes de partenariat, nous reviendrons vers vous par email dans une dizaine de jours maximum pour vous valider la réservation du pack ${sponsoring} ou de votre choix de pack sponsor de replis le cas échéant.
   <br><br>

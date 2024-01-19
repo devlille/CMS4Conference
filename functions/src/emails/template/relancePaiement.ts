@@ -6,7 +6,7 @@ export default (partner: Record<string, any>, settings: Settings) => {
     body: `
     Bonjour
     <br><br>
-    Nous vous envoyons cet email afin de vous annoncer que nous sommes toujours dans l'attente du paiement de la facture relative à notre partenariat pour le Devfest Lille.
+    Nous vous envoyons cet email afin de vous annoncer que nous sommes toujours dans l'attente du paiement de la facture relative à notre partenariat pour ${settings.gdg.event}.
     <br><br>
     Nous restons à votre disposition pour tout complément via l'adresse email ${settings.mail.from}.
     <br><br>

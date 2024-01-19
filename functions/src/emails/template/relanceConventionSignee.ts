@@ -6,7 +6,7 @@ export default (company: Record<string, any>, settings: Settings) => {
     body: `
     Bonjour
     <br><br>
-    Nous vous envoyons cet email afin de vous annoncer que nous sommes toujours dans l'attente de votre signature pour la convention de partenariat pour le Devfest Lille.
+    Nous vous envoyons cet email afin de vous annoncer que nous sommes toujours dans l'attente de votre signature pour la convention de partenariat pour ${settings.gdg.event}.
     <br><br>
     Une fois signée, vous pouvez nous la retourner par email, ou la sauvegarde sur votre espace dédié.
     <br><br>

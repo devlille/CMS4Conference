@@ -8,7 +8,7 @@ export default ({ sponsoring }: any, id: string, settings: Settings) => {
     body: `
   Bonjour
   <br><br>
-  Bonne nouvelle ! Votre demande de pack ${sponsoring} pour le Devfest Lille ${edition} a été validé.
+  Bonne nouvelle ! Votre demande de pack ${sponsoring} pour ${settings.gdg.event} ${edition} a été validé.
   <br><br>
   Vous trouverez sur votre espace personnel, un formulaire permettant de récupérer des informations complémentaires vous concernant :  ${address_cms4devfest}. 
   <br><br>

@@ -11,7 +11,7 @@ and **<%= COMPANY %>** here referred as the Partner (register number: <%= SIRET 
 
 ## I - PURPOSE OF THE AGREEMENT
 
-The purpose of the present Agreement is to thoroughly regulate the Partnership concluded between the Association and the Partner in relation with the organization of the DevFest Lille **<%= DEVFEST_EDITION %>** conference.
+The purpose of the present Agreement is to thoroughly regulate the Partnership concluded between the Association and the Partner in relation with the organization of the <%== EVENT_NAME %> **<%= EVENT_EDITION %>** conference.
 
 This Agreement defines, in a non-exhaustive manner, the main rights and obligations of the two Parties, given the unanimous consent that the former may evolve in time; the main purpose being to develop a strong Partnership for the best interest of both Parties.
 

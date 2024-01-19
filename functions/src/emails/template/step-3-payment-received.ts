@@ -16,7 +16,7 @@ export default (company: any, id: string, settings: Settings) => {
   <br>
   * Une idée, un message à véhiculer pour l'annonce de notre partenariat sur les réseaux sociaux (facultatif)
   <br><br>
-  Une fois cette étape terminée, nous reviendrons vers vous pour vous tenir informé de l'avancement global de l'organisation du Devfest Lille ${settings.convention.edition} et surtout pour vous accompagner dans votre préparation pour l'évènement. 
+  Une fois cette étape terminée, nous reviendrons vers vous pour vous tenir informé de l'avancement global de l'organisation de l'évènement et surtout pour vous accompagner dans votre préparation pour l'évènement. 
   <br><br>
   Nous restons à votre disposition pour tout complément via l'adresse ${settings.mail.from}.
   <br><br>

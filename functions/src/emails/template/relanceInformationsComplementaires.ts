@@ -6,7 +6,7 @@ export default (partner: Record<string, any>, settings: Settings) => {
     body: `
     Bonjour
     <br><br>
-    Nous vous envoyons cet email afin de vous annoncer que nous sommes toujours dans l'attente d'informations complémentaires afin d'établir la convention et la facture pour le Devfest Lille.
+    Nous vous envoyons cet email afin de vous annoncer que nous sommes toujours dans l'attente d'informations complémentaires afin d'établir la convention et la facture pour ${settings.gdg.event}.
     <br><br>
     Vous pouvez renseigner ces informations sur votre espace dédié.
     <br><br>

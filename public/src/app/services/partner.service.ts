@@ -68,7 +68,10 @@ export class PartnerService {
           .map(
             (snapshot) => ({ ...snapshot.data(), id: snapshot.id }) as Company,
           )
-          .filter((company) => !company.archived);
+          .filter(
+            (company) =>
+              !company.archived && company.status?.validated !== 'refused',
+          );
       }),
     );
   }

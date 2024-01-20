@@ -19,7 +19,7 @@
     [ngModel]="filterByPackValue()"
     (ngModelChange)="filterByPackHandler($event)"
   >
-    @for (option of filterByPack; track option) {
+    @for (option of filterByPack(); track option) {
       <mat-button-toggle [value]="option.value">{{
         option.label
       }}</mat-button-toggle>
@@ -32,7 +32,7 @@
     [ngModel]="filterByTypeValue()"
     (ngModelChange)="filterByTypeHandler($event)"
   >
-    @for (option of filterByType; track option) {
+    @for (option of filterByType(); track option) {
       <mat-button-toggle [value]="option.value">{{
         option.label
       }}</mat-button-toggle>

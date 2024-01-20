@@ -65,9 +65,7 @@ export class DashboardComponent implements AfterViewInit {
     'action',
   ];
   partners: Partial<Company>[] = [];
-  filterByPack: { value: FilterByPackValueType; label: string }[] = [];
   filterByStatus: { value: FilterValueType; label: string }[] = [];
-  filterByType: { value: FilterByType; label: string }[] = [];
 
   originalPartners = signal<Partial<Company>[]>([]);
   filterByStatusValue = signal<FilterValueType[]>([
@@ -95,56 +93,43 @@ export class DashboardComponent implements AfterViewInit {
     );
   });
   filterByTypeValue = signal<FilterByType[]>(['esn', 'other', 'undefined']);
-  dataSource = computed(() => {
-    const packs = this.filterByPackValue();
-    const types = this.filterByTypeValue();
-    const filterValue = this.filterByStatusValue();
 
-    const dataSource = new MatTableDataSource(
-      this.originalPartners()
-        .filter(
-          (partner) =>
-            packs.indexOf(partner.sponsoring! as FilterByPackValueType) >= 0,
-        )
-        .filter((partner) =>
-          filterValue.find(
-            (v) => !!partner.status && partner.status[v] === 'pending',
-          ),
-        )
-        .filter((partner) => {
-          return (
-            types.indexOf(partner.type!) >= 0 ||
-            (!partner.type && types.indexOf('undefined') >= 0)
-          );
-        }),
+  filteredPartnersByStatus = computed(() => {
+    const status = this.filterByStatusValue();
+    return this.originalPartners().filter((partner) =>
+      status.find((v) => !!partner.status && partner.status[v] === 'pending'),
     );
+  });
+
+  filteredPartnersByStatusAndPacks = computed(() => {
+    const packs = this.filterByPackValue();
+    return this.filteredPartnersByStatus().filter(
+      (partner) =>
+        packs.indexOf(partner.sponsoring! as FilterByPackValueType) >= 0,
+    );
+  });
+
+  filteredPartners = computed(() => {
+    const types = this.filterByTypeValue();
+
+    return this.filteredPartnersByStatusAndPacks().filter((partner) => {
+      return (
+        types.indexOf(partner.type!) >= 0 ||
+        (!partner.type && types.indexOf('undefined') >= 0)
+      );
+    });
+  });
+
+  dataSource = computed(() => {
+    const dataSource = new MatTableDataSource(this.filteredPartners());
     dataSource.sort = this.sort;
 
     return dataSource;
   });
 
-  private readonly partnerService: PartnerService = inject(PartnerService);
-  private readonly functions: Functions = inject(Functions);
+  filterByPack = computed(() => {
+    const partners = this.filteredPartnersByStatus();
 
-  async relance() {
-    const status = this.filterByStatusValue();
-    if (status[0] === 'generated') {
-      await httpsCallable(
-        this.functions,
-        'cms-relanceInformationPourGeneration',
-      )();
-    } else if (status[0] === 'sign') {
-      await httpsCallable(
-        this.functions,
-        'cms-relancePartnaireConventionASigner',
-      )();
-    } else if (status[0] === 'paid') {
-      await httpsCallable(this.functions, 'cms-relancePartnaireFacture')();
-    }
-
-    return;
-  }
-  private countByPack(partners: Company[]) {
     let platiniumCount = 0;
     let goldCount = 0;
     let silverCount = 0;
@@ -168,7 +153,7 @@ export class DashboardComponent implements AfterViewInit {
       }
     });
 
-    this.filterByPack = [
+    return [
       { value: 'Platinium', label: `Platinium (${platiniumCount})` },
       { value: 'Gold', label: `Gold (${goldCount})` },
       { value: 'Silver', label: `Silver (${silverCount})` },
@@ -176,9 +161,11 @@ export class DashboardComponent implements AfterViewInit {
       { value: 'Party', label: `Party (${partyCount})` },
       { value: 'Newsletter', label: `Newsletter (${partyCount})` },
     ];
-  }
+  });
 
-  private countByType(partners: Company[]): void {
+  filterByType = computed(() => {
+    const partners = this.filteredPartnersByStatusAndPacks();
+
     let numberESN = 0;
     let numberOther = 0;
     let numberUndefined = 0;
@@ -192,11 +179,33 @@ export class DashboardComponent implements AfterViewInit {
       }
     });
 
-    this.filterByType = [
+    return [
       { value: 'esn', label: `ESN (${numberESN})` },
       { value: 'other', label: `Autres (${numberOther})` },
       { value: 'undefined', label: `Non défini (${numberUndefined})` },
     ];
+  });
+
+  private readonly partnerService: PartnerService = inject(PartnerService);
+  private readonly functions: Functions = inject(Functions);
+
+  async relance() {
+    const status = this.filterByStatusValue();
+    if (status[0] === 'generated') {
+      await httpsCallable(
+        this.functions,
+        'cms-relanceInformationPourGeneration',
+      )();
+    } else if (status[0] === 'sign') {
+      await httpsCallable(
+        this.functions,
+        'cms-relancePartnaireConventionASigner',
+      )();
+    } else if (status[0] === 'paid') {
+      await httpsCallable(this.functions, 'cms-relancePartnaireFacture')();
+    }
+
+    return;
   }
 
   archive(id: string) {
@@ -228,9 +237,9 @@ export class DashboardComponent implements AfterViewInit {
             (partners.status!.generated === 'pending' && !!partners.address),
         })),
       );
-      this.countByPack(partners);
-      this.countByType(partners);
       this.countByStep(partners);
+      //this.countByPack(partners);
+      //this.countByType(partners);
     });
   }
   countByStep(partners: Company[]) {

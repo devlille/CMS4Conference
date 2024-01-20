@@ -17,7 +17,7 @@ export default `
 
 <div  style="text-align: right; font-size: 8px">Siret: 82799961600010</div>
 
-<div  style="text-align: right; font-size: 8px">Email: team@gdglille.org</div>
+<div  style="text-align: right; font-size: 8px">Email: <%= GDG_EMAIL %></div>
 <div  style="text-align: right; font-size: 8px">Téléphone: 06 47 47 42 02</div>
 <div  style="text-align: right; font-size: 8px">Comptable: gerard@gdglille.org</div>
 

@@ -35,7 +35,8 @@ jobs:
         run: npm --prefix functions install
       - name: Deploy to Firebase for ${{ matrix.org }}
         run: |
-          npx firebase-tools deploy -P ${{ matrix.target }} --only hosting:${{ matrix.front }}
+          npm --prefix public run build -- --configuration ${{ matrix.front }}
+          npx firebase-tools deploy -P ${{ matrix.target }} --only hosting
           npx firebase-tools deploy -P ${{ matrix.target }} --only firestore:rules
           npx firebase-tools deploy -P ${{ matrix.target }} --only functions:cms
           npx firebase-tools deploy -P ${{ matrix.target }} --only ${{ matrix.function }}

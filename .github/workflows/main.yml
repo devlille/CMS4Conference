@@ -14,12 +14,12 @@ jobs:
             secret: DEVFEST_FIREBASE_TOKEN
             function: "functions:cms4devfestgdg"
             target: "default"
-            front: "devfestlille"
+            front: "production"
           - org: Cloud Nord
             secret: CLOUDNORD_FIREBASE_TOKEN
             function: "functions:cms4devfestcloudnord"
             target: "cloudnord"
-            front: "cloudnord"
+            front: "production,cloudnord"
 
     steps:
       - name: Checkout Repo

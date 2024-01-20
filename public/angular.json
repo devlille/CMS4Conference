@@ -57,7 +57,21 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
+            },
+            "cloudnord": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.devfestlille.ts",
+                  "with": "src/environments/environment.cloudnord.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -70,6 +84,9 @@
             },
             "development": {
               "buildTarget": "front:build:development"
+            },
+            "cloudnord": {
+              "buildTarget": "front:build:cloudnord"
             }
           },
           "defaultConfiguration": "development"

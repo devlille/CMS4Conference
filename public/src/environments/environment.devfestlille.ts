@@ -11,5 +11,5 @@ export const environment: Environement = {
     appId: '1:486924521070:web:0cb85efacc81b6c896207f',
     measurementId: 'G-S558S2HZ11',
   },
-  emailDomain: 'cloudnord.fr',
+  emailDomain: 'gdglille.org',
 };

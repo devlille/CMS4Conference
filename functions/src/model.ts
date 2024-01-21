@@ -13,6 +13,8 @@ export type Association = {
   zipcode: string;
   city: string;
   event: string;
+  tel: string;
+  accountantemail: string;
 };
 
 export type Email = {

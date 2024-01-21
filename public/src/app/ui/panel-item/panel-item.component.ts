@@ -23,6 +23,7 @@ import { SocialComponent } from '../social/social.component';
 import { PaidComponent } from '../paid/paid.component';
 import { SignedComponent } from '../signed/signed.component';
 import { GeneratedComponent } from '../../generated/generated.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'cms-panel-item',
@@ -72,7 +73,8 @@ export class PanelItemComponent {
 
   private createComponent() {
     this.auth.onAuthStateChanged((state) => {
-      const isAdmin = state?.email?.endsWith('@gdglille.org') ?? false;
+      const isAdmin =
+        state?.email?.endsWith('@' + environment.emailDomain) ?? false;
       try {
         const components = isAdmin
           ? this.adminComponent

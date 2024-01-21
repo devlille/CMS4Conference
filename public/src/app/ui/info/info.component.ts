@@ -7,6 +7,7 @@ import { Auth } from '@angular/fire/auth';
 import { FormComponent } from '../form/form.component';
 import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'cms-info',
@@ -39,7 +40,8 @@ export class InfoComponent {
     );
 
     this.auth.onAuthStateChanged((state) => {
-      this.isAdmin = state?.email?.endsWith('@gdglille.org') ?? false;
+      this.isAdmin =
+        state?.email?.endsWith('@' + environment.emailDomain) ?? false;
     });
   }
 

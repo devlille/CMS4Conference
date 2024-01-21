@@ -13,6 +13,7 @@ import { WorkflowComponent } from '../workflow/workflow.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { AllFilesComponent } from '../../all-files/all-files.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'cms-partner',
@@ -44,7 +45,8 @@ export class PartnerComponent {
 
   constructor() {
     this.auth.onAuthStateChanged((state) => {
-      this.isAdmin = state?.email?.endsWith('@gdglille.org') ?? false;
+      this.isAdmin =
+        state?.email?.endsWith('@' + environment.emailDomain) ?? false;
     });
   }
 

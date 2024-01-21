@@ -18,6 +18,7 @@ import {
 import { AddPipe } from '../pipe/add.pipe';
 import { Auth } from '@angular/fire/auth';
 import { Siret } from '../ui/form/validators';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'cms-generated',
@@ -88,7 +89,8 @@ export class GeneratedComponent {
     }
 
     this.auth.onAuthStateChanged((state) => {
-      this.isAdmin = state?.email?.endsWith('@gdglille.org') ?? false;
+      this.isAdmin =
+        state?.email?.endsWith('@' + environment.emailDomain) ?? false;
     });
 
     if (this.step?.state === 'done') {

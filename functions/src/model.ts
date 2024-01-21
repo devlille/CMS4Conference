@@ -15,6 +15,7 @@ export type Association = {
   event: string;
   tel: string;
   accountantemail: string;
+  website: string;
 };
 
 export type Email = {

@@ -63,6 +63,7 @@ function generateFile(config: any, fileName: string, file: any, settings: Settin
       GDG_EMAIL: settings.mail.from,
       GDG_TEL: settings.gdg.tel,
       GDG_ACCOUNTANT_EMAIL: settings.gdg.accountantemail,
+      GDG_WEBSITE: settings.gdg.website,
       INVOICE_NUMBER: config.invoiceNumber,
       INVOICE_TYPE: invoiceType,
     };

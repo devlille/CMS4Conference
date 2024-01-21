@@ -9,4 +9,5 @@ export const environment: Environement = {
     messagingSenderId: '844221667986',
     appId: '1:844221667986:web:ffa3f4d8c781b3c212244b',
   },
+  emailDomain: 'cloudnord.fr',
 };

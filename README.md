@@ -17,7 +17,8 @@ Pour faire fonctionner les Firebase functions, vous devez définir cette configu
     "city": "...",
     "event": "Devfest Lille",
     "address": "...",
-    "accountantemail": "...@gdglille.org"
+    "accountantemail": "...@gdglille.org",
+    "website": "https://"
   },
   "mail": {
     "to": "...@gdglille.org",

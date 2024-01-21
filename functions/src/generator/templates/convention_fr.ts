@@ -44,7 +44,7 @@ D’une manière générale, l'association s’engage à donner une forte visibi
 <% if (SPONSORING === 'Gold') { %>- 10 entrées standards <% } %>
 <% if (SPONSORING === 'Silver') { %>- 6 entrées standards <% } %>
 <% if (SPONSORING === 'Bronze' || SPONSORING === 'Party') { %>- 4 entrées standards <% } %>
-- Logo partenaire sur l'application mobile et sur le site web https://devfest.gdglille.org
+- Logo partenaire sur l'application mobile et sur le site web <%= GDG_WEBSITE %>
 - Logo sur les écrans (salle conférence)
 <% if (SPONSORING === 'Platinium') { %>- Personnalisation de vos communications <% } %>
 <% if (SPONSORING === 'Gold') { %>- Personnalisation de vos communications <% } %>

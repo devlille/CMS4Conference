@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { StorageService } from '../../storage.service';
 import { MatIconModule } from '@angular/material/icon';
 import { Auth } from '@angular/fire/auth';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'cms-admin-validated',
@@ -45,7 +46,8 @@ export class AdminValidatedComponent {
   options: { value: string; label: string }[] = [];
   ngOnInit() {
     this.auth.onAuthStateChanged((state) => {
-      this.isAdmin = state?.email?.endsWith('@gdglille.org') ?? false;
+      this.isAdmin =
+        state?.email?.endsWith('@' + environment.emailDomain) ?? false;
 
       const options = [
         {

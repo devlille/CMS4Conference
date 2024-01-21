@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Auth } from '@angular/fire/auth';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'cms-social',
@@ -49,7 +50,8 @@ export class SocialComponent {
     };
 
     this.auth.onAuthStateChanged((state) => {
-      this.isAdmin = state?.email?.endsWith('@gdglille.org') ?? false;
+      this.isAdmin =
+        state?.email?.endsWith('@' + environment.emailDomain) ?? false;
     });
   }
   update() {

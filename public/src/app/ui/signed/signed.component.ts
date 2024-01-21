@@ -8,6 +8,7 @@ import { StorageService } from '../../storage.service';
 import { MatIconModule } from '@angular/material/icon';
 import { Auth } from '@angular/fire/auth';
 import { MatButtonModule } from '@angular/material/button';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'cms-signed',
@@ -37,7 +38,8 @@ export class SignedComponent {
 
   ngOnInit() {
     this.auth.onAuthStateChanged((state) => {
-      this.isAdmin = state?.email?.endsWith('@gdglille.org') ?? false;
+      this.isAdmin =
+        state?.email?.endsWith('@' + environment.emailDomain) ?? false;
     });
 
     if (this.company.conventionSignedUrl) {

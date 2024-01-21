@@ -35,7 +35,7 @@ Broadly, the Association is committed to give the Partner a large visibility on 
 <% if (SPONSORING === 'Gold') { %>- 10 free tickets <% } %>
 <% if (SPONSORING === 'Silver') { %>- 6 free tickets <% } %>
 <% if (SPONSORING === 'Bronze' || SPONSORING === 'Party') { %>- 4 free tickets <% } %>
-- The Partner's logo on the web site  https://devfest.gdglille.org and on our mobile application
+- The Partner's logo on the web site  <%= GDG_WEBSITE %> and on our mobile application
 - The Partner's logo on screens (conference room)
 <% if (SPONSORING === 'Platinium') { %>- Write the message we will post on our own social medias about the partnership <% } %>
 <% if (SPONSORING === 'Gold') { %>- Write the message we will post on our own social medias about the partnership <% } %>

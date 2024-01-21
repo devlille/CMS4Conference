@@ -9,6 +9,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { switchMap, tap } from 'rxjs';
 import { PanelItemComponent } from '../panel-item/panel-item.component';
 import { Auth } from '@angular/fire/auth';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'cms-workflow',
@@ -38,7 +39,8 @@ export class WorkflowComponent {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.auth.onAuthStateChanged((state) => {
-      this.isAdmin = state?.email?.endsWith('@gdglille.org') ?? false;
+      this.isAdmin =
+        state?.email?.endsWith('@' + environment.emailDomain) ?? false;
     });
 
     this.workflowService

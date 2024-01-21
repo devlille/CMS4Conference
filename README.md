@@ -28,9 +28,6 @@ Pour faire fonctionner les Firebase functions, vous devez définir cette configu
     "signature": "L'équipe du Devfest Lille",
     "fromname": "GDG Lille"
   },
-  "email": {
-    "enabled": "false"
-  },
   "hosting": {
     "baseurl": "https://cms4partners.gdglille.org/"
   },

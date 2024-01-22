@@ -12,4 +12,9 @@ export const environment: Environement = {
     measurementId: 'G-S558S2HZ11',
   },
   emailDomain: 'gdglille.org',
+  files: {
+    'RIB du GDG Lille': '/assets/RIB.pdf',
+    'Journal Officiel suite à la création du GDG Lille':
+      '/assets/JournalOfficiel.pdf',
+  },
 };

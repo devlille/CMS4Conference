@@ -4,7 +4,7 @@ import { Company } from '../model/company';
 import { StorageService } from '../storage.service';
 import { FilesComponent } from '../ui/files/files.component';
 import { StoreService } from '../services/store.service';
-
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'cms-all-files',
   standalone: true,
@@ -16,9 +16,7 @@ export class AllFilesComponent implements OnInit {
   private readonly partnerStore = inject(StoreService);
 
   files: { [key: string]: string } = {
-    'RIB du GDG Lille': '/assets/RIB.pdf',
-    'Journal Officiel suite à la création du GDG Lille':
-      '/assets/JournalOfficiel.pdf',
+    ...environment.files,
   };
 
   private readonly storageService = inject(StorageService);

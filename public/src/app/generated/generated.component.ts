@@ -43,9 +43,7 @@ export class GeneratedComponent {
   @Input() company: Company | undefined;
   @Input() id: string | undefined;
   files: { [key: string]: string } = {
-    'RIB du GDG Lille': '/assets/RIB.pdf',
-    'Journal Officiel suite à la création du GDG Lille':
-      '/assets/JournalOfficiel.pdf',
+    ...environment.files,
   };
   isAdmin = false;
   private readonly partnerService = inject(PartnerService);

@@ -10,5 +10,7 @@ export const environment: Environement = {
     appId: '1:844221667986:web:ffa3f4d8c781b3c212244b',
   },
   emailDomain: 'cloudnord.fr',
-  files: {},
+  files: {
+    'RIB de Cloud Nord': '/assets/RIB_Cloud_Nord.pdf',
+  },
 };

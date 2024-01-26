@@ -1,9 +1,9 @@
 {
   "storage": {
-    "rules": "storage.rules"
+    "rules": "./storage.cloudnord.rules"
   },
   "firestore": {
-    "rules": "firestore.rules",
+    "rules": "firestore.cloudnord.rules",
     "indexes": "firestore.indexes.json"
   },
   "functions": [

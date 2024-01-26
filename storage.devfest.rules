@@ -1,0 +1,54 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+  		match /logo {
+     		match /{allPaths=**} {
+      		allow read: if true;
+    		}
+    		match /{imageId} {
+       		allow write: if request.resource.size < 5 * 1024 * 1024
+                    && request.resource.contentType.matches('image/.*');
+     		}
+  		}
+      match /facture {
+     		match /{allPaths=**} {
+        	allow read: if true;
+      		allow write: if isGdgLille();
+    		}
+  		}
+      match /flyers {
+     		match /{allPaths=**} {
+        	allow read: if true;
+      		allow write: if isGdgLille();
+    		}
+  		}
+      match /devis {
+     		match /{allPaths=**} {
+      		allow read: if true;
+      		allow write: if isGdgLille();
+    		}
+  		}
+      match /conventionSigned {
+     		match /{allPaths=**} {
+        	allow read: if true;
+      		allow write: if true;
+    		}
+  		}
+      match /signed {
+     		match /{allPaths=**} {
+        	allow read: if true;
+      		allow write: if true;
+    		}
+  		}
+      match /convention {
+     		match /{allPaths=**} {
+        	allow read: if true;
+      		allow write: if isGdgLille();
+    		}
+  		}
+      
+  }
+}
+function isGdgLille() {
+    return request.auth.token.email.matches(".*@gdglille.org")
+}

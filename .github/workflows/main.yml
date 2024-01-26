@@ -15,12 +15,13 @@ jobs:
             function: "functions:cms4devfestgdg"
             target: "default"
             front: "production"
+            config: "firebase.cloudnord.json"
           - org: Cloud Nord
             secret: CLOUDNORD_FIREBASE_TOKEN
             function: "functions:cms4devfestcloudnord"
             target: "cloudnord"
             front: "production,cloudnord"
-
+            config: "firebase.devfest.json"
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
@@ -36,9 +37,9 @@ jobs:
       - name: Deploy to Firebase for ${{ matrix.org }}
         run: |
           npm --prefix public run build -- --configuration ${{ matrix.front }}
-          npx firebase-tools deploy -P ${{ matrix.target }} --only hosting
-          npx firebase-tools deploy -P ${{ matrix.target }} --only firestore:rules
-          npx firebase-tools deploy -P ${{ matrix.target }} --only functions:cms
-          npx firebase-tools deploy -P ${{ matrix.target }} --only ${{ matrix.function }}
+          npx firebase-tools deploy -c ${{matrix.config}} -P ${{ matrix.target }} --only hosting
+          npx firebase-tools deploy -c ${{matrix.config}} -P ${{ matrix.target }} --only firestore:rules
+          npx firebase-tools deploy -c ${{matrix.config}} -P ${{ matrix.target }} --only functions:cms
+          npx firebase-tools deploy -c ${{matrix.config}} -P ${{ matrix.target }} --only ${{ matrix.function }}
         env:
           FIREBASE_TOKEN: ${{ secrets[matrix.secret] }}

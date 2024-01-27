@@ -13,19 +13,19 @@ service firebase.storage {
       match /facture {
      		match /{allPaths=**} {
         	allow read: if true;
-      		allow write: if isGdgLille();
+      		allow write: if isAdministrator();
     		}
   		}
       match /flyers {
      		match /{allPaths=**} {
         	allow read: if true;
-      		allow write: if isGdgLille();
+      		allow write: if isAdministrator();
     		}
   		}
       match /devis {
      		match /{allPaths=**} {
       		allow read: if true;
-      		allow write: if isGdgLille();
+      		allow write: if isAdministrator();
     		}
   		}
       match /conventionSigned {
@@ -43,12 +43,12 @@ service firebase.storage {
       match /convention {
      		match /{allPaths=**} {
         	allow read: if true;
-      		allow write: if isGdgLille();
+      		allow write: if isAdministrator();
     		}
   		}
       
   }
 }
-function isGdgLille() {
+function isAdministrator() {
     return request.auth.token.email.matches(".*@gdglille.org")
 }

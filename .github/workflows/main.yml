@@ -15,13 +15,13 @@ jobs:
             function: "functions:cms4devfestgdg"
             target: "default"
             front: "production"
-            config: "firebase.cloudnord.json"
+            config: "firebase.devfest.json"
           - org: Cloud Nord
             secret: CLOUDNORD_FIREBASE_TOKEN
             function: "functions:cms4devfestcloudnord"
             target: "cloudnord"
             front: "production,cloudnord"
-            config: "firebase.devfest.json"
+            config: "firebase.cloudnord.json"
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master

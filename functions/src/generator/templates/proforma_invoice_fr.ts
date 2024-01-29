@@ -44,7 +44,7 @@ export default `
 <tbody>
     <tr>
         <td><b><%= DATE %></b></td>
-        <td>Partenariat <%== EVENT_NAME %> <%= EVENT_EDITION %></td>
+        <td>Partenariat <%= EVENT_NAME %> <%= EVENT_EDITION %></td>
         <td><%= SPONSORING_NUMBER %> € HT</td>
     </tr>
     <tr>

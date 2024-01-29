@@ -18,7 +18,7 @@ Ci-après "le Partenaire".
 
 ## I - OBJET DE LA CONVENTION
 
-Cette convention est destinée à régir, de la manière la plus complète possible, la relation de partenariat conclue entre l'association et le partenaire, en vue principalement de l’organisation de l'évènement **<%== EVENT_NAME %> <%= EVENT_EDITION %>**.
+Cette convention est destinée à régir, de la manière la plus complète possible, la relation de partenariat conclue entre l'association et le partenaire, en vue principalement de l’organisation de l'évènement **<%= EVENT_NAME %> <%= EVENT_EDITION %>**.
 
 Elle précise de façon non exhaustive les droits et les obligations principaux des deux contractants, étant entendu que ceux-ci peuvent évoluer au fil du temps conformément à l'article VI - Modifications ; l’objectif principal étant que le partenariat qui unit les deux parties se développe au maximum et dans le sens des intérêts de chacun.
 

@@ -1,6 +1,7 @@
 import { Environement } from './environment.type';
 
 export const environment: Environement = {
+  title: 'CMS Devfest Lille',
   firebase: {
     apiKey: 'AIzaSyBZ_X49nBW358VEudENWzO-jH3wrgSCRoM',
     authDomain: 'cms4partners-ce427.firebaseapp.com',

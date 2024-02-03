@@ -9,6 +9,7 @@ import { Emails } from './validators';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { environment } from '../../../environments/environment';
 const defaultCompany: Company = {
   name: '',
   officialName: '',
@@ -33,7 +34,7 @@ const defaultCompany: Company = {
 interface Option {
   value: string;
   label: string;
-  enabled: boolean;
+  enabled?: boolean;
 }
 type Options = Option[];
 
@@ -75,38 +76,12 @@ export class FormComponent {
 
     if (!!config) {
       this.enabled = config.enabled;
-      this.options = [
-        {
-          value: 'Platinium',
-          label: 'Platinium',
-          enabled: config.platinium > 0,
-        },
-        {
-          value: 'Gold',
-          label: 'Gold',
-          enabled: config.gold > 0,
-        },
-        {
-          value: 'Silver',
-          label: 'Silver',
-          enabled: config.silver > 0,
-        },
-        {
-          value: 'Bronze',
-          label: 'Bronze',
-          enabled: config.bronze > 0,
-        },
-        {
-          value: 'Party',
-          label: 'Party',
-          enabled: config.party > 0,
-        },
-        {
-          value: 'Newsletter',
-          label: 'Etre notifié pour le Devfest Lille 2025',
-          enabled: true,
-        },
-      ];
+      this.options = environment.sponsoringTypes.map((sponsoring) => {
+        return {
+          enable: config[sponsoring.value.toLocaleLowerCase()] > 0,
+          ...sponsoring,
+        };
+      });
     }
 
     this.company.subscribe((c) => {

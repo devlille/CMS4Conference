@@ -49,32 +49,7 @@ export class AdminValidatedComponent {
       this.isAdmin =
         state?.email?.endsWith('@' + environment.emailDomain) ?? false;
 
-      const options = [
-        {
-          value: 'Platinium',
-          label: 'Platinium',
-        },
-        {
-          value: 'Gold',
-          label: 'Gold',
-        },
-        {
-          value: 'Silver',
-          label: 'Silver',
-        },
-        {
-          value: 'Bronze',
-          label: 'Bronze',
-        },
-        {
-          value: 'Party',
-          label: 'Party',
-        },
-        {
-          value: 'Newsletter',
-          label: 'Etre notifié pour le Devfest Lille 2025',
-        },
-      ];
+      const options = environment.sponsoringTypes;
       if (this.isAdmin) {
         this.options = options;
       } else {

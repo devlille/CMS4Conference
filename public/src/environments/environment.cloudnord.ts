@@ -1,6 +1,7 @@
 import { Environement } from './environment.type';
 
 export const environment: Environement = {
+  title: 'CMS Cloud Nord',
   firebase: {
     apiKey: 'AIzaSyAEpVOFj8ciDs8tqYMCn669J12GXKdRSl4',
     authDomain: 'cms4devfest.firebaseapp.com',
@@ -13,4 +14,19 @@ export const environment: Environement = {
   files: {
     'RIB de Cloud Nord': '/assets/RIB_Cloud_Nord.pdf',
   },
+  sponsoringTypes: [
+    {
+      value: 'Digital',
+      label: 'Digital',
+    },
+    {
+      value: 'Physique',
+      label: 'Physique',
+    },
+    {
+      value: 'Newsletter',
+      label: 'Etre notifié la prochaine édition',
+      enabled: true,
+    },
+  ],
 };

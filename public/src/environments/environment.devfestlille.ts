@@ -17,4 +17,31 @@ export const environment: Environement = {
     'Journal Officiel suite à la création du GDG Lille':
       '/assets/JournalOfficiel.pdf',
   },
+  sponsoringTypes: [
+    {
+      value: 'Platinium',
+      label: 'Platinium',
+    },
+    {
+      value: 'Gold',
+      label: 'Gold',
+    },
+    {
+      value: 'Silver',
+      label: 'Silver',
+    },
+    {
+      value: 'Bronze',
+      label: 'Bronze',
+    },
+    {
+      value: 'Party',
+      label: 'Party',
+    },
+    {
+      value: 'Newsletter',
+      label: 'Etre notifié la prochaine édition',
+      enabled: true,
+    },
+  ],
 };

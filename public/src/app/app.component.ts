@@ -23,7 +23,7 @@ import { environment } from '../environments/environment';
 })
 export class AppComponent {
   isLoggedIn: boolean | undefined;
-
+  title = environment.title;
   private auth: Auth = inject(Auth);
   constructor() {
     this.auth.onAuthStateChanged((state) => {

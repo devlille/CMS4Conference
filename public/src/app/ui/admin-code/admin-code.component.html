@@ -10,6 +10,16 @@
     <input matInput type="text" [(ngModel)]="company.wldId" />
   </mat-form-field>
 </div>
+<div class="inline-bloc">
+  <mat-form-field appearance="fill">
+    <mat-label>Activités sur le Stand</mat-label>
+    <textarea
+      [(ngModel)]="company.activities"
+      matInput
+      maxlength="280"
+    ></textarea>
+  </mat-form-field>
+</div>
 
 <div class="inline-bloc">
   <button color="primary" mat-raised-button (click)="updateBilletwebUrl()">

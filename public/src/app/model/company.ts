@@ -1,11 +1,7 @@
 import { Timestamp } from '@angular/fire/firestore';
 
-export type Configuration = {
-  party: number;
-  bronze: number;
-  silver: number;
-  gold: number;
-  platinium: number;
+export type SponsoringType = Record<string, number>;
+export type Configuration = SponsoringType & {
   next_value: string;
   enabled: boolean;
 };

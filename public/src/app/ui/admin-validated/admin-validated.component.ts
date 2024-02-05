@@ -32,7 +32,7 @@ import { environment } from '../../../environments/environment';
 export class AdminValidatedComponent {
   @Input() workflow: Workflow | undefined;
   @Input() step: WorkflowStep | undefined;
-  @Input() company: Company | undefined;
+  @Input({ required: true }) company!: Company;
   @Input() id: string | undefined;
 
   files = {};
@@ -44,22 +44,35 @@ export class AdminValidatedComponent {
   private readonly auth = inject(Auth);
 
   options: { value: string; label: string }[] = [];
-  ngOnInit() {
+  async ngOnInit() {
+    const config = await this.partnerService.getCurrentConfiguration();
+
     this.auth.onAuthStateChanged((state) => {
       this.isAdmin =
         state?.email?.endsWith('@' + environment.emailDomain) ?? false;
 
-      const options = environment.sponsoringTypes;
+      const options = config.sponsorships.map((sponsorship) => ({
+        value: sponsorship.name.toLowerCase(),
+        label: sponsorship.name.toLowerCase(),
+      }));
       if (this.isAdmin) {
         this.options = options;
+
+        //TO BE REMOVED NEXT YEAR
+        this.company.sponsoring = this.company.sponsoring.toLocaleLowerCase();
+        this.company.secondSponsoring =
+          this.company.secondSponsoring?.toLocaleLowerCase();
       } else {
         this.options = [
-          options.find(({ value }) => value === this.company?.sponsoring)!,
+          options.find(
+            ({ value }) => value === this.company.sponsoring.toLowerCase(),
+          )!,
         ];
         if (this.company?.secondSponsoring) {
           this.options.push(
             options.find(
-              ({ value }) => value === this.company?.secondSponsoring,
+              ({ value }) =>
+                value === this.company.secondSponsoring?.toLocaleLowerCase(),
             )!,
           );
         }

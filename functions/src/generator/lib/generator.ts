@@ -6,22 +6,27 @@ import ConventionEn from "../templates/convention_en";
 import ConventionFr from "../templates/convention_fr";
 import InvoiceFr from "../templates/invoice_fr";
 import ProformaInvoiceFr from "../templates/proforma_invoice_fr";
-import { Settings } from "../../model";
+import { Configuration, Settings } from "../../model";
 
-function getSponsoringFees(sponsoring: string): [string, number, number] {
-  switch (sponsoring) {
-    case "Party":
-      return ["cinq milles euros", 5000, 4];
-    case "Bronze":
-      return ["deux milles euros", 2000, 4];
-    case "Silver":
-      return ["cinq milles euros", 5000, 6];
-    default:
-      return ["neuf milles euros", 9000, 10];
+function getSponsoringFees(sponsoring: string, configurationFromFirestore: Configuration): [string, number, number] {
+  const sponsoringConfiguration = configurationFromFirestore.sponsorships.find(
+    (s) => s.name.toLowerCase() === sponsoring.toLowerCase()
+  );
+
+  if (!sponsoringConfiguration) {
+    return ["", 0, 0];
   }
+  return [sponsoringConfiguration.priceString, sponsoringConfiguration.price, sponsoringConfiguration.freeTickets];
 }
 
-function generateFile(config: any, fileName: string, file: any, settings: Settings, invoiceType: any) {
+function generateFile(
+  config: any,
+  fileName: string,
+  file: any,
+  settings: Settings,
+  invoiceType: any,
+  configurationFromFirestore: Configuration
+) {
   const getOfficialName = () => {
     if (!!config.officialName) {
       return config.officialName;
@@ -34,7 +39,10 @@ function generateFile(config: any, fileName: string, file: any, settings: Settin
     year: "numeric",
   }).format(new Date());
 
-  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(config.sponsoring);
+  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(
+    config.sponsoring,
+    configurationFromFirestore
+  );
   return new Promise((resolve, reject) => {
     const data = {
       COMPANY: getOfficialName(),
@@ -83,24 +91,46 @@ function generateFile(config: any, fileName: string, file: any, settings: Settin
   });
 }
 
-export function generateProformaInvoice(config: any, settings: Settings) {
-  return generateFile(config, `proforma_invoice_${config.id}.pdf`, ProformaInvoiceFr, settings, "FACTURE PRO FORMA");
+export function generateProformaInvoice(config: any, settings: Settings, configurationFromFirestore: Configuration) {
+  return generateFile(
+    config,
+    `proforma_invoice_${config.id}.pdf`,
+    ProformaInvoiceFr,
+    settings,
+    "FACTURE PRO FORMA",
+    configurationFromFirestore
+  );
 }
-export function generateDevis(config: any, settings: Settings) {
-  return generateFile(config, `devis_${config.id}.pdf`, ProformaInvoiceFr, settings, "DEVIS");
+export function generateDevis(config: any, settings: Settings, configurationFromFirestore: Configuration) {
+  return generateFile(
+    config,
+    `devis_${config.id}.pdf`,
+    ProformaInvoiceFr,
+    settings,
+    "DEVIS",
+    configurationFromFirestore
+  );
 }
-export function generateDepositInvoice(config: any, settings: Settings) {
-  return generateFile(config, `deposit_invoice_${config.id}.pdf`, ProformaInvoiceFr, settings, "FACTURE ACCOMPTE 100%");
+export function generateDepositInvoice(config: any, settings: Settings, configurationFromFirestore: Configuration) {
+  return generateFile(
+    config,
+    `deposit_invoice_${config.id}.pdf`,
+    ProformaInvoiceFr,
+    settings,
+    "FACTURE ACCOMPTE 100%",
+    configurationFromFirestore
+  );
 }
-export function generateInvoice(config: any, settings: Settings) {
-  return generateFile(config, `invoice_${config.id}.pdf`, InvoiceFr, settings, "");
+export function generateInvoice(config: any, settings: Settings, configurationFromFirestore: Configuration) {
+  return generateFile(config, `invoice_${config.id}.pdf`, InvoiceFr, settings, "", configurationFromFirestore);
 }
-export function generateConvention(config: any, settings: Settings) {
+export function generateConvention(config: any, settings: Settings, configurationFromFirestore: Configuration) {
   return generateFile(
     config,
     `convention_${config.id}.pdf`,
     config.lang === "fr" ? ConventionFr : ConventionEn,
     settings,
-    ""
+    "",
+    configurationFromFirestore
   );
 }

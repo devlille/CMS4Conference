@@ -14,19 +14,4 @@ export const environment: Environement = {
   files: {
     'RIB de Cloud Nord': '/assets/RIB_Cloud_Nord.pdf',
   },
-  sponsoringTypes: [
-    {
-      value: 'Digital',
-      label: 'Digital',
-    },
-    {
-      value: 'Physique',
-      label: 'Physique',
-    },
-    {
-      value: 'Newsletter',
-      label: 'Etre notifié la prochaine édition',
-      enabled: true,
-    },
-  ],
 };

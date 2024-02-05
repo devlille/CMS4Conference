@@ -77,9 +77,16 @@ export class FormComponent {
     if (!!config) {
       this.enabled = config.enabled;
       this.options = environment.sponsoringTypes.map((sponsoring) => {
+        const sponsorship = config.sponsorships.find(
+          (s) =>
+            s.name.toLocaleLowerCase() === sponsoring.label.toLocaleLowerCase(),
+        );
         return {
-          enable: config[sponsoring.value.toLocaleLowerCase()] > 0,
+          enabled: config[sponsoring.value.toLocaleLowerCase()] > 0,
           ...sponsoring,
+          label: !sponsorship
+            ? sponsoring.label
+            : `${sponsoring.label} (${sponsorship?.price} euros)`,
         };
       });
     }

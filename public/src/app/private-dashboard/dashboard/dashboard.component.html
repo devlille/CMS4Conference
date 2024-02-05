@@ -19,7 +19,7 @@
     [ngModel]="filterByPackValue()"
     (ngModelChange)="filterByPackHandler($event)"
   >
-    @for (option of filterByPack(); track option) {
+    @for (option of packOptions(); track option) {
       <mat-button-toggle [value]="option.value">{{
         option.label
       }}</mat-button-toggle>

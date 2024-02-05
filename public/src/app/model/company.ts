@@ -4,6 +4,12 @@ export type SponsoringType = Record<string, number>;
 export type Configuration = SponsoringType & {
   next_value: string;
   enabled: boolean;
+  sponsorships: {
+    freeTickets: number;
+    name: string;
+    price: number;
+    priceString: number;
+  }[];
 };
 export interface Workflow {
   id: number;

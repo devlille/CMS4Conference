@@ -27,13 +27,7 @@ type FilterValueType =
   | 'paid'
   | 'received'
   | 'communicated';
-type FilterByPackValueType =
-  | 'Platinium'
-  | 'Gold'
-  | 'Silver'
-  | 'Bronze'
-  | 'Party'
-  | 'Newsletter';
+type FilterByPackValueType = string;
 type FilterByType = PartnerType | 'undefined';
 
 @Component({
@@ -56,7 +50,7 @@ type FilterByType = PartnerType | 'undefined';
 export class DashboardComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
-  configuration!: Configuration;
+  configuration = signal<Configuration | undefined>(undefined);
   displayedColumns: string[] = [
     'creationDate',
     'name',
@@ -75,14 +69,6 @@ export class DashboardComponent implements AfterViewInit {
     'paid',
     'received',
     'communicated',
-  ]);
-  filterByPackValue = signal<FilterByPackValueType[]>([
-    'Platinium',
-    'Gold',
-    'Silver',
-    'Bronze',
-    'Party',
-    'Newsletter',
   ]);
 
   shouldDisplayRelanceButton = computed(() => {
@@ -103,9 +89,12 @@ export class DashboardComponent implements AfterViewInit {
 
   filteredPartnersByStatusAndPacks = computed(() => {
     const packs = this.filterByPackValue();
+
     return this.filteredPartnersByStatus().filter(
       (partner) =>
-        packs.indexOf(partner.sponsoring! as FilterByPackValueType) >= 0,
+        packs.indexOf(
+          partner.sponsoring?.toLowerCase()! as FilterByPackValueType,
+        ) >= 0,
     );
   });
 
@@ -127,41 +116,47 @@ export class DashboardComponent implements AfterViewInit {
     return dataSource;
   });
 
-  filterByPack = computed(() => {
+  packOptions = computed(() => {
     const partners = this.filteredPartnersByStatus();
+    const configuration = this.configuration();
 
-    let platiniumCount = 0;
-    let goldCount = 0;
-    let silverCount = 0;
-    let bronzeCount = 0;
-    let partyCount = 0;
-    let newsletterCount = 0;
+    const stats = partners.reduce(
+      (acc: Record<string, number>, partner: Partial<Company>) => {
+        const count: number = acc[partner.sponsoring!.toLocaleLowerCase()] ?? 0;
+        return {
+          ...acc,
+          [partner.sponsoring!.toLocaleLowerCase()]: count + 1,
+        };
+      },
+      {
+        ...configuration?.sponsorships.reduce(
+          (acc, sponsorship) => ({ ...acc, [sponsorship.name]: 0 }),
+          {},
+        ),
+      },
+    );
 
-    partners.forEach((partner) => {
-      if (partner.sponsoring === 'Platinium') {
-        platiniumCount++;
-      } else if (partner.sponsoring === 'Gold') {
-        goldCount++;
-      } else if (partner.sponsoring === 'Silver') {
-        silverCount++;
-      } else if (partner.sponsoring === 'Bronze') {
-        bronzeCount++;
-      } else if (partner.sponsoring === 'Party') {
-        partyCount++;
-      } else if (partner.sponsoring === 'Newsletter') {
-        newsletterCount++;
-      }
-    });
-
-    return [
-      { value: 'Platinium', label: `Platinium (${platiniumCount})` },
-      { value: 'Gold', label: `Gold (${goldCount})` },
-      { value: 'Silver', label: `Silver (${silverCount})` },
-      { value: 'Bronze', label: `Bronze (${bronzeCount})` },
-      { value: 'Party', label: `Party (${partyCount})` },
-      { value: 'Newsletter', label: `Newsletter (${partyCount})` },
-    ];
+    return Object.entries(stats).map(([key, count]: [string, number]) => ({
+      value: key,
+      label: `${key} (${count})`,
+    }));
   });
+
+  filterByPackValue = computed(() => {
+    const options = this.packOptions();
+    const filterByPackSelected = this.filterByPackSelected();
+    const values = options.map((option) => option.value);
+
+    if (!filterByPackSelected) {
+      return values;
+    }
+    return values.filter((value) => filterByPackSelected.includes(value));
+  });
+  filterByPackSelected = signal<FilterByPackValueType[] | undefined>(undefined);
+
+  filterByPackHandler(pack: FilterByPackValueType[]) {
+    this.filterByPackSelected.set(pack);
+  }
 
   filterByType = computed(() => {
     const partners = this.filteredPartnersByStatusAndPacks();
@@ -219,7 +214,7 @@ export class DashboardComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.partnerService
       .getCurrentConfiguration()
-      .then((config) => (this.configuration = config));
+      .then((config) => this.configuration.set(config));
 
     this.partnerService.getAll().subscribe((partners) => {
       this.originalPartners.set(
@@ -238,8 +233,6 @@ export class DashboardComponent implements AfterViewInit {
         })),
       );
       this.countByStep(partners);
-      //this.countByPack(partners);
-      //this.countByType(partners);
     });
   }
   countByStep(partners: Company[]) {
@@ -279,10 +272,6 @@ export class DashboardComponent implements AfterViewInit {
     ];
   }
 
-  filterByPackHandler(pack: FilterByPackValueType[]) {
-    this.filterByPackValue.set(pack);
-  }
-
   filterByStatusValueHandler(values: FilterValueType[]) {
     this.filterByStatusValue.set(values);
   }
@@ -302,6 +291,6 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   changeVisibility() {
-    return this.partnerService.updateVisibility(!this.configuration.enabled);
+    return this.partnerService.updateVisibility(!this.configuration()!.enabled);
   }
 }

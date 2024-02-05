@@ -16,10 +16,8 @@ function getSponsoringFees(sponsoring: string): [string, number, number] {
       return ["deux milles euros", 2000, 4];
     case "Silver":
       return ["cinq milles euros", 5000, 6];
-    case "Gold":
-      return ["neuf milles euros", 9000, 10];
     default:
-      return ["mille deux cents euros", 12000, 12];
+      return ["neuf milles euros", 9000, 10];
   }
 }
 

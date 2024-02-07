@@ -40,13 +40,17 @@ export type Settings = {
 };
 
 export type SponsoringType = Record<string, number>;
+export type SponsorshipConfiguration = {
+  freeTickets: number;
+  name: string;
+  price: number;
+  priceString: string;
+  considerations: string[];
+  considerationsEn: string[];
+  hasBooth: boolean;
+};
 export type Configuration = SponsoringType & {
   next_value: string;
   enabled: boolean;
-  sponsorships: {
-    freeTickets: number;
-    name: string;
-    price: number;
-    priceString: string;
-  }[];
+  sponsorships: SponsorshipConfiguration[];
 };

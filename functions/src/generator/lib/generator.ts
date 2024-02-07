@@ -6,13 +6,9 @@ import ConventionEn from "../templates/convention_en";
 import ConventionFr from "../templates/convention_fr";
 import InvoiceFr from "../templates/invoice_fr";
 import ProformaInvoiceFr from "../templates/proforma_invoice_fr";
-import { Configuration, Settings } from "../../model";
+import { Configuration, Settings, SponsorshipConfiguration } from "../../model";
 
-function getSponsoringFees(sponsoring: string, configurationFromFirestore: Configuration): [string, number, number] {
-  const sponsoringConfiguration = configurationFromFirestore.sponsorships.find(
-    (s) => s.name.toLowerCase() === sponsoring.toLowerCase()
-  );
-
+function getSponsoringFees(sponsoringConfiguration: SponsorshipConfiguration): [string, number, number] {
   if (!sponsoringConfiguration) {
     return ["", 0, 0];
   }
@@ -39,12 +35,22 @@ function generateFile(
     year: "numeric",
   }).format(new Date());
 
-  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(
-    config.sponsoring,
-    configurationFromFirestore
+  const sponsoringConfiguration: SponsorshipConfiguration | undefined = configurationFromFirestore.sponsorships.find(
+    (s) => s.name.toLowerCase() === config.sponsoring.toLowerCase()
   );
+
+  if (!sponsoringConfiguration) {
+    return;
+  }
+
+  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(sponsoringConfiguration);
   return new Promise((resolve, reject) => {
     const data = {
+      CONSIDERATIONS:
+        config.lang === "fr"
+          ? sponsoringConfiguration?.considerations
+          : sponsoringConfiguration?.considerationsEn ?? sponsoringConfiguration?.considerations,
+      HAS_BOOTH: sponsoringConfiguration?.hasBooth.toString(),
       COMPANY: getOfficialName(),
       SIRET: config.siret,
       COMPANY_ADDRESS: config.address,

@@ -19,33 +19,13 @@ This Agreement defines, in a non-exhaustive manner, the main rights and obligati
 
 Broadly, the Association is committed to give the Partner a large visibility on the Association's communication supports:
 
-<% if (SPONSORING === 'Platinium') { %>- An unique booth (18m²)on the conference day <% } %>
-<% if (SPONSORING === 'Gold') { %>- An unique booth (12m²)on the conference day <% } %>
-<% if (SPONSORING === 'Silver') { %>- An unique booth (9m²)on the conference day <% } %>
-<% if (SPONSORING === 'Platinium') { %>- 2 Communication on social media: Twitter and LinkedIN and Retweet during the event <% } %>
-<% if (SPONSORING === 'Gold') { %>- 1 Communication on social media: Twitter and LinkedIN <% } %>
-<% if (SPONSORING === 'Silver') { %>- 1 Communication on social media: Twitter and LinkedIN <% } %>
-<% if (SPONSORING === 'Bronze' || SPONSORING === 'Party') { %>- 1 Communication on social media: Twitter and LinkedIN <% } %>
-<% if (SPONSORING === 'Party') { %>- 1 speech during the party <% } %>
-<% if (SPONSORING === 'Party') { %>- 8 extra party tickets <% } %>
-<% if (SPONSORING === 'Platinium') { %>- 5 stand tickets <% } %>
-<% if (SPONSORING === 'Gold') { %>- 3 stand tickets <% } %>
-<% if (SPONSORING === 'Silver') { %>- 2 stand tickets <% } %>
-<% if (SPONSORING === 'Platinium') { %>- 12 free tickets <% } %>
-<% if (SPONSORING === 'Gold') { %>- 10 free tickets <% } %>
-<% if (SPONSORING === 'Silver') { %>- 6 free tickets <% } %>
-<% if (SPONSORING === 'Bronze' || SPONSORING === 'Party') { %>- 4 free tickets <% } %>
+<% CONSIDERATIONS.forEach(function(c){ %>
+- <%= c %>    
+<% }); %>
 - The Partner's logo on the web site  <%= GDG_WEBSITE %> and on our mobile application
 - The Partner's logo on screens (conference room)
-<% if (SPONSORING === 'Platinium') { %>- Write the message we will post on our own social medias about the partnership <% } %>
-<% if (SPONSORING === 'Gold') { %>- Write the message we will post on our own social medias about the partnership <% } %>
-<% if (SPONSORING === 'Silver') { %>- Write the message we will post on our own social medias about the partnership <% } %>
-<% if (SPONSORING === 'Platinium') { %>- Job offers on WLD <% } %>
-<% if (SPONSORING === 'Gold') { %>- Job offers on WLD <% } %>
-<% if (SPONSORING === 'Silver') { %>- Job offers on WLD <% } %>
-<% if (SPONSORING === 'Platinium') { %>- Logo on published YouTube videos <% } %>
-<% if (SPONSORING === 'Gold') { %>- Logo on published YouTube videos <% } %>
-<% if (SPONSORING !== 'Bronze' && SPONSORING !== 'Party') { %>
+
+<% if (HAS_BOOTH === 'true') { %>
 The Association is committed to provide to the Partner an electrical power strip, a table and two chairs. The rest will be the responsibility of the Partner.
 <% } %>
 
@@ -62,7 +42,7 @@ As indicated in the invoice, here are the Banking Information of the association
 - IBAN FR7630027170150002067180121
 - BIC CMCIFRPP
 
-<% if (SPONSORING !== 'Bronze' && SPONSORING !== 'Party') { %>
+<% if (HAS_BOOTH === 'true') { %>
 The Partner is committed to install its stand on June, the 5th. A security team will be present the night in the exhibition room.
 <% } %>
 

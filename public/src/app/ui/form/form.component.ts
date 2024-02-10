@@ -67,6 +67,7 @@ export class FormComponent {
 
   options: Options = [];
   enabled = false;
+  openingDate = '';
   updatedCompany: Company = {} as Company;
 
   private partnerService = inject(PartnerService);
@@ -76,6 +77,7 @@ export class FormComponent {
 
     if (!!config) {
       this.enabled = config.enabled;
+      this.openingDate = config.openingDate;
       this.options = config.sponsorships.map((sponsorship) => {
         return {
           enabled: config[sponsorship.name.toLocaleLowerCase()] > 0,

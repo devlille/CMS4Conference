@@ -4,6 +4,7 @@ export type SponsoringType = Record<string, number>;
 export type Configuration = SponsoringType & {
   next_value: string;
   enabled: boolean;
+  openingDate: string;
   sponsorships: {
     freeTickets: number;
     name: string;

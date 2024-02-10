@@ -50,7 +50,8 @@ export async function generateAndStoreInvoice(
   firestore: FirebaseFirestore.Firestore,
   company: DocumentData,
   id: string,
-  settings: any
+  settings: any,
+  configurationFromFirestore: Configuration
 ) {
   let invoiceNumber = company.invoiceNumber;
 
@@ -64,7 +65,8 @@ export async function generateAndStoreInvoice(
       id,
       invoiceNumber,
     },
-    settings
+    settings,
+    configurationFromFirestore
   );
   const publicInvoiceUrl = await storeFile("facture/", invoice as any);
 

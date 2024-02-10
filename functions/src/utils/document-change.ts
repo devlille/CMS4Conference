@@ -50,7 +50,7 @@ export async function onDocumentChange(
       });
 
     await generateAndStoreProformaInvoiceAndConvention(after, id, settings, configurationFromFirestore);
-    await generateAndStoreInvoice(firestore, after, id, settings);
+    await generateAndStoreInvoice(firestore, after, id, settings, configurationFromFirestore);
 
     return firestore.doc("companies-2024/" + id).update({
       ...partnershipGenerated(after, id, settings, status.generated === StatusEnum.DONE),

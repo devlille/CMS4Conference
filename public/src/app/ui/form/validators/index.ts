@@ -1,7 +1,7 @@
 import { ValidatorFn, FormControl, AbstractControl } from '@angular/forms';
 
 export function Emails(): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
+  return (control: AbstractControl): Record<string, any> | null => {
     const REGEXP = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 
     const value: string = control.value || '';
@@ -21,7 +21,7 @@ export function Emails(): ValidatorFn {
 }
 
 export function Siret(): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
+  return (control: AbstractControl): Record<string, any> | null => {
     const value: string = control.value || '';
     const withoutSpace = value.replace(' ', '');
     if (value === '' || /^[\d]{14}$/.test(withoutSpace)) {

@@ -15,7 +15,7 @@ import { environment } from '../../environments/environment';
 export class AllFilesComponent implements OnInit {
   private readonly partnerStore = inject(StoreService);
 
-  files: { [key: string]: string } = {
+  files: Record<string, string> = {
     ...environment.files,
   };
 

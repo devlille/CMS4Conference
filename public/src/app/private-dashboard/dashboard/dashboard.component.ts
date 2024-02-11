@@ -236,7 +236,7 @@ export class DashboardComponent implements AfterViewInit {
     });
   }
   countByStep(partners: Company[]) {
-    const counter: { [key: string]: number } = {
+    const counter: Record<string, number> = {
       sign: 0,
       generated: 0,
       validated: 0,

@@ -42,7 +42,7 @@ export class GeneratedComponent {
   @Input() step: WorkflowStep | undefined;
   @Input() company: Company | undefined;
   @Input() id: string | undefined;
-  files: { [key: string]: string } = {
+  files: Record<string, string> = {
     ...environment.files,
   };
   isAdmin = false;

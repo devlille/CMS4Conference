@@ -30,5 +30,5 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class FilesComponent {
   @Input()
-  files: { [key: string]: string } | undefined;
+  files: Record<string, string> | undefined;
 }

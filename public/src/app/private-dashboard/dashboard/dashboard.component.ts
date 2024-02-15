@@ -26,7 +26,8 @@ type FilterValueType =
   | 'validated'
   | 'paid'
   | 'received'
-  | 'communicated';
+  | 'communicated'
+  | 'code';
 type FilterByPackValueType = string;
 type FilterByType = PartnerType | 'undefined';
 
@@ -69,6 +70,7 @@ export class DashboardComponent implements AfterViewInit {
     'paid',
     'received',
     'communicated',
+    'code',
   ]);
 
   shouldDisplayRelanceButton = computed(() => {
@@ -243,6 +245,7 @@ export class DashboardComponent implements AfterViewInit {
       paid: 0,
       received: 0,
       communicated: 0,
+      code: 0,
     };
 
     partners.forEach((partner) => {
@@ -268,6 +271,10 @@ export class DashboardComponent implements AfterViewInit {
       {
         value: 'communicated',
         label: `Communication (${counter['communicated']})`,
+      },
+      {
+        value: 'code',
+        label: `Code (${counter['code']})`,
       },
     ];
   }

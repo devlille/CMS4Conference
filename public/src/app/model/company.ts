@@ -43,6 +43,7 @@ export interface WorkflowStatus {
   received?: State;
   communicated?: State;
   generated?: State;
+  code?: State;
 }
 
 export interface Company {

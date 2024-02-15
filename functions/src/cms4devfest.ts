@@ -36,6 +36,17 @@ function updatesStatus(id: string, company: any, status: any) {
     .catch((err) => console.log(err));
 }
 
+export const getAllPublicSponsors = functions.https.onRequest(async (req, resp) => {
+  const data = await firestore.collection("companies-2024").get();
+  const partners = data.docs
+    .map((d) => ({
+      id: d.id,
+      ...d.data(),
+    }))
+    .filter((p: any) => p.status.paid === StatusEnum.DONE && p.public && !!p.siteUrl && !!p.logoUrl);
+  resp.send(partners);
+});
+
 const relance = (
   emailFactory: (partner: Record<string, any>, settings: Settings) => any,
   partners: any[],
@@ -46,6 +57,7 @@ const relance = (
     sendEmailToAllContacts(c, emailTemplate, settings);
   });
 };
+
 export const relancePartnaireConventionASigner = functions.https.onCall(async (req, res) => {
   const data = await firestore.collection("companies-2024").get();
   const partners = data.docs.map((d) => d.data()).filter((p) => p.status.sign === StatusEnum.PENDING);

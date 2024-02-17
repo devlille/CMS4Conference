@@ -2,10 +2,6 @@ import * as ejs from "ejs";
 import * as markdownToPDf from "markdown-pdf";
 import * as os from "os";
 
-import ConventionEn from "../templates/convention_en";
-import ConventionFr from "../templates/convention_fr";
-import InvoiceFr from "../templates/invoice_fr";
-import ProformaInvoiceFr from "../templates/proforma_invoice_fr";
 import { Configuration, Settings, SponsorshipConfiguration } from "../../model";
 
 function getSponsoringFees(sponsoringConfiguration: SponsorshipConfiguration): [string, number, number] {
@@ -44,13 +40,23 @@ function generateFile(
   }
 
   const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(sponsoringConfiguration);
+
+  const LINES: { label: string; price: number }[] = [];
+  let total = SPONSORING_NUMBER;
+  LINES.push({ label: `Partenariat ${settings.gdg.event}`, price: SPONSORING_NUMBER });
+
+  (config.options ?? []).forEach((option: { label: string; total: number }) => {
+    total += option.total;
+    LINES.push({ label: option.label, price: option.total });
+  });
+  config;
   return new Promise((resolve, reject) => {
     const data = {
       CONSIDERATIONS:
         config.lang === "fr"
           ? sponsoringConfiguration?.considerations
           : sponsoringConfiguration?.considerationsEn ?? sponsoringConfiguration?.considerations,
-      HAS_BOOTH: sponsoringConfiguration?.hasBooth.toString(),
+      HAS_BOOTH: sponsoringConfiguration?.hasBooth?.toString(),
       COMPANY: getOfficialName(),
       SIRET: config.siret,
       COMPANY_ADDRESS: config.address,
@@ -65,7 +71,7 @@ function generateFile(
       SPONSORING: config.sponsoring,
       PO: config.PO,
       SPONSORING_TEXT,
-      SPONSORING_NUMBER,
+      SPONSORING_NUMBER: total,
       START_DATE: settings.convention.startdate,
       END_DATE: settings.convention.enddate,
       DATE,
@@ -98,6 +104,11 @@ function generateFile(
 }
 
 export function generateProformaInvoice(config: any, settings: Settings, configurationFromFirestore: Configuration) {
+  const ProformaInvoiceFr =
+    settings.gdg.event === "Devfest Lille"
+      ? require("./template_devfest/proforma_invoice_fr")
+      : require("./template_cloudnord/proforma_invoice_fr");
+
   return generateFile(
     config,
     `proforma_invoice_${config.id}.pdf`,
@@ -108,6 +119,11 @@ export function generateProformaInvoice(config: any, settings: Settings, configu
   );
 }
 export function generateDevis(config: any, settings: Settings, configurationFromFirestore: Configuration) {
+  const ProformaInvoiceFr =
+    settings.gdg.event === "Devfest Lille"
+      ? require("./template_devfest/proforma_invoice_fr")
+      : require("./template_cloudnord/proforma_invoice_fr");
+
   return generateFile(
     config,
     `devis_${config.id}.pdf`,
@@ -118,6 +134,11 @@ export function generateDevis(config: any, settings: Settings, configurationFrom
   );
 }
 export function generateDepositInvoice(config: any, settings: Settings, configurationFromFirestore: Configuration) {
+  const ProformaInvoiceFr =
+    settings.gdg.event === "Devfest Lille"
+      ? require("./template_devfest/proforma_invoice_fr")
+      : require("./template_cloudnord/proforma_invoice_fr");
+
   return generateFile(
     config,
     `deposit_invoice_${config.id}.pdf`,
@@ -128,9 +149,22 @@ export function generateDepositInvoice(config: any, settings: Settings, configur
   );
 }
 export function generateInvoice(config: any, settings: Settings, configurationFromFirestore: Configuration) {
+  const InvoiceFr =
+    settings.gdg.event === "Devfest Lille"
+      ? require("./template_devfest/invoice_fr")
+      : require("./template_cloudnord/invoice_fr");
   return generateFile(config, `invoice_${config.id}.pdf`, InvoiceFr, settings, "", configurationFromFirestore);
 }
 export function generateConvention(config: any, settings: Settings, configurationFromFirestore: Configuration) {
+  const ConventionFr =
+    settings.gdg.event === "Devfest Lille"
+      ? require("./template_devfest/convention_fr")
+      : require("./template_cloudnord/convention_fr");
+  const ConventionEn =
+    settings.gdg.event === "Devfest Lille"
+      ? require("./template_devfest/convention_en")
+      : require("./template_cloudnord/convention_en");
+
   return generateFile(
     config,
     `convention_${config.id}.pdf`,

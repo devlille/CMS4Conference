@@ -1,11 +1,10 @@
 export default `
 <img width="100px" alt="" src="data:image/svg+xml;base64,PHN2ZyBpZD0iQ2FscXVlXzEiIGRhdGEtbmFtZT0iQ2FscXVlIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDM4IDczIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzA4NjQ5MTt9LmNscy0ze2ZpbGw6I2M0MTcxODt9LmNscy00e2ZpbGw6I2YzOTcwMDt9LmNscy01e2ZpbGw6IzFkMWQxYjt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmxvZ28tZ2RnbGlsbGU8L3RpdGxlPjxyZWN0IGNsYXNzPSJjbHMtMSIgd2lkdGg9IjM4IiBoZWlnaHQ9IjczIiByeD0iMiIgcnk9IjIiLz48Y2lyY2xlIGNsYXNzPSJjbHMtMiIgY3g9IjMwLjI3IiBjeT0iMTIuODkiIHI9IjIuMTMiLz48Y2lyY2xlIGNsYXNzPSJjbHMtMyIgY3g9IjMwLjI3IiBjeT0iMTkuMzgiIHI9IjIuMTMiLz48Y2lyY2xlIGNsYXNzPSJjbHMtNCIgY3g9IjMwLjI3IiBjeT0iMjUuODciIHI9IjIuMTMiLz48cmVjdCBjbGFzcz0iY2xzLTIiIHg9IjkuNjgiIHk9IjEwLjczIiB3aWR0aD0iNC4yIiBoZWlnaHQ9IjI2LjAzIiByeD0iMS4wMSIgcnk9IjEuMDEiLz48cmVjdCBjbGFzcz0iY2xzLTMiIHg9IjE1Ljg4IiB5PSIxMC43MyIgd2lkdGg9IjQuMiIgaGVpZ2h0PSIyNi4wMyIgcng9IjEuMDEiIHJ5PSIxLjAxIi8+PHJlY3QgY2xhc3M9ImNscy00IiB4PSIyMi4wOCIgeT0iMTAuNzMiIHdpZHRoPSI0LjIiIGhlaWdodD0iMjYuMDMiIHJ4PSIxLjAxIiByeT0iMS4wMSIvPjxwYXRoIGNsYXNzPSJjbHMtNSIgZD0iTTUuNiw0NmE0LjQ0LDQuNDQsMCwwLDEsNC40Ny00LjM0LDQuMzksNC4zOSwwLDAsMSwzLjUyLDEuNzdjLjE5LjI2LjA2LjQ3LS4yNi40N0gxMy4yYS41Ny41NywwLDAsMS0uNDYtLjIxLDMuNjUsMy42NSwwLDAsMC0yLjY3LTEuMTYsMy41MiwzLjUyLDAsMSwwLDMsNS40VjQ2LjMzYS4zNC4zNCwwLDAsMSwuMzgtLjM4aC4xMWEuMzUuMzUsMCwwLDEsLjM5LjM4VjQ5LjlhLjM1LjM1LDAsMCwxLS4zOS4zOGgtLjExYS4zNC4zNCwwLDAsMS0uMzgtLjM4di0uNjZBNC40OCw0LjQ4LDAsMCwxLDUuNiw0NloiLz48cGF0aCBjbGFzcz0iY2xzLTUiIGQ9Ik0xNi4xMyw1MC4yOGEuMzQuMzQsMCwwLDEtLjM4LS4zOFY0Mi4xYS4zNC4zNCwwLDAsMSwuMzgtLjM4SDE4YzMuMTEsMCw0LjM2LDEuMjIsNC4zNiw0LjI4UzIxLjEzLDUwLjI4LDE4LDUwLjI4Wk0xOCw0OS40NGMyLjQ2LDAsMy40NS0xLDMuNDUtMy40NHMtMS0zLjQ0LTMuNDUtMy40NGgtMS40djYuODhaIi8+PHBhdGggY2xhc3M9ImNscy01IiBkPSJNMjMuNDYsNDZhNC40NCw0LjQ0LDAsMCwxLDQuNDctNC4zNCw0LjM3LDQuMzcsMCwwLDEsMy41MSwxLjc3Yy4yLjI2LjA2LjQ3LS4yNS40N2gtLjEzYS41OS41OSwwLDAsMS0uNDctLjIxLDMuNjUsMy42NSwwLDAsMC0yLjY2LTEuMTYsMy41MiwzLjUyLDAsMSwwLDAsNywzLjU3LDMuNTcsMCwwLDAsMy0xLjYzVjQ2LjMzYS4zNC4zNCwwLDAsMSwuMzgtLjM4aC4xMWEuMzQuMzQsMCwwLDEsLjM4LjM4VjQ5LjlhLjM0LjM0LDAsMCwxLS4zOC4zOGgtLjExYS4zNC4zNCwwLDAsMS0uMzgtLjM4di0uNjZBNC40OCw0LjQ4LDAsMCwxLDIzLjQ2LDQ2WiIvPjxwYXRoIGNsYXNzPSJjbHMtNSIgZD0iTTYuMyw2Mi4yN2EuMzQuMzQsMCwwLDEtLjM5LS4zOHYtNy44YS4zNC4zNCwwLDAsMSwuMzktLjM4aC4xYS4zNC4zNCwwLDAsMSwuMzkuMzh2Ny4zNGgzLjU2YS4zNC4zNCwwLDAsMSwuMzguMzl2LjA3YS4zNC4zNCwwLDAsMS0uMzguMzhaIi8+PHBhdGggY2xhc3M9ImNscy01IiBkPSJNMTIuNDQsNjIuMjdhLjM0LjM0LDAsMCwxLS4zOS0uMzh2LTcuOGEuMzQuMzQsMCwwLDEsLjM5LS4zOGguMWEuMzQuMzQsMCwwLDEsLjM5LjM4djcuOGEuMzQuMzQsMCwwLDEtLjM5LjM4WiIvPjxwYXRoIGNsYXNzPSJjbHMtNSIgZD0iTTE1LjIzLDYyLjI3YS4zNC4zNCwwLDAsMS0uMzgtLjM4di03LjhhLjM0LjM0LDAsMCwxLC4zOC0uMzhoLjExYS4zNC4zNCwwLDAsMSwuMzguMzh2Ny4zNGgzLjU2YS4zNS4zNSwwLDAsMSwuMzkuMzl2LjA3YS4zNS4zNSwwLDAsMS0uMzkuMzhaIi8+PHBhdGggY2xhc3M9ImNscy01IiBkPSJNMjEuMzcsNjIuMjdhLjM0LjM0LDAsMCwxLS4zOC0uMzh2LTcuOGEuMzQuMzQsMCwwLDEsLjM4LS4zOGguMTFhLjM0LjM0LDAsMCwxLC4zOC4zOHY3LjM0aDMuNTZhLjM1LjM1LDAsMCwxLC4zOS4zOXYuMDdhLjM1LjM1LDAsMCwxLS4zOS4zOFoiLz48cGF0aCBjbGFzcz0iY2xzLTUiIGQ9Ik0yNy41MSw2Mi4yN2EuMzQuMzQsMCwwLDEtLjM4LS4zOHYtNy44YS4zNC4zNCwwLDAsMSwuMzgtLjM4aDQuMmEuMzQuMzQsMCwwLDEsLjM4LjM4di4wN2EuMzQuMzQsMCwwLDEtLjM4LjM5SDI4VjU3aDMuNDhhLjM0LjM0LDAsMCwxLC4zOC4zOHYuMDdhLjM1LjM1LDAsMCwxLS4zOC4zOUgyOHYzLjY0aDMuNzFhLjM0LjM0LDAsMCwxLC4zOC4zOXYuMDdhLjM0LjM0LDAsMCwxLS4zOC4zOFoiLz48L3N2Zz4=" />
-<div style="font-size: 10px">
 
+<div style="font-size: 10px">
 <div  style="text-align: right; font-size: 8px"><b>Date : <%= DATE %></b></div>
 
-<div  style="text-align: right; font-size: 8px"><b><%= INVOICE_TYPE %></b></div>
-
+<div style="text-align: right; font-size: 8px"><b>FACTURE <%= INVOICE_NUMBER %></b></div>
 <% if (PO) { %>
 <div  style="text-align: right; font-size: 8px"><b>PO : <%= PO %></b></div>
 <% } %>
@@ -42,11 +41,14 @@ export default `
     <th><b>Montant</b></th>
 </thead>
 <tbody>
-    <tr>
-        <td><b><%= DATE %></b></td>
-        <td>Partenariat <%= EVENT_NAME %> <%= EVENT_EDITION %></td>
-        <td><%= SPONSORING_NUMBER %> € HT</td>
-    </tr>
+    <% for(var i=0; i < LINES.length; i++) { %>
+        //Partenariat <%= EVENT_NAME %> <%= EVENT_EDITION %>
+        <tr>
+            <td><b><%= DATE %></b></td>
+            <td><%= LINES[i].label %></td>
+            <td><%= LINES[i].price %> € HT</td>
+        </tr>
+    <% } %>
     <tr>
         <td></td>
         <td>TVA 0%</td>
@@ -61,7 +63,7 @@ export default `
 </table>
 <br>
 <div style="font-size: 8px">
-Facture arrêtée à la somme de <%= SPONSORING_TEXT %> (<%= SPONSORING_NUMBER %>).
+Facture arrêtée à la somme de <%= SPONSORING_NUMBER %>€ TTC.
 TVA non applicable, article 261 du Code général des impôts.
 </div>
 <div style="font-size: 8px">

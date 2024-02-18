@@ -90,8 +90,11 @@ function generateFile(
       INVOICE_NUMBER: config.invoiceNumber,
       INVOICE_TYPE: invoiceType,
     };
+
     try {
       console.log("Generator:", "generate " + fileName);
+      console.log(data);
+
       const str = ejs.render(file, data);
       markdownToPDf({
         paperBorder: "3cm",

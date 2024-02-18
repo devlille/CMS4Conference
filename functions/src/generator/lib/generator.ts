@@ -57,6 +57,7 @@ function generateFile(
         : sponsoringConfiguration?.considerationsEn ?? sponsoringConfiguration?.considerations;
 
     const data = {
+      LINES,
       CONSIDERATIONS: [
         ...considerations,
         ...(config.sponsoringOptions ?? []).map((option: SponsoringOption) => option.label),

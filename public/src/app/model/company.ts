@@ -11,7 +11,10 @@ export type Configuration = SponsoringType & {
     price: number;
     priceString: number;
   }[];
+  sponsoringOptions?: SponsoringOption[];
 };
+
+export type SponsoringOption = { key: string; label: string; price: number };
 export interface Workflow {
   id: number;
   steps: WorkflowStep[];
@@ -88,6 +91,7 @@ export interface Company {
   pending?: string;
   invoiceType: 'devis' | 'facture' | 'proforma';
   wldId?: string;
+  sponsoringOptions?: SponsoringOption[];
 }
 
 export type PartnerType = 'esn' | 'other';

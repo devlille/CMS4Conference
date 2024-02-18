@@ -54,3 +54,6 @@ export type Configuration = SponsoringType & {
   enabled: boolean;
   sponsorships: SponsorshipConfiguration[];
 };
+
+export type SponsoringOption = { label: string; price: number };
+export type SponsoringOptions = SponsoringOption[];

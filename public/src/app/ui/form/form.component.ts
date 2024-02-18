@@ -1,15 +1,16 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Observable, of } from 'rxjs';
-import { Company } from '../../model/company';
+import { Company, Configuration } from '../../model/company';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PartnerService } from '../../services/partner.service';
 import { Emails } from './validators';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { environment } from '../../../environments/environment';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 const defaultCompany: Company = {
   name: '',
   officialName: '',
@@ -47,6 +48,7 @@ type Options = Option[];
     MatFormFieldModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatCheckboxModule,
   ],
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
@@ -61,7 +63,7 @@ export class FormComponent {
   @Output()
   public submitEvent = new EventEmitter<Company>();
 
-  companyProfile: FormGroup = this.initFormGroup(defaultCompany);
+  companyProfile: FormGroup | undefined;
 
   submitted = false;
 
@@ -69,34 +71,36 @@ export class FormComponent {
   enabled = false;
   openingDate = '';
   updatedCompany: Company = {} as Company;
+  config: Configuration | undefined;
 
   private partnerService = inject(PartnerService);
-
   async ngOnInit() {
-    const config = await this.partnerService.getCurrentConfiguration();
+    this.config = await this.partnerService.getCurrentConfiguration();
 
-    if (!!config) {
-      this.enabled = config.enabled;
-      this.openingDate = config.openingDate;
-      this.options = config.sponsorships.map((sponsorship) => {
+    if (!!this.config) {
+      this.enabled = this.config.enabled;
+      this.openingDate = this.config.openingDate;
+      this.options = this.config.sponsorships.map((sponsorship) => {
         return {
-          enabled: config[sponsorship.name.toLocaleLowerCase()] > 0,
+          enabled: this.config![sponsorship.name.toLocaleLowerCase()] > 0,
           value: sponsorship.name.toLowerCase(),
           label: !sponsorship.price
             ? sponsorship.name
             : `${sponsorship.name} (${sponsorship?.price} euros)`,
         };
       });
-    }
 
-    this.company.subscribe((c) => {
-      this.updatedCompany = c;
-      this.companyProfile = this.initFormGroup(c);
-    });
+      this.company.subscribe((c) => {
+        this.updatedCompany = c;
+        if (this.config) {
+          this.companyProfile = this.initFormGroup(c);
+        }
+      });
+    }
   }
 
   private initFormGroup(company: Company) {
-    return new FormGroup({
+    const formGroup = new FormGroup({
       name: new FormControl({ value: company.name, disabled: false }, [
         Validators.required,
       ]),
@@ -115,15 +119,65 @@ export class FormComponent {
         value: company.secondSponsoring,
         disabled: this.readOnly,
       }),
+      ...(this.config?.sponsoringOptions || [])?.reduce((acc, option) => {
+        return {
+          ...acc,
+          ['options_' + option.key]: new FormControl({
+            value: !!company.sponsoringOptions?.find(
+              (o) => o.key === option.key,
+            ),
+            disabled: this.readOnly,
+          }),
+        };
+      }, {}),
     });
+
+    return formGroup;
   }
   onSubmitForm() {
     window.scrollTo(0, 0);
     this.submitted = true;
 
-    const company = {
+    const formValues: Record<string, any> = this.companyProfile?.value;
+
+    const options = Object.entries(formValues).reduce(
+      (acc: Record<string, boolean>, [key, value]: [string, any]) => {
+        if (key.indexOf('options_') === 0) {
+          return {
+            ...acc,
+            [key]: !!value,
+          };
+        }
+        return {
+          ...acc,
+        };
+      },
+      {},
+    );
+
+    const formWithoutOptions = Object.entries(formValues).reduce(
+      (acc: Record<string, boolean>, [key, value]: [string, any]) => {
+        if (key.indexOf('options_') < 0) {
+          return {
+            ...acc,
+            [key]: !!value,
+          };
+        }
+        return {
+          ...acc,
+        };
+      },
+      {},
+    );
+
+    const company: Company = {
       ...this.updatedCompany,
-      ...this.companyProfile.value,
+      ...formWithoutOptions,
+      sponsoringOptions: this.config?.sponsoringOptions?.filter(
+        (sponsoring) => {
+          return !!options[`options_${sponsoring.key}`];
+        },
+      ),
     };
 
     this.submitEvent.emit({

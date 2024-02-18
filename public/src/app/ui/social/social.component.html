@@ -64,8 +64,7 @@
   }
 
   @if (
-    isAdmin ||
-    (company.sponsoring !== "Gold" && company.sponsoring !== "Silver")
+    !isAdmin && company.sponsoring !== "Gold" && company.sponsoring !== "Silver"
   ) {
     <div class="social-container-row">
       <p>

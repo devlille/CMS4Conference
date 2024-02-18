@@ -11,12 +11,13 @@ export function getFrom(mail: Email) {
 }
 
 export function sendEmailToAllContacts(company: DocumentData, emailFactory: any, settings: Settings) {
-  if (settings.mail.enabled === "false") {
-    return Promise.resolve();
+  let emails = [settings.mail.cc];
+  if (settings.mail.enabled === "true") {
+    emails = [...emails, ...company.email];
   }
   return Promise.all(
-    [...company.email, settings.mail.cc].map((email: string) => {
-      return sendEmail(email.trim(), emailFactory.subject, emailFactory.body, settings);
+    emails.map((email: string) => {
+      return sendEmail(email.trim(), `${emailFactory.subject} (${company.name})`, emailFactory.body, settings);
     })
   );
 }

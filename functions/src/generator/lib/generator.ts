@@ -2,7 +2,7 @@ import * as ejs from "ejs";
 import * as markdownToPDf from "markdown-pdf";
 import * as os from "os";
 
-import { Configuration, Settings, SponsorshipConfiguration } from "../../model";
+import { Configuration, Settings, SponsoringOption, SponsorshipConfiguration } from "../../model";
 
 function getSponsoringFees(sponsoringConfiguration: SponsorshipConfiguration): [string, number, number] {
   if (!sponsoringConfiguration) {
@@ -45,17 +45,22 @@ function generateFile(
   let total = SPONSORING_NUMBER;
   LINES.push({ label: `Partenariat ${settings.gdg.event}`, price: SPONSORING_NUMBER });
 
-  (config.options ?? []).forEach((option: { label: string; total: number }) => {
-    total += option.total;
-    LINES.push({ label: option.label, price: option.total });
+  (config.sponsoringOptions ?? []).forEach((option: SponsoringOption) => {
+    total += option.price;
+    LINES.push({ label: option.label, price: option.price });
   });
   config;
   return new Promise((resolve, reject) => {
+    const considerations =
+      config.lang === "fr"
+        ? sponsoringConfiguration?.considerations
+        : sponsoringConfiguration?.considerationsEn ?? sponsoringConfiguration?.considerations;
+
     const data = {
-      CONSIDERATIONS:
-        config.lang === "fr"
-          ? sponsoringConfiguration?.considerations
-          : sponsoringConfiguration?.considerationsEn ?? sponsoringConfiguration?.considerations,
+      CONSIDERATIONS: [
+        ...considerations,
+        ...(config.sponsoringOptions ?? []).map((option: SponsoringOption) => option.label),
+      ],
       HAS_BOOTH: sponsoringConfiguration?.hasBooth?.toString(),
       COMPANY: getOfficialName(),
       SIRET: config.siret,
@@ -163,7 +168,7 @@ export function generateConvention(config: any, settings: Settings, configuratio
   const ConventionEn =
     settings.gdg.event === "Devfest Lille"
       ? require("./template_devfest/convention_en")
-      : require("./template_cloudnord/convention_en");
+      : require("./template_cloudnord/convention_fr");
 
   return generateFile(
     config,

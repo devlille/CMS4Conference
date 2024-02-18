@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { FormArray, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { Company, Configuration } from '../../model/company';
@@ -160,7 +160,7 @@ export class FormComponent {
         if (key.indexOf('options_') < 0) {
           return {
             ...acc,
-            [key]: !!value,
+            [key]: value,
           };
         }
         return {
@@ -180,8 +180,6 @@ export class FormComponent {
       ),
     };
 
-    this.submitEvent.emit({
-      ...company,
-    });
+    this.submitEvent.emit(company);
   }
 }

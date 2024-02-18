@@ -19,6 +19,7 @@ export class RegisterFormComponent {
   private readonly partnerservice = inject(PartnerService);
 
   createPartner(company: Company) {
+    console.log(company);
     this.partnerservice
       .add({
         ...company,

@@ -28,6 +28,7 @@ export class PartnerService {
   private companiesCollection = collection(this.firestore, 'companies-2024');
 
   public add(company: Company) {
+    console.log(company);
     return addDoc(this.companiesCollection, {
       ...company,
       status: {},

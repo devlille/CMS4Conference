@@ -6,15 +6,16 @@ const firestore = admin.firestore();
 import { Axios } from "axios";
 import { Configuration } from "./model";
 
-export const updatePartnerToC4H = functions.firestore
+export const onSendChangesToWebHooks = functions.firestore
   .document("companies-2024/{companyId}")
   .onUpdate(async (changes) => {
     const configurationFromFirestore = await firestore
       .doc("configuration/invoice_2024")
       .get()
-      .then((invoice) => {
-        return invoice.data() as Configuration;
+      .then((configuration) => {
+        return configuration.data() as Configuration;
       });
+
     if (configurationFromFirestore.webhooks?.length! > 0) {
       const client = new Axios();
 

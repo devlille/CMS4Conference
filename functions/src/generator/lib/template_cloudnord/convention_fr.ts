@@ -38,7 +38,7 @@ D’une manière générale, l'association s’engage à donner une forte visibi
 L'association s'engage à fournir une multiprise, une table et deux chaises pour le stand. Le reste du matériel sera à la charge du partenaire. 
 <% } %>
 
-Les obligations citées précédemment seront appliquées à la reception du paiement réalisé par le partenaire. Le paiement devra être réalisé avant le 13 mai 2024. 
+Les obligations citées précédemment seront appliquées à la reception du paiement réalisé par le partenaire.
 
 
 ## III - OBLIGATIONS DU PARTENAIRE

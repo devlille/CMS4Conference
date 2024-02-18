@@ -174,6 +174,7 @@ export function generateConvention(config: any, settings: Settings, configuratio
       ? require("./template_devfest/convention_en")
       : require("./template_cloudnord/convention_fr");
 
+  console.log(ConventionFr);
   return generateFile(
     config,
     `convention_${config.id}.pdf`,

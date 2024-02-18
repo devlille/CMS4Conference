@@ -55,7 +55,7 @@ export async function generateAndStoreInvoice(
   let invoiceNumber = company.invoiceNumber;
 
   if (!invoiceNumber) {
-    invoiceNumber = await generateInvoiceNumber(firestore, id);
+    invoiceNumber = await generateInvoiceNumber(firestore);
   }
 
   const invoice = await generateInvoice(
@@ -78,7 +78,7 @@ export async function generateAndStoreInvoice(
     .catch((err) => console.error(err));
 }
 
-export async function generateInvoiceNumber(firestore: FirebaseFirestore.Firestore, id: string) {
+export async function generateInvoiceNumber(firestore: FirebaseFirestore.Firestore) {
   console.log("Generate Invoice Number");
   const invoiceNumber = await firestore
     .doc("configuration/invoice_2024")

@@ -53,6 +53,7 @@ export type Configuration = SponsoringType & {
   next_value: string;
   enabled: boolean;
   sponsorships: SponsorshipConfiguration[];
+  webhooks?: string[];
 };
 
 export type SponsoringOption = { label: string; price: number };

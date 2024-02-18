@@ -26,11 +26,12 @@ export async function onDocumentChange(
   id: string,
   settings: Settings
 ) {
+  const document = firestore.doc("companies-2024/" + id);
   console.log(`onDocumentChange ${id}: ${JSON.stringify(before.status)} -> ${JSON.stringify(after.status)}`);
   const status = after.status;
   if (status.generated === StatusEnum.PENDING) {
     if (!!after.address && !!after.zipCode && !!after.city && !!after.siret && !!after.representant && !!after.role) {
-      return firestore.doc("companies-2024/" + id).update({
+      return document.update({
         status: {
           ...status,
           generated: StatusEnum.DONE,
@@ -52,14 +53,14 @@ export async function onDocumentChange(
     await generateAndStoreProformaInvoiceAndConvention(after, id, settings, configurationFromFirestore);
     await generateAndStoreInvoice(firestore, after, id, settings, configurationFromFirestore);
 
-    return firestore.doc("companies-2024/" + id).update({
+    return document.update({
       ...partnershipGenerated(after, id, settings, status.generated === StatusEnum.DONE),
     });
   } else if (before.status.validated !== status.validated && status.validated === StatusEnum.DONE) {
     const sponsoringType = after.sponsoring.toLowerCase();
     await decreasePacks(firestore, sponsoringType);
 
-    return firestore.doc("companies-2024/" + id).update({
+    return document.update({
       ...partnershipValidated(after, id, settings, status.validated === StatusEnum.DONE),
     });
   } else if (before.status.validated !== status.validated && status.validated === StatusEnum.REFUSED) {
@@ -68,7 +69,7 @@ export async function onDocumentChange(
     const emailTemplate = ConventionSignedFactory(id, settings);
     sendEmailToAllContacts(after, emailTemplate, settings);
 
-    return firestore.doc("companies-2024/" + id).update({
+    return document.update({
       status: {
         ...status,
         paid: StatusEnum.PENDING,
@@ -77,16 +78,15 @@ export async function onDocumentChange(
   } else if (before.status.paid !== status.paid && status.paid === StatusEnum.DONE) {
     const emailTemplate = PaymentReceivedFactory(after, id, settings);
     sendEmailToAllContacts(after, emailTemplate, settings);
-    return firestore.doc("companies-2024/" + id).update({
+    return document.update({
       public: true,
       status: {
         ...status,
         received: StatusEnum.PENDING,
-        code: StatusEnum.PENDING,
       },
     });
   } else if (status.received === StatusEnum.PENDING && after.twitter && after.linkedin !== "") {
-    return firestore.doc("companies-2024/" + id).update({
+    return document.update({
       status: {
         ...status,
         received: StatusEnum.DONE,
@@ -103,6 +103,13 @@ export async function onDocumentChange(
         settings
       );
       sendEmailToAllContacts(after, emailTemplate, settings);
+
+      return document.update({
+        status: {
+          ...status,
+          code: StatusEnum.PENDING,
+        },
+      });
     }
   } else if (status.code === StatusEnum.PENDING && before.billetWebUrl !== after.billetWebUrl) {
     const emailTemplate = BilletWebUrlFactory(after, settings);
@@ -110,7 +117,7 @@ export async function onDocumentChange(
   } else if (status.code === StatusEnum.PENDING) {
     const billetWebDone = after.billetWebDone;
     if (billetWebDone) {
-      return firestore.doc("companies-2024/" + id).update({
+      return document.update({
         status: {
           ...status,
           code: StatusEnum.DONE,

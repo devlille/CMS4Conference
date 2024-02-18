@@ -49,7 +49,7 @@ function generateFile(
     total += option.price;
     LINES.push({ label: option.label, price: option.price });
   });
-  config;
+
   return new Promise((resolve, reject) => {
     const considerations =
       config.lang === "fr"

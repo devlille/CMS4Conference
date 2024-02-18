@@ -1,6 +1,14 @@
-import { Settings } from "../../model";
+import { Company, Settings } from "../../model";
 
-export default ({ sponsoring }: any, id: string, settings: Settings) => {
+export default ({ sponsoring, sponsoringOptions }: Company, id: string, settings: Settings) => {
+  let options = "";
+  if (sponsoringOptions?.length! > 0) {
+    options = `
+  A ce partenariat, les options suivantes seront ajoutées.<br>
+  ${sponsoringOptions?.map((option) => `- ${option.label} (${option.price} euros)`).join("<br>")}
+  `;
+  }
+  options += "<br></br>";
   const adress_cms4devfest = `${settings.hosting.baseurl}/partner/${id}`;
   return {
     subject: `${settings.gdg.event} ${settings.convention.edition} : Demande de partenariat bien reçue`,
@@ -8,6 +16,8 @@ export default ({ sponsoring }: any, id: string, settings: Settings) => {
   Bonjour
   <br><br>
   Nous avons bien pris connaissance de votre souhait de devenir partenaire ${settings.gdg.event} ${settings.convention.edition} et nous vous en remercions.
+  <br><br>
+  ${options}
   <br><br>
   Etant donné la forte affluence des demandes de partenariat, nous reviendrons vers vous par email dans une dizaine de jours maximum pour vous valider la réservation du pack ${sponsoring} ou de votre choix de pack sponsor de replis le cas échéant.
   <br><br>

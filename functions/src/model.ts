@@ -93,6 +93,7 @@ export interface Company {
   devisUrl: string;
   conventionUrl: string;
   invoiceUrl: string;
+  invoiceNumber?: string;
   type?: PartnerType;
   twitter?: string;
   twitterAccount?: string;

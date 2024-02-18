@@ -2,17 +2,17 @@ import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import { sendEmail, sendEmailToAllContacts } from "./utils/mail";
 import { StatusEnum, onDocumentChange } from "./utils/document-change";
-import { DocumentData, Timestamp } from "@google-cloud/firestore";
+import { Timestamp } from "@google-cloud/firestore";
 import relanceConventionSignee from "./emails/template/relanceConventionSignee";
 
 import WelcomeEmailFactory from "./emails/template/step-1-partnership-demand";
 import relancePaiement from "./emails/template/relancePaiement";
 import relanceInformationsComplementaires from "./emails/template/relanceInformationsComplementaires";
-import { Settings } from "./model";
+import { Company, Settings } from "./model";
 
 admin.initializeApp();
 const firestore = admin.firestore();
-function sendWelcomeEmail(company: DocumentData, id: string, settings: Settings) {
+function sendWelcomeEmail(company: Company, id: string, settings: Settings) {
   const emailTemplate = WelcomeEmailFactory(company, id, settings);
   return sendEmailToAllContacts(company, emailTemplate, settings);
 }
@@ -78,8 +78,12 @@ export const relanceInformationPourGeneration = functions.https.onCall(async (re
 
 export const newPartner = functions.firestore.document("companies-2024/{companyId}").onCreate(async (snap) => {
   const settings = functions.config() as Settings;
-  const company = snap.data() || {};
+  const company: Company = snap.data() as Company;
   const id = snap.id;
+
+  if (!company.name) {
+    return;
+  }
   await addCreationDate(id);
   await sendWelcomeEmail(company, snap.id, settings);
   await sendEmail(
@@ -98,8 +102,8 @@ La société ${company.name} souhaite devenir partenaire ${company.sponsoring}<b
 });
 
 export const partnershipUpdated = functions.firestore.document("companies-2024/{companyId}").onUpdate((changes) => {
-  const before = changes.before.data();
-  const after = changes.after.data();
+  const before = changes.before.data() as Company;
+  const after = changes.after.data() as Company;
   if (!before || !after) {
     return;
   }

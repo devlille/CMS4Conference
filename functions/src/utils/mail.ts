@@ -1,5 +1,4 @@
-import { DocumentData } from "@google-cloud/firestore";
-import { Email, Settings } from "../model";
+import { Company, Email, Settings } from "../model";
 
 export function getFrom(mail: Email) {
   return {
@@ -10,7 +9,7 @@ export function getFrom(mail: Email) {
   };
 }
 
-export function sendEmailToAllContacts(company: DocumentData, emailFactory: any, settings: Settings) {
+export function sendEmailToAllContacts(company: Company, emailFactory: any, settings: Settings) {
   let emails = [settings.mail.cc];
   if (settings.mail.enabled === "true") {
     emails = [...emails, ...company.email];

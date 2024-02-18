@@ -1,4 +1,3 @@
-import { DocumentData } from "@google-cloud/firestore";
 import partnershipValidated from "./steps/partnershipValidated";
 import partnershipGenerated from "./steps/partnershipGenerated";
 import { sendEmailToAllContacts } from "./mail";
@@ -10,7 +9,7 @@ import CommunicationScheduledFactory from "../emails/template/step-4-communcatio
 import BilletWebUrlFactory from "../emails/template/step-5-billet-web-url";
 import decreasePacks from "./steps/decreasePacks";
 import sendKoEmails from "./steps/sendKoEmails";
-import { Settings } from "../model";
+import { Company, Settings } from "../model";
 
 export enum StatusEnum {
   PENDING = "pending",
@@ -21,14 +20,15 @@ export enum StatusEnum {
 
 export async function onDocumentChange(
   firestore: FirebaseFirestore.Firestore,
-  before: DocumentData,
-  after: DocumentData,
+  before: Company,
+  after: Company,
   id: string,
   settings: Settings
 ) {
   const document = firestore.doc("companies-2024/" + id);
   console.log(`onDocumentChange ${id}: ${JSON.stringify(before.status)} -> ${JSON.stringify(after.status)}`);
-  const status = after.status;
+  const status = after.status!;
+  const beforeStatus = before.status!;
   if (status.generated === StatusEnum.PENDING) {
     if (!!after.address && !!after.zipCode && !!after.city && !!after.siret && !!after.representant && !!after.role) {
       return document.update({
@@ -39,8 +39,8 @@ export async function onDocumentChange(
       });
     }
   } else if (
-    before.status.generated !== status.generated &&
-    ((status.generated === StatusEnum.DONE && before.status.generated !== StatusEnum.RETRY) ||
+    beforeStatus.generated !== status.generated &&
+    ((status.generated === StatusEnum.DONE && beforeStatus.generated !== StatusEnum.RETRY) ||
       status.generated === StatusEnum.RETRY)
   ) {
     const configurationFromFirestore = await firestore
@@ -56,16 +56,16 @@ export async function onDocumentChange(
     return document.update({
       ...partnershipGenerated(after, id, settings, status.generated === StatusEnum.DONE),
     });
-  } else if (before.status.validated !== status.validated && status.validated === StatusEnum.DONE) {
+  } else if (beforeStatus.validated !== status.validated && status.validated === StatusEnum.DONE) {
     const sponsoringType = after.sponsoring.toLowerCase();
     await decreasePacks(firestore, sponsoringType);
 
     return document.update({
       ...partnershipValidated(after, id, settings, status.validated === StatusEnum.DONE),
     });
-  } else if (before.status.validated !== status.validated && status.validated === StatusEnum.REFUSED) {
+  } else if (beforeStatus.validated !== status.validated && status.validated === StatusEnum.REFUSED) {
     await sendKoEmails(after, settings);
-  } else if (before.status.sign !== status.sign && status.sign === StatusEnum.DONE) {
+  } else if (beforeStatus.sign !== status.sign && status.sign === StatusEnum.DONE) {
     const emailTemplate = ConventionSignedFactory(id, settings);
     sendEmailToAllContacts(after, emailTemplate, settings);
 
@@ -75,7 +75,7 @@ export async function onDocumentChange(
         paid: StatusEnum.PENDING,
       },
     });
-  } else if (before.status.paid !== status.paid && status.paid === StatusEnum.DONE) {
+  } else if (beforeStatus.paid !== status.paid && status.paid === StatusEnum.DONE) {
     const emailTemplate = PaymentReceivedFactory(after, id, settings);
     sendEmailToAllContacts(after, emailTemplate, settings);
     return document.update({
@@ -94,10 +94,10 @@ export async function onDocumentChange(
       },
     });
   } else if (
-    (before.status.communicated !== status.communicated && status.communicated === StatusEnum.DONE) ||
+    (beforeStatus.communicated !== status.communicated && status.communicated === StatusEnum.DONE) ||
     (status.communicated === StatusEnum.DONE && before.publicationDate !== after.publicationDate)
   ) {
-    if (!!after.publicationDate && after.publicationDate !== "") {
+    if (!!after.publicationDate && (after.publicationDate as any) !== "") {
       const emailTemplate = CommunicationScheduledFactory(
         Intl.DateTimeFormat("fr").format(new Date(after.publicationDate)),
         settings

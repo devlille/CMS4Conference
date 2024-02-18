@@ -1,10 +1,6 @@
-import { DocumentData } from "@google-cloud/firestore";
-import { Settings } from "../../model";
+import { Company, Settings } from "../../model";
 
-const generateEmailForSponsorWithoutStand = (
-  billetWebUrl: string,
-  settings: Settings,
-) => {
+const generateEmailForSponsorWithoutStand = (billetWebUrl: string, settings: Settings) => {
   return {
     subject: `${settings.gdg.event} ${settings.convention.edition} : Lien pour récupérer vos billets`,
     body: `
@@ -20,10 +16,7 @@ const generateEmailForSponsorWithoutStand = (
       `,
   };
 };
-const generateEmailForSponsorWithStand = (
-  billetWebUrl: string,
-  settings: Settings,
-) => ({
+const generateEmailForSponsorWithStand = (billetWebUrl: string, settings: Settings) => ({
   subject: `${settings.gdg.event} ${settings.convention.edition} : Lien pour récupérer vos billets`,
   body: `
 Bonjour
@@ -40,13 +33,9 @@ ${settings.mail.signature} ${settings.convention.edition}
     `,
 });
 
-export default (company: DocumentData, settings: Settings) => {
-  const billetWebUrl = company.billetWebUrl;
-  if (
-    company.sponsoring === "Platinium" ||
-    company.sponsoring === "Gold" ||
-    company.sponsoring === "Silver"
-  ) {
+export default (company: Company, settings: Settings) => {
+  const billetWebUrl = company.billetWebUrl!;
+  if (company.sponsoring === "Platinium" || company.sponsoring === "Gold" || company.sponsoring === "Silver") {
     return generateEmailForSponsorWithStand(billetWebUrl, settings);
   }
   return generateEmailForSponsorWithoutStand(billetWebUrl, settings);

@@ -1,13 +1,8 @@
 import { addDays } from "date-fns";
 import { Timestamp } from "@google-cloud/firestore";
-import { DocumentData } from "firebase-admin/firestore";
-import { Settings } from "../../model";
+import { Company, Settings } from "../../model";
 
-export default (
-  { sponsoring, creationDate }: DocumentData,
-  id: string,
-  settings: Settings,
-) => {
+export default ({ sponsoring, creationDate }: Company, id: string, settings: Settings) => {
   const options = {
     weekday: "long",
     year: "numeric",

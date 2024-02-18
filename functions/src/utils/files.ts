@@ -7,8 +7,7 @@ import {
 } from "../generator/lib/generator";
 import * as os from "os";
 import * as admin from "firebase-admin";
-import { DocumentData } from "@google-cloud/firestore";
-import { Configuration, Settings } from "../model";
+import { Company, Configuration, Settings } from "../model";
 
 export async function storeFile(cloudStorageDest: string, tempPath: string) {
   await admin
@@ -25,7 +24,7 @@ export async function storeFile(cloudStorageDest: string, tempPath: string) {
     .getSignedUrl({ action: "read", expires: "03-17-2025" });
 }
 export async function generateAndStoreProformaInvoiceAndConvention(
-  company: DocumentData,
+  company: Company,
   id: string,
   settings: Settings,
   configurationFromFirestore: Configuration
@@ -48,7 +47,7 @@ export async function generateAndStoreProformaInvoiceAndConvention(
 }
 export async function generateAndStoreInvoice(
   firestore: FirebaseFirestore.Firestore,
-  company: DocumentData,
+  company: Company,
   id: string,
   settings: any,
   configurationFromFirestore: Configuration

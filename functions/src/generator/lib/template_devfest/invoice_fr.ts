@@ -42,7 +42,6 @@ export default `
 </thead>
 <tbody>
     <% for(var i=0; i < LINES.length; i++) { %>
-        //Partenariat <%= EVENT_NAME %> <%= EVENT_EDITION %>
         <tr>
             <td><b><%= DATE %></b></td>
             <td><%= LINES[i].label %></td>

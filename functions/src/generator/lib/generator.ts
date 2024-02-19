@@ -14,11 +14,12 @@ function getSponsoringFees(sponsoringConfiguration: SponsorshipConfiguration): [
 function generateFile(
   config: any,
   fileName: string,
-  file: any,
+  fileModule: any,
   settings: Settings,
   invoiceType: any,
   configurationFromFirestore: Configuration
 ) {
+  const file = fileModule.default;
   const getOfficialName = () => {
     if (!!config.officialName) {
       return config.officialName;
@@ -174,7 +175,6 @@ export function generateConvention(config: any, settings: Settings, configuratio
       ? require("./template_devfest/convention_en")
       : require("./template_cloudnord/convention_fr");
 
-  console.log(ConventionFr);
   return generateFile(
     config,
     `convention_${config.id}.pdf`,

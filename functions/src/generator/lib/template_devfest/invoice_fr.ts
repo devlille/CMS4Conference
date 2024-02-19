@@ -41,13 +41,13 @@ export default `
     <th><b>Montant</b></th>
 </thead>
 <tbody>
-    <% for(var i=0; i < LINES.length; i++) { %>
+    <% for(var i=0; i < LINES.length; i++) { -%>
     <tr>
         <td><b><%= DATE %></b></td>
         <td><%= LINES[i].label %></td>
         <td><%= LINES[i].price %> € HT</td>
     </tr>
-    <% } %>
+    <% } -%>
     <tr>
         <td></td>
         <td>TVA 0%</td>

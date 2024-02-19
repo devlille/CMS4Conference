@@ -101,16 +101,21 @@ La société ${company.name} souhaite devenir partenaire ${company.sponsoring}<b
   });
 });
 
-export const partnershipUpdated = functions.firestore.document("companies-2024/{companyId}").onUpdate((changes) => {
-  const before = changes.before.data() as Company;
-  const after = changes.after.data() as Company;
-  if (!before || !after) {
-    return;
-  }
-  const id = changes.after.id;
+export const partnershipUpdated = functions
+  .runWith({
+    memory: "1GB",
+  })
+  .firestore.document("companies-2024/{companyId}")
+  .onUpdate((changes) => {
+    const before = changes.before.data() as Company;
+    const after = changes.after.data() as Company;
+    if (!before || !after) {
+      return;
+    }
+    const id = changes.after.id;
 
-  return onDocumentChange(firestore, before, after, id, functions.config() as Settings);
-});
+    return onDocumentChange(firestore, before, after, id, functions.config() as Settings);
+  });
 
 exports.updateConventionSignedUrlProperty = functions.storage.object().onFinalize(async (object) => {
   const name = object.name || "";

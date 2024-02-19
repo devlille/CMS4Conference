@@ -45,11 +45,11 @@ ${Logo}
 </thead>
 <tbody>
     <% for(var i=0; i < LINES.length; i++) { %>
-        <tr>
-            <td><b><%= DATE %></b></td>
-            <td><%= LINES[i].label %></td>
-            <td><%= LINES[i].price %> € HT</td>
-        </tr>
+    <tr>
+        <td><b><%= DATE %></b></td>
+        <td><%= LINES[i].label %></td>
+        <td><%= LINES[i].price %> € HT</td>
+    </tr>
     <% } %>
     <tr>
         <td></td>

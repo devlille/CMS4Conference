@@ -75,8 +75,7 @@ Chacune des parties pourra résilier la convention, de plein droit, à tout mome
 La résiliation à l’initiative du partenaire ne peut en aucun cas donner droit à la restitution de tout ou partie du montant versé par le partenaire lors de la signature de la présente convention, sauf en cas de résiliation liée à un manquement grave de l'Association.
 
 
-## VI - ANNULATION
-
+## VI - ANNULATION 
 
 L'association sera contrainte d'annuler l'évènement en cas de force majeure empêchant l'exécution de l'évènement dans le lieu d'accueil prévu initialement. Seront considérés comme cas de force majeure, les évènement qui respecteront les conditions de l'Article 1148 du Code Civil ou les évènement suivants : grève, lock-out, incendie, inondation, avarie de matériel, émeute, guerre, arrêt de force motrice, suspension des télécommunications. Il en est de même en cas de pandémie. Dans ce cas, l'association s'engage à reprogrammer l'évènement à une date ultérieure dans l'année qui suit. Le partenaire pourra alors choisir soit d'être remboursé totalement du montant défini dans la section III - OBLIGATIONS DU PARTENAIRE, soit de reconduire son partenariat à la date qui aura été reprogrammé par l'Association. 
 

@@ -184,3 +184,40 @@ export function generateConvention(config: any, settings: Settings, configuratio
     configurationFromFirestore
   );
 }
+/*
+(function () {
+  const data = {
+    LINES: [
+      { label: "Partenariat Cloud Nord", price: 750 },
+      { label: "Talk Conférence", price: 1000 },
+    ],
+    CONSIDERATIONS: ["Logo Site & RS", "1 Post Twitter & LK", "Talk Conférence"],
+    HAS_BOOTH: "false",
+    COMPANY: "Test Manu",
+    SIRET: "00000000000000",
+    COMPANY_ADDRESS: "21, rue des anciens combattants. Pont à Marcq",
+    COMPANY_CP: "",
+    COMPANY_CITY: "",
+    COMPANY_PERSON: "Emmanuel Demey",
+    CONTACT: "Emmanuel Demey",
+    ROLE: "CEO",
+    EVENT_EDITION: "2024",
+    EVENT_NAME: "Cloud Nord",
+    NUMBER_PLACE: 2,
+    SPONSORING: "digital",
+    PO: null,
+    SPONSORING_TEXT: "sept cent cinquante euros",
+    DATE: "19/02/2024",
+    INVOICE_NUMBER: "2024_001",
+    GDG_ADDRESS: "19 rue d'Amiens",
+    GDG_CITY: "LILLE",
+    GDG_CP: "59800",
+    GDG_EMAIL: "contact@cloudnord.fr",
+    GDG_TEL: "06 44 32 14 05",
+    GDG_ACCOUNTANT_EMAIL: "contact@cloudnord.fr",
+    SPONSORING_NUMBER: 1750,
+  };
+  const str = ejs.render(require("./template_cloudnord/invoice_fr").default, data);
+  console.log(str);
+})();
+*/

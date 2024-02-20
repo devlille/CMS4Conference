@@ -18,7 +18,10 @@ export const onSendChangesToWebHooks = functions.firestore
     if (configurationFromFirestore.webhooks?.length! > 0) {
       for (let webhook of configurationFromFirestore.webhooks!) {
         console.log(`Sending to webhook ${webhook} information about ${changes.after.data().name}`);
-        await axios.post(webhook, changes.after);
+        await axios.post(webhook, {
+          id: changes.after.id,
+          data: changes.after.data()
+        });
       }
     }
   });

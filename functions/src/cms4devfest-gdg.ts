@@ -1,10 +1,9 @@
 import * as admin from "firebase-admin";
 import * as functions from "firebase-functions";
+import axios from "axios";
+import { Configuration } from "./model";
 
 const firestore = admin.firestore();
-
-import { Axios } from "axios";
-import { Configuration } from "./model";
 
 export const onSendChangesToWebHooks = functions.firestore
   .document("companies-2024/{companyId}")
@@ -17,11 +16,9 @@ export const onSendChangesToWebHooks = functions.firestore
       });
 
     if (configurationFromFirestore.webhooks?.length! > 0) {
-      const client = new Axios();
-
       for (let webhook of configurationFromFirestore.webhooks!) {
         console.log(`Sending to webhook ${webhook} information about ${changes.after.data().name}`);
-        await client.post(webhook, changes.after);
+        await axios.post(webhook, changes.after);
       }
     }
   });

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Company, Configuration } from '../model/company';
+import { Company, Configuration, ZodConfiguration } from '../model/company';
 import {
   Firestore,
   QueryDocumentSnapshot,
@@ -47,6 +47,13 @@ export class PartnerService {
     const data = await firstValueFrom(
       docData(doc(this.firestore, 'configuration/invoice_2024')),
     );
+
+    const check = ZodConfiguration.safeParse(data);
+
+    if (!check.success) {
+      console.log(check);
+      throw new Error(`Bad Configuration of your event`);
+    }
     return data as Configuration;
   }
 

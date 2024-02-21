@@ -1,18 +1,24 @@
 import { Timestamp } from '@angular/fire/firestore';
+import { z } from 'zod';
 
 export type SponsoringType = Record<string, number>;
+
+export const ZodConfiguration = z.object({
+  next_value: z.string(),
+  enabled: z.boolean(),
+  openingDate: z.string(),
+  sponsorships: z.array(
+    z.object({
+      freeTickets: z.number(),
+      name: z.string(),
+      price: z.number(),
+      priceString: z.string(),
+    }),
+  ),
+});
 export type Configuration = SponsoringType & {
-  next_value: string;
-  enabled: boolean;
-  openingDate: string;
-  sponsorships: {
-    freeTickets: number;
-    name: string;
-    price: number;
-    priceString: number;
-  }[];
   sponsoringOptions?: SponsoringOption[];
-};
+} & z.infer<typeof ZodConfiguration>;
 
 export type SponsoringOption = { key: string; label: string; price: number };
 export interface Workflow {

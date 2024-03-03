@@ -5,7 +5,7 @@ export default `
 
 The **Google Developer Group Lille (GDG Lille)** association -hereafter referred as the Association-, ruled by French law  1901, declared at the prefectural office of Lille on August the 19th, 2016 and published on the "Journal Officiel" on September the 3td, 2016, with social head-quarters located at <%= GDG_CITY %>. Represented by **Emmanuel DEMEY** , in the condition of president as one of the Parties,
 
-and **<%= COMPANY %>** here referred as the Partner (register number: <%= SIRET %>) with head-quarters located at **<%= COMPANY_ADDRESS %>, <%= COMPANY_CP %> - <%= COMPANY_CITY %>**. Represented by **<%= CONTACT %>**, **<%= ROLE %>**.
+and **<%= COMPANY %>** here referred as the Partner (register number: <%= SIRET %>) with head-quarters located at **<%= COMPANY_ADDRESS %>**. Represented by **<%= CONTACT %>**, **<%= ROLE %>**.
 
 **It has been decided and agreed-upon the following terms:**
 

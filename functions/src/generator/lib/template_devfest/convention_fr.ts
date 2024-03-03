@@ -8,7 +8,7 @@ L'association **Google Developer Group Lille (GDG Lille)**, régie par la loi 19
 Ci-après "L'Association".
 
 
-Et d'autre part l'entreprise : **<%= COMPANY %>**, société inscrite sous le n° <%= SIRET %>, dont le siège social est **<%= COMPANY_ADDRESS %>, <%= COMPANY_CP %> - <%= COMPANY_CITY %>**. Représentée par **<%= CONTACT %>**, **<%= ROLE %>**.
+Et d'autre part l'entreprise : **<%= COMPANY %>**, société inscrite sous le n° <%= SIRET %>, dont le siège social est **<%= COMPANY_ADDRESS %>**. Représentée par **<%= CONTACT %>**, **<%= ROLE %>**.
 
 Ci-après "le Partenaire". 
 

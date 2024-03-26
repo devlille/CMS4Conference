@@ -19,6 +19,7 @@ import { AddPipe } from '../pipe/add.pipe';
 import { Auth } from '@angular/fire/auth';
 import { Siret } from '../ui/form/validators';
 import { environment } from '../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'cms-generated',
@@ -49,6 +50,8 @@ export class GeneratedComponent {
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);
   private readonly auth: Auth = inject(Auth);
+  private readonly toastr: ToastrService = inject(ToastrService);
+
   form!: FormGroup;
 
   ngOnInit() {
@@ -142,6 +145,8 @@ export class GeneratedComponent {
 
   updateSponsoring() {
     const sponsor: Partial<Company> = this.form.value;
-    this.partnerService.update(this.id!, sponsor);
+    this.partnerService
+      .update(this.id!, sponsor)
+      .then(() => this.toastr.success('Les informations ont été sauvegardées'));
   }
 }

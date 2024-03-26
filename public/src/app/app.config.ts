@@ -16,6 +16,7 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import localeFr from '@angular/common/locales/fr';
 import { Router } from '@angular/router';
 import * as Sentry from '@sentry/angular-ivy';
+import { provideToastr } from 'ngx-toastr';
 
 import { registerLocaleData } from '@angular/common';
 import { getFunctions, provideFunctions } from '@angular/fire/functions';
@@ -23,6 +24,7 @@ registerLocaleData(localeFr);
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideToastr(),
     provideRouter(routes),
     {
       provide: ErrorHandler,

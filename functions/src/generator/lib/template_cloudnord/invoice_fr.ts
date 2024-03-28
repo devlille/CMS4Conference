@@ -18,7 +18,7 @@ ${Logo}
 
 <div  style="text-align: right; font-size: 8px"><%= GDG_CP %> <%= GDG_CITY %></div>
 
-<div  style="text-align: right; font-size: 8px">Siret: 82799961600010</div>
+<div  style="text-align: right; font-size: 8px">RNA: W595037084</div>
 
 <div  style="text-align: right; font-size: 8px">Email: <%= GDG_EMAIL %></div>
 <div  style="text-align: right; font-size: 8px">Téléphone: <%= GDG_TEL %></div>

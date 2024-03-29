@@ -12,7 +12,7 @@ ${Logo}
 <div  style="text-align: right; font-size: 8px"><b>PO : <%= PO %></b></div>
 <% } %>
 
-<div  style="text-align: right; font-size: 8px"><b>Association Google Developer Group de Lille</b></div>
+<div  style="text-align: right; font-size: 8px"><b>Association Cloud Nord</b></div>
 
 <div  style="text-align: right; font-size: 8px"><%= GDG_ADDRESS %></div>
 

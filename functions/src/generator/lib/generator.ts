@@ -43,8 +43,12 @@ function generateFile(
   const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(sponsoringConfiguration);
 
   const LINES: { label: string; price: number }[] = [];
-  let total = SPONSORING_NUMBER;
-  LINES.push({ label: `Partenariat ${settings.gdg.event}`, price: SPONSORING_NUMBER });
+  let total = 0;
+
+  if (SPONSORING_NUMBER > 0) {
+    total += SPONSORING_NUMBER;
+    LINES.push({ label: `Partenariat ${settings.gdg.event}`, price: SPONSORING_NUMBER });
+  }
 
   (config.sponsoringOptions ?? []).forEach((option: SponsoringOption) => {
     total += option.price;

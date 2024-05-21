@@ -30,7 +30,7 @@ function generateFile(
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
-  }).format(new Date());
+  }).format(new Date("2024-06-10"));
 
   const sponsoringConfiguration: SponsorshipConfiguration | undefined = configurationFromFirestore.sponsorships.find(
     (s) => s.name.toLowerCase() === config.sponsoring.toLowerCase()

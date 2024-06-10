@@ -20,7 +20,18 @@
     ></textarea>
   </mat-form-field>
 </div>
-
+<div class="inline-bloc">
+<mat-form-field appearance="fill">
+  <mat-label>Heure d'arrivée pour l'installation du Stand</mat-label>
+  <textarea matInput [(ngModel)]="company.standInstallationTime"></textarea>
+</mat-form-field>
+</div>
+<div class="inline-bloc">
+<mat-form-field appearance="fill">
+  <mat-label>Numéro de téléphone de la personne en charge de l'installation</mat-label>
+  <textarea matInput [(ngModel)]="company.standPhoneNumber"></textarea>
+</mat-form-field>
+</div>
 <div class="inline-bloc">
   <button color="primary" mat-raised-button (click)="updateBilletwebUrl()">
     <mat-icon>save</mat-icon>

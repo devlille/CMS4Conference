@@ -30,17 +30,23 @@ export class CodeComponent {
 
   billetWebUrl: string | undefined;
   activities!: string;
+  standInstallationTime!: string;
+  standPhoneNumber!: string;
 
   private readonly partnerService = inject(PartnerService);
 
   ngOnInit() {
     this.billetWebUrl = this.company.billetWebUrl;
     this.activities = this.company.activities ?? '';
+    this.standInstallationTime = this.company.standInstallationTime ?? '';
+    this.standPhoneNumber = this.company.standPhoneNumber ?? '';
   }
 
   updateSponsoring() {
     this.partnerService.update(this.id!, {
       activities: this.activities,
+      standInstallationTime: this.standInstallationTime,
+      standPhoneNumber: this.standPhoneNumber,
     });
   }
 }

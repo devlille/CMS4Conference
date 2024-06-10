@@ -35,6 +35,8 @@ export class AdminCodeComponent {
     this.partnerService.update(this.id, {
       billetWebUrl: this.company.billetWebUrl ?? '',
       wldId: this.company.wldId ?? '',
+      standInstallationTime: this.company.standInstallationTime,
+      standPhoneNumber: this.company.standPhoneNumber,
     });
   }
 

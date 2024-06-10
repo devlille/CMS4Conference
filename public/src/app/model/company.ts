@@ -98,6 +98,8 @@ export interface Company {
   invoiceType: 'devis' | 'facture' | 'proforma';
   wldId?: string;
   sponsoringOptions?: SponsoringOption[];
+  standInstallationTime?: string;
+  standPhoneNumber?: string;
 }
 
 export type PartnerType = 'esn' | 'other';

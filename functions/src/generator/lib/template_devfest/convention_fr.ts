@@ -47,9 +47,8 @@ Les obligations citées précédemment seront appliquées à la reception du pai
 Le partenaire s’engage en contrepartie à verser à l'association le montant suivant, en vue de la réalisation de l’objet de la convention : <%= SPONSORING_TEXT %> euros TTC (<%= SPONSORING_NUMBER %> €). Le paiement du montant sera fait selon les conditions suivantes : paiement à la signature de la convention de partenariat et dans un délai de 45 jours. Ce délai dépassé, nous serions dans l'obligation de rompre notre partenariat.
 
 Comme indiqué sur le devis, vous trouverez ci-dessous les informations bancaires de l'association : 
-- RIB : 30027 17015 00020671801 21
-- IBAN FR7630027170150002067180121
-- BIC CMCIFRPP
+- IBAN FR76 1695 8000 0172 9071 8946 558
+- BIC QNTOFRP1XXX
 
 <% if (HAS_BOOTH === 'true') { %>
 Le partenaire s'engage à installer son stand le mercredi 5 juin après-midi. Une équipe de sécurité sera présente la nuit pour surveiller la zone d'expositions. 

@@ -66,7 +66,7 @@ Facture arrêtée à la somme de <%= SPONSORING_NUMBER %>€ TTC.
 TVA non applicable, article 261 du Code général des impôts.
 </div>
 <div style="font-size: 8px">
-Paiement par virement (RIB : 30027 17015 00020671801 21, IBAN FR7630027170150002067180121, BIC CMCIFRPP) à réception de cette facture.
+<strong>Paiement par virement (IBAN FR76 1695 8000 0172 9071 8946 558, BIC QNTOFRP1XXX) à réception de cette facture.</strong>
 </div>
 
 <div style="font-size: 8px"

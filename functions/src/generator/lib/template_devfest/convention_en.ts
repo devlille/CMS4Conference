@@ -38,9 +38,8 @@ The Partner is committed to allocate to the Association the amount hereafter, in
 payment has to be done respecting the following conditions: payment of the total amount at the Partnership Agreement signature.
 
 As indicated in the invoice, here are the Banking Information of the association :  
-- RIB : 30027 17015 00020671801 21
-- IBAN FR7630027170150002067180121
-- BIC CMCIFRPP
+- IBAN FR76 1695 8000 0172 9071 8946 558
+- BIC QNTOFRP1XXX
 
 <% if (HAS_BOOTH === 'true') { %>
 The Partner is committed to install its stand on June, the 5th. A security team will be present the night in the exhibition room.

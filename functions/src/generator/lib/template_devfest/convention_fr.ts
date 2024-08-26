@@ -51,11 +51,13 @@ Comme indiqué sur le devis, vous trouverez ci-dessous les informations bancaire
 - BIC QNTOFRP1XXX
 
 <% if (HAS_BOOTH === 'true') { %>
-Le partenaire s'engage à installer son stand le mercredi 5 juin après-midi. Une équipe de sécurité sera présente la nuit pour surveiller la zone d'expositions. 
+Le partenaire s'engage à installer son stand le mercredi 5 juin après-midi entre 14h et 18h. Une équipe de sécurité sera présente la nuit pour surveiller la zone d'expositions. 
 
 Le stand doit respecter les contraintes suivante : 
 - ne pas dépasser 2.4m de hauteur sur la panneau du fond
 - ne pas dépasser 1.2m de hauteur sur les côtés. 
+
+La désinstallation aura lieu le vendredi à partir de 16h30.
 <% } %>
 
 

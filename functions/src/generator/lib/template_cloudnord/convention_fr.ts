@@ -46,7 +46,7 @@ Les obligations citées précédemment seront appliquées à la reception du pai
 ## III - OBLIGATIONS DU PARTENAIRE
 
 
-Le partenaire s’engage en contrepartie à verser à l'association le montant suivant, en vue de la réalisation de l’objet de la convention : <%= SPONSORING_TEXT %> euros TTC (<%= SPONSORING_NUMBER %> €). Le paiement du montant sera fait selon les conditions suivantes : paiement à la signature de la convention de partenariat et dans un délai de 45 jours. Ce délai dépassé, nous serions dans l'obligation de rompre notre partenariat.
+Le partenaire s’engage en contrepartie à verser à l'association le montant suivant, en vue de la réalisation de l’objet de la convention : <%= SPONSORING_NUMBER %> €. Le paiement du montant sera fait selon les conditions suivantes : paiement à la signature de la convention de partenariat et dans un délai de 45 jours. Ce délai dépassé, nous serions dans l'obligation de rompre notre partenariat.
 
 Comme indiqué sur le devis, vous trouverez ci-dessous les informations bancaires de l'association : 
 - IBAN FR76 1627 5006  0008 0025 9063 339

@@ -9,7 +9,6 @@ import { StorageService } from '../../storage.service';
   standalone: true,
   imports: [CommonModule, FilesComponent],
   templateUrl: './communicated.component.html',
-  styleUrls: ['./communicated.component.scss'],
 })
 export class CommunicatedComponent {
   @Input({ required: true }) company!: Company;

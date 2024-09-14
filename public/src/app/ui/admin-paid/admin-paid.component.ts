@@ -19,7 +19,6 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule,
   ],
   templateUrl: './admin-paid.component.html',
-  styleUrls: ['./admin-paid.component.scss'],
 })
 export class AdminPaidComponent {
   @Input({ required: true }) workflow!: Workflow;

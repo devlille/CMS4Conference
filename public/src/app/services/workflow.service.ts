@@ -1,16 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import {
   Firestore,
-  QueryDocumentSnapshot,
   addDoc,
   collection,
   collectionData,
-  collectionSnapshots,
   doc,
-  getDocs,
   updateDoc,
 } from '@angular/fire/firestore';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 
 export interface Workflow {
   id: number;

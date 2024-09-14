@@ -1,9 +1,13 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormGroup,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { Company, Configuration } from '../../model/company';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PartnerService } from '../../services/partner.service';
 import { Emails } from './validators';
 import { MatInputModule } from '@angular/material/input';

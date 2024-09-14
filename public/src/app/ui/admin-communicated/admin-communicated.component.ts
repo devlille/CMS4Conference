@@ -25,7 +25,6 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule,
   ],
   templateUrl: './admin-communicated.component.html',
-  styleUrls: ['./admin-communicated.component.scss'],
 })
 export class AdminCommunicatedComponent {
   @Input({ required: true }) workflow!: Workflow;

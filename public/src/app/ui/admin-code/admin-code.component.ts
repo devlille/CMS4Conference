@@ -29,7 +29,6 @@ export class AdminCodeComponent {
 
   private readonly partnerService = inject(PartnerService);
 
-  ngOnInit() {}
 
   updateBilletwebUrl() {
     this.partnerService.update(this.id, {

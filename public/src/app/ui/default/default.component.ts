@@ -7,7 +7,6 @@ import { WorkflowStep } from '../../model/company';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './default.component.html',
-  styleUrls: ['./default.component.scss'],
 })
 export class DefaultComponent {
   @Input()

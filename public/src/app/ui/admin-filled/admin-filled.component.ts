@@ -20,7 +20,6 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule,
   ],
   templateUrl: './admin-filled.component.html',
-  styleUrls: ['./admin-filled.component.scss'],
 })
 export class AdminFilledComponent {
   @Input() company: Company | undefined;

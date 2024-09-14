@@ -20,6 +20,7 @@ import { provideToastr } from 'ngx-toastr';
 
 import { registerLocaleData } from '@angular/common';
 import { getFunctions, provideFunctions } from '@angular/fire/functions';
+import { provideHttpClient } from '@angular/common/http';
 registerLocaleData(localeFr);
 
 export const appConfig: ApplicationConfig = {
@@ -52,5 +53,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(provideFirestore(() => getFirestore())),
     importProvidersFrom(provideStorage(() => getStorage())),
     importProvidersFrom(provideFunctions(() => getFunctions())),
+    provideHttpClient(),
   ],
 };

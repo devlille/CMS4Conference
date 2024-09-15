@@ -7,15 +7,18 @@ export default async (
       .doc("configuration/invoice_2024")
       .get()
       .then((invoice) => {
-        return invoice.data() as any;
+        return invoice.data();
       });
 
-    await firestore
-      .doc("configuration/invoice_2024")
-      .update({
-        ...configuration,
-        [sponsoringType]: configuration[sponsoringType] - 1,
-      })
-      .catch((err) => console.error(err));
+    if (configuration) {
+      await firestore
+        .doc("configuration/invoice_2024")
+        .update({
+          ...configuration,
+          [sponsoringType]: configuration[sponsoringType] - 1,
+        })
+        .catch((err) => console.error(err));
+    }
+    
   }
 };

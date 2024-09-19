@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { ButtonModule } from 'primeng/button';
+import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
 
 @Component({
   standalone: true,
@@ -11,5 +12,15 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
+  private auth = inject(Auth);
   title = 'cms4conference';
+
+  login() {
+    signInWithPopup(
+      this.auth,
+      new GoogleAuthProvider().setCustomParameters({
+        hd: 'gdglille.org',
+      })
+    );
+  }
 }

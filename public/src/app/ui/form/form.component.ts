@@ -14,6 +14,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Timestamp } from '@angular/fire/firestore';
+import { ClosedFormWarningMessageComponent } from 'src/app/v3/closed-form-warning-message.component';
 
 const defaultCompany: Company = {
   name: '',
@@ -53,6 +55,7 @@ type Options = Option[];
     ReactiveFormsModule,
     MatButtonModule,
     MatCheckboxModule,
+    ClosedFormWarningMessageComponent,
   ],
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
@@ -73,7 +76,7 @@ export class FormComponent {
 
   options: Options = [];
   enabled = false;
-  openingDate = '';
+  openingDate: Timestamp | undefined;
   updatedCompany: Company = {} as Company;
   config: Configuration | undefined;
 
@@ -146,7 +149,7 @@ export class FormComponent {
 
     const options = Object.entries(formValues).reduce(
       (acc: Record<string, boolean>, [key, value]: [string, any]) => {
-        if (key.indexOf('options_') === 0) {
+        if (key.startsWith('options_')) {
           return {
             ...acc,
             [key]: !!value,

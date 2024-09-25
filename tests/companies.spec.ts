@@ -19,17 +19,17 @@ describe("Testing users (users/{userId}) security rule", () => {
 
     await testEnv.withSecurityRulesDisabled(async (context) => {
       const firestoreWithoutRule = context.firestore();
-      await firestoreWithoutRule.collection("companies-2024").doc("1").set({ name: "initial user name" });
+      await firestoreWithoutRule.collection("companies-2025").doc("1").set({ name: "initial user name" });
     });
   });
 
   it("should not be able to access to the collection", async () => {
     const user = testEnv.unauthenticatedContext();
-    await testing.assertFails(getDocs(collection(user.firestore(), "companies-2024")));
+    await testing.assertFails(getDocs(collection(user.firestore(), "companies-2025")));
   });
 
   it("should be able to access to the collection", async () => {
     const user = testEnv.authenticatedContext("manu", { email: "manu@gdglille.org" });
-    await testing.assertSucceeds(getDocs(collection(user.firestore(), "companies-2024")));
+    await testing.assertSucceeds(getDocs(collection(user.firestore(), "companies-2025")));
   });
 });

@@ -1,3 +1,4 @@
+import localeFr from '@angular/common/locales/fr';
 import {
   APP_INITIALIZER,
   ApplicationConfig,
@@ -5,22 +6,20 @@ import {
   LOCALE_ID,
   importProvidersFrom,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { environment } from '../environments/environment';
-import { routes } from './app.routes';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
-import localeFr from '@angular/common/locales/fr';
-import { Router } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { Router, provideRouter } from '@angular/router';
 import * as Sentry from '@sentry/angular-ivy';
 import { provideToastr } from 'ngx-toastr';
+import { environment } from '../environments/environment';
+import { routes } from './app.routes';
 
 import { registerLocaleData } from '@angular/common';
-import { getFunctions, provideFunctions } from '@angular/fire/functions';
 import { provideHttpClient } from '@angular/common/http';
+import { getFunctions, provideFunctions } from '@angular/fire/functions';
 registerLocaleData(localeFr);
 
 export const appConfig: ApplicationConfig = {

@@ -1,7 +1,10 @@
 import partnershipValidated from "./steps/partnershipValidated";
 import partnershipGenerated from "./steps/partnershipGenerated";
 import { sendEmailToAllContacts } from "./mail";
-import { generateAndStoreInvoice, generateAndStoreProformaInvoiceAndConvention } from "./files";
+import {
+  generateAndStoreInvoice,
+  generateAndStoreProformaInvoiceAndConvention,
+} from "./files";
 import PaymentReceivedFactory from "../emails/template/step-3-payment-received";
 import ConventionSignedFactory from "../emails/template/convention-signed";
 
@@ -25,12 +28,23 @@ export async function onDocumentChange(
   id: string,
   settings: Settings
 ) {
-  const document = firestore.doc("companies-2024/" + id);
-  console.log(`onDocumentChange ${id}: ${JSON.stringify(before.status)} -> ${JSON.stringify(after.status)}`);
+  const document = firestore.doc("companies-2025/" + id);
+  console.log(
+    `onDocumentChange ${id}: ${JSON.stringify(
+      before.status
+    )} -> ${JSON.stringify(after.status)}`
+  );
   const status = after.status!;
   const beforeStatus = before.status!;
   if (status.generated === StatusEnum.PENDING) {
-    if (!!after.address && !!after.zipCode && !!after.city && !!after.siret && !!after.representant && !!after.role) {
+    if (
+      !!after.address &&
+      !!after.zipCode &&
+      !!after.city &&
+      !!after.siret &&
+      !!after.representant &&
+      !!after.role
+    ) {
       return document.update({
         status: {
           ...status,
@@ -40,32 +54,63 @@ export async function onDocumentChange(
     }
   } else if (
     beforeStatus.generated !== status.generated &&
-    ((status.generated === StatusEnum.DONE && beforeStatus.generated !== StatusEnum.RETRY) ||
+    ((status.generated === StatusEnum.DONE &&
+      beforeStatus.generated !== StatusEnum.RETRY) ||
       status.generated === StatusEnum.RETRY)
   ) {
     const configurationFromFirestore = await firestore
-      .doc("configuration/invoice_2024")
+      .doc("editions/2025")
       .get()
       .then((invoice) => {
         return invoice.data() as any;
       });
 
-    await generateAndStoreProformaInvoiceAndConvention(after, id, settings, configurationFromFirestore);
-    await generateAndStoreInvoice(firestore, after, id, settings, configurationFromFirestore);
+    await generateAndStoreProformaInvoiceAndConvention(
+      after,
+      id,
+      settings,
+      configurationFromFirestore
+    );
+    await generateAndStoreInvoice(
+      firestore,
+      after,
+      id,
+      settings,
+      configurationFromFirestore
+    );
 
     return document.update({
-      ...partnershipGenerated(after, id, settings, status.generated === StatusEnum.DONE),
+      ...partnershipGenerated(
+        after,
+        id,
+        settings,
+        status.generated === StatusEnum.DONE
+      ),
     });
-  } else if (beforeStatus.validated !== status.validated && status.validated === StatusEnum.DONE) {
+  } else if (
+    beforeStatus.validated !== status.validated &&
+    status.validated === StatusEnum.DONE
+  ) {
     const sponsoringType = after.sponsoring.toLowerCase();
     await decreasePacks(firestore, sponsoringType);
 
     return document.update({
-      ...partnershipValidated(after, id, settings, status.validated === StatusEnum.DONE),
+      ...partnershipValidated(
+        after,
+        id,
+        settings,
+        status.validated === StatusEnum.DONE
+      ),
     });
-  } else if (beforeStatus.validated !== status.validated && status.validated === StatusEnum.REFUSED) {
+  } else if (
+    beforeStatus.validated !== status.validated &&
+    status.validated === StatusEnum.REFUSED
+  ) {
     await sendKoEmails(after, settings);
-  } else if (beforeStatus.sign !== status.sign && status.sign === StatusEnum.DONE) {
+  } else if (
+    beforeStatus.sign !== status.sign &&
+    status.sign === StatusEnum.DONE
+  ) {
     const emailTemplate = ConventionSignedFactory(id, settings);
     sendEmailToAllContacts(after, emailTemplate, settings);
 
@@ -75,7 +120,10 @@ export async function onDocumentChange(
         paid: StatusEnum.PENDING,
       },
     });
-  } else if (beforeStatus.paid !== status.paid && status.paid === StatusEnum.DONE) {
+  } else if (
+    beforeStatus.paid !== status.paid &&
+    status.paid === StatusEnum.DONE
+  ) {
     const emailTemplate = PaymentReceivedFactory(after, id, settings);
     sendEmailToAllContacts(after, emailTemplate, settings);
     return document.update({
@@ -85,7 +133,11 @@ export async function onDocumentChange(
         received: StatusEnum.PENDING,
       },
     });
-  } else if (status.received === StatusEnum.PENDING && after.twitter && after.linkedin !== "") {
+  } else if (
+    status.received === StatusEnum.PENDING &&
+    after.twitter &&
+    after.linkedin !== ""
+  ) {
     return document.update({
       status: {
         ...status,
@@ -94,8 +146,10 @@ export async function onDocumentChange(
       },
     });
   } else if (
-    (beforeStatus.communicated !== status.communicated && status.communicated === StatusEnum.DONE) ||
-    (status.communicated === StatusEnum.DONE && before.publicationDate !== after.publicationDate)
+    (beforeStatus.communicated !== status.communicated &&
+      status.communicated === StatusEnum.DONE) ||
+    (status.communicated === StatusEnum.DONE &&
+      before.publicationDate !== after.publicationDate)
   ) {
     if (!!after.publicationDate && (after.publicationDate as any) !== "") {
       const emailTemplate = CommunicationScheduledFactory(
@@ -111,7 +165,10 @@ export async function onDocumentChange(
         },
       });
     }
-  } else if (status.code === StatusEnum.PENDING && before.billetWebUrl !== after.billetWebUrl) {
+  } else if (
+    status.code === StatusEnum.PENDING &&
+    before.billetWebUrl !== after.billetWebUrl
+  ) {
     const emailTemplate = BilletWebUrlFactory(after, settings);
     sendEmailToAllContacts(after, emailTemplate, settings);
   } else if (status.code === StatusEnum.PENDING) {

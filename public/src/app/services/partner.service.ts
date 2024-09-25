@@ -25,10 +25,9 @@ export class PartnerService {
   updateFlag: Subject<boolean> = new BehaviorSubject(true);
 
   private firestore: Firestore = inject(Firestore);
-  private companiesCollection = collection(this.firestore, 'companies-2024');
+  private companiesCollection = collection(this.firestore, 'companies-2025');
 
   public add(company: Company) {
-    console.log(company);
     return addDoc(this.companiesCollection, {
       ...company,
       status: {},
@@ -38,27 +37,26 @@ export class PartnerService {
 
   public async get(id: string) {
     const data = await firstValueFrom(
-      docData(doc(this.firestore, `companies-2024/${id}`)),
+      docData(doc(this.firestore, `companies-2025/${id}`)),
     );
     return { ...data, id } as Company;
   }
 
   public async getCurrentConfiguration() {
     const data = await firstValueFrom(
-      docData(doc(this.firestore, 'configuration/invoice_2024')),
+      docData(doc(this.firestore, 'editions/2025')),
     );
 
     const check = ZodConfiguration.safeParse(data);
 
     if (!check.success) {
-      console.log(check);
       throw new Error(`Bad Configuration of your event`);
     }
     return data as Configuration;
   }
 
   public async updateVisibility(enabled: boolean) {
-    return updateDoc(doc(this.firestore, 'configuration/invoice_2024'), {
+    return updateDoc(doc(this.firestore, 'editions/2025'), {
       enabled,
     });
   }
@@ -88,12 +86,12 @@ export class PartnerService {
     this.updateFlag.next(true);
 
     if (!!fields.email) {
-      return updateDoc(doc(this.firestore, `companies-2024/${id}`), {
+      return updateDoc(doc(this.firestore, `companies-2025/${id}`), {
         ...fields,
         email: this.convertEmailsToArray(fields.email),
       });
     }
-    return updateDoc(doc(this.firestore, `companies-2024/${id}`), {
+    return updateDoc(doc(this.firestore, `companies-2025/${id}`), {
       ...fields,
     });
   }

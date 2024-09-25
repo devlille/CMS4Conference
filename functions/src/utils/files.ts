@@ -31,12 +31,25 @@ export async function generateAndStoreProformaInvoiceAndConvention(
 ) {
   console.log("Generate Proforma invoice and convention for " + id);
 
-  const [convention, proformaInvoice, depositInvoice, devis] = await Promise.all([
-    generateConvention({ ...company, id }, settings, configurationFromFirestore),
-    generateProformaInvoice({ ...company, id }, settings, configurationFromFirestore),
-    generateDepositInvoice({ ...company, id }, settings, configurationFromFirestore),
-    generateDevis({ ...company, id }, settings, configurationFromFirestore),
-  ]);
+  const [convention, proformaInvoice, depositInvoice, devis] =
+    await Promise.all([
+      generateConvention(
+        { ...company, id },
+        settings,
+        configurationFromFirestore
+      ),
+      generateProformaInvoice(
+        { ...company, id },
+        settings,
+        configurationFromFirestore
+      ),
+      generateDepositInvoice(
+        { ...company, id },
+        settings,
+        configurationFromFirestore
+      ),
+      generateDevis({ ...company, id }, settings, configurationFromFirestore),
+    ]);
 
   await Promise.all([
     storeFile("convention/", convention as any),
@@ -70,7 +83,7 @@ export async function generateAndStoreInvoice(
   const publicInvoiceUrl = await storeFile("facture/", invoice as any);
 
   await firestore
-    .doc("companies-2024/" + id)
+    .doc("companies-2025/" + id)
     .update({
       invoiceUrl: publicInvoiceUrl,
       invoiceNumber,
@@ -78,19 +91,21 @@ export async function generateAndStoreInvoice(
     .catch((err) => console.error(err));
 }
 
-export async function generateInvoiceNumber(firestore: FirebaseFirestore.Firestore) {
+export async function generateInvoiceNumber(
+  firestore: FirebaseFirestore.Firestore
+) {
   console.log("Generate Invoice Number");
   const invoiceNumber = await firestore
-    .doc("configuration/invoice_2024")
+    .doc("editions/2025")
     .get()
     .then((invoice) => {
       return (invoice.data() as any).next_value;
     });
 
-  const formattedNumber = "2024_" + invoiceNumber.padStart(3, "0");
+  const formattedNumber = "2025_" + invoiceNumber.padStart(3, "0");
 
   await firestore
-    .doc("configuration/invoice_2024")
+    .doc("editions/2025")
     .update({
       next_value: (parseInt(invoiceNumber, 10) + 1).toString(),
     })

@@ -5,7 +5,7 @@ service cloud.firestore {
       allow list, update: if isAdministrator() || notUpdating('name');
       allow create, get: if true;
     }
-    match /companies-2024/{companyId} {
+    match /companies-2025/{companyId} {
       allow list, update: if isAdministrator() || notUpdating('name');
       allow create, get: if true;
     }

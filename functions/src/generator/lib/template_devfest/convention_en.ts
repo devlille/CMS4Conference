@@ -29,7 +29,7 @@ Broadly, the Association is committed to give the Partner a large visibility on 
 The Association is committed to provide to the Partner an electrical power strip, a table and two chairs. The rest will be the responsibility of the Partner.
 <% } %>
 
-The previous items will be applied after the association receive the payment. The payment has to be done before May the 13th 2024. 
+The previous items will be applied after the association receive the payment. The payment has to be done before May the 13th 2025. 
 
 
 ## III - OBLIGATIONS OF THE PARTNER

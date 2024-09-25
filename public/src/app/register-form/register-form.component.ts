@@ -19,11 +19,10 @@ export class RegisterFormComponent {
   private readonly partnerservice = inject(PartnerService);
 
   createPartner(company: Company) {
-    console.log(company);
     this.partnerservice
       .add({
         ...company,
-        edition: this.activatedRoute.snapshot.params['edition'] || 2024,
+        edition: this.activatedRoute.snapshot.params['edition'] || 2025,
       })
       .then(() => {
         this.submitted = true;

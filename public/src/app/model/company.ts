@@ -6,7 +6,7 @@ export type SponsoringType = Record<string, number>;
 export const ZodConfiguration = z.object({
   next_value: z.string(),
   enabled: z.boolean(),
-  openingDate: z.string(),
+  openingDate: z.custom<Timestamp>((value) => value instanceof Timestamp),
   sponsorships: z.array(
     z.object({
       freeTickets: z.number(),

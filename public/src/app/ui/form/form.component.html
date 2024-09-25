@@ -1,9 +1,6 @@
 @if (options.length > 0) {
   @if (!enabled) {
-    <p>
-      Le formulaire n'est pas encore ouvert. Nous vous donnons rendez-vous le
-      {{ openingDate }}.
-    </p>
+    <app-closed-form-warning-message [openingDate]="openingDate" />
   } @else {
     @if (!!companyProfile) {
       <form [formGroup]="companyProfile" (ngSubmit)="onSubmitForm()">

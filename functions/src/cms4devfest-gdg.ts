@@ -6,10 +6,10 @@ import { Configuration } from "./model";
 const firestore = admin.firestore();
 
 export const onSendChangesToWebHooks = functions.firestore
-  .document("companies-2024/{companyId}")
+  .document("companies-2025/{companyId}")
   .onUpdate(async (changes) => {
     const configurationFromFirestore = await firestore
-      .doc("configuration/invoice_2024")
+      .doc("editions/2025")
       .get()
       .then((configuration) => {
         return configuration.data() as Configuration;
@@ -17,10 +17,14 @@ export const onSendChangesToWebHooks = functions.firestore
 
     if (configurationFromFirestore.webhooks?.length! > 0) {
       for (let webhook of configurationFromFirestore.webhooks!) {
-        console.log(`Sending to webhook ${webhook} information about ${changes.after.data().name}`);
+        console.log(
+          `Sending to webhook ${webhook} information about ${
+            changes.after.data().name
+          }`
+        );
         await axios.post(webhook, {
           id: changes.after.id,
-          data: changes.after.data()
+          data: changes.after.data(),
         });
       }
     }

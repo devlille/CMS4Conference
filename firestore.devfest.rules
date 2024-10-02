@@ -28,5 +28,5 @@ function isOwner(companyId) {
     return request.auth.token.email in resource.data.email;
 }
 function isAdministrator() {
-    return request.auth.token.email.matches(".*@gdglille.org")
+    return request.auth.token.email.matches(".*@devlille.fr")
 }

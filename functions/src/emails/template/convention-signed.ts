@@ -1,9 +1,9 @@
-import { Settings } from "../../model";
+import { Configuration } from "../../model";
 
-export default (id: string, settings: Settings) => {
-  const adress_cms4devfest = `${settings.hosting.baseurl}/partner/${id}`;
+export default (id: string, configuration: Configuration) => {
+  const adress_cms4devfest = `${configuration.hosting.baseurl}/partner/${id}`;
   return {
-    subject: `${settings.gdg.event} ${settings.convention.edition} : Convention Signée`,
+    subject: `${configuration.gdg.event} ${configuration.convention.edition} : Convention Signée`,
     body: `
   Bonjour
   <br><br>
@@ -13,11 +13,11 @@ export default (id: string, settings: Settings) => {
   <br><br>
   Une fois cette étape terminée, nous pourrons commencer la communication de notre partenariat sur les réseaux sociaux. 
   <br><br>
-  Nous restons à votre disposition pour tout complément via l'adresse ${settings.mail.from}.
+  Nous restons à votre disposition pour tout complément via l'adresse ${configuration.mail.from}.
   <br><br>
   Cordialement  
   <br><br>
-  ${settings.mail.signature} ${settings.convention.edition}
+  ${configuration.mail.signature} ${configuration.convention.edition}
       `,
   };
 };

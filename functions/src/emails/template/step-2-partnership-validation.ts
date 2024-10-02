@@ -1,10 +1,14 @@
-import { Settings } from "../../model";
+import { Configuration } from "../../model";
 
-export default ({ sponsoring }: any, id: string, settings: Settings) => {
-  const edition = settings.convention.edition;
-  const address_cms4devfest = `${settings.hosting.baseurl}/partner/${id}`;
+export default (
+  { sponsoring }: any,
+  id: string,
+  configuration: Configuration
+) => {
+  const edition = configuration.convention.edition;
+  const address_cms4devfest = `${configuration.hosting.baseurl}/partner/${id}`;
   return {
-    subject: `Partenariat ${settings.gdg.event} ${edition}: Informations Complémentaires à renseigner`,
+    subject: `Partenariat ${configuration.gdg.event} ${edition}: Informations Complémentaires à renseigner`,
     body: `
   Bonjour
   <br><br>
@@ -14,11 +18,11 @@ export default ({ sponsoring }: any, id: string, settings: Settings) => {
   <br><br>
   Une fois les informations fournies, nous pourrons générer la convention et la facture.
   <br><br>
-  Nous restons à votre disposition pour tout complément via l'adresse email ${settings.mail.from}.
+  Nous restons à votre disposition pour tout complément via l'adresse email ${configuration.mail.from}.
   <br><br>
   Cordialement     
   <br><br>
-  ${settings.mail.signature} ${edition}
+  ${configuration.mail.signature} ${edition}
       `,
   };
 };

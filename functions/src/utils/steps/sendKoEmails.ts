@@ -1,7 +1,11 @@
 import { sendEmailToAllContacts } from "../mail";
 import PartnerhipKoFactory from "../../emails/template/step-2-partnership-ko";
-import { Company } from "../../model";
+import { Company, Configuration } from "../../model";
 
-export default (company: Company, settings: any) => {
-  sendEmailToAllContacts(company, PartnerhipKoFactory(settings), settings);
+export default (company: Company, configuration: Configuration) => {
+  sendEmailToAllContacts(
+    company,
+    PartnerhipKoFactory(configuration),
+    configuration
+  );
 };

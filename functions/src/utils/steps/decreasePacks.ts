@@ -1,14 +1,11 @@
+import { getConfiguration } from "../../v3/infrastructure/getConfiguration";
+
 export default async (
   firestore: FirebaseFirestore.Firestore,
   sponsoringType: string
 ) => {
   if (sponsoringType !== "newsletter") {
-    const configuration = await firestore
-      .doc("editions/2025")
-      .get()
-      .then((invoice) => {
-        return invoice.data();
-      });
+    const configuration = await getConfiguration(firestore);
 
     if (configuration) {
       await firestore

@@ -2,22 +2,31 @@ import * as ejs from "ejs";
 import * as markdownToPDf from "markdown-pdf";
 import * as os from "os";
 
-import { Configuration, Settings, SponsoringOption, SponsorshipConfiguration } from "../../model";
+import {
+  Configuration,
+  SponsoringOption,
+  SponsorshipConfiguration,
+} from "../../model";
 
-function getSponsoringFees(sponsoringConfiguration: SponsorshipConfiguration): [string, number, number] {
+function getSponsoringFees(
+  sponsoringConfiguration: SponsorshipConfiguration
+): [string, number, number] {
   if (!sponsoringConfiguration) {
     return ["", 0, 0];
   }
-  return [sponsoringConfiguration.priceString, sponsoringConfiguration.price, sponsoringConfiguration.freeTickets];
+  return [
+    sponsoringConfiguration.priceString,
+    sponsoringConfiguration.price,
+    sponsoringConfiguration.freeTickets,
+  ];
 }
 
 function generateFile(
   config: any,
   fileName: string,
   fileModule: any,
-  settings: Settings,
-  invoiceType: any,
-  configurationFromFirestore: Configuration
+  configuration: Configuration,
+  invoiceType: any
 ) {
   const file = fileModule.default;
   const getOfficialName = () => {
@@ -32,22 +41,28 @@ function generateFile(
     year: "numeric",
   }).format(new Date());
 
-  const sponsoringConfiguration: SponsorshipConfiguration | undefined = configurationFromFirestore.sponsorships.find(
-    (s) => s.name.toLowerCase() === config.sponsoring.toLowerCase()
-  );
+  const sponsoringConfiguration: SponsorshipConfiguration | undefined =
+    configuration.sponsorships.find(
+      (s) => s.name.toLowerCase() === config.sponsoring.toLowerCase()
+    );
 
   if (!sponsoringConfiguration) {
     return;
   }
 
-  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(sponsoringConfiguration);
+  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(
+    sponsoringConfiguration
+  );
 
   const LINES: { label: string; price: number }[] = [];
   let total = 0;
 
   if (SPONSORING_NUMBER > 0) {
     total += SPONSORING_NUMBER;
-    LINES.push({ label: `Partenariat ${settings.gdg.event}`, price: SPONSORING_NUMBER });
+    LINES.push({
+      label: `Partenariat ${configuration.gdg.event}`,
+      price: SPONSORING_NUMBER,
+    });
   }
 
   (config.sponsoringOptions ?? []).forEach((option: SponsoringOption) => {
@@ -59,13 +74,16 @@ function generateFile(
     const considerations =
       config.lang === "fr"
         ? sponsoringConfiguration?.considerations
-        : sponsoringConfiguration?.considerationsEn ?? sponsoringConfiguration?.considerations;
+        : sponsoringConfiguration?.considerationsEn ??
+          sponsoringConfiguration?.considerations;
 
     const data = {
       LINES,
       CONSIDERATIONS: [
         ...considerations,
-        ...(config.sponsoringOptions ?? []).map((option: SponsoringOption) => option.label),
+        ...(config.sponsoringOptions ?? []).map(
+          (option: SponsoringOption) => option.label
+        ),
       ],
       HAS_BOOTH: sponsoringConfiguration?.hasBooth?.toString(),
       COMPANY: getOfficialName().trim(),
@@ -76,23 +94,23 @@ function generateFile(
       COMPANY_PERSON: config.representant,
       CONTACT: config.representant.trim(),
       ROLE: config.role.trim(),
-      EVENT_EDITION: settings.convention.edition,
-      EVENT_NAME: settings.gdg.event,
+      EVENT_EDITION: configuration.convention.edition,
+      EVENT_NAME: configuration.gdg.event,
       NUMBER_PLACE,
       SPONSORING: config.sponsoring,
       PO: config.PO,
       SPONSORING_TEXT,
       SPONSORING_NUMBER: total,
-      START_DATE: settings.convention.startdate,
-      END_DATE: settings.convention.enddate,
+      START_DATE: configuration.convention.startdate,
+      END_DATE: configuration.convention.enddate,
       DATE,
-      GDG_CP: settings.gdg.zipcode,
-      GDG_ADDRESS: settings.gdg.address,
-      GDG_CITY: settings.gdg.city,
-      GDG_EMAIL: settings.mail.from,
-      GDG_TEL: settings.gdg.tel,
-      GDG_ACCOUNTANT_EMAIL: settings.gdg.accountantemail,
-      GDG_WEBSITE: settings.gdg.website,
+      GDG_CP: configuration.gdg.zipcode,
+      GDG_ADDRESS: configuration.gdg.address,
+      GDG_CITY: configuration.gdg.city,
+      GDG_EMAIL: configuration.mail.from,
+      GDG_TEL: configuration.gdg.tel,
+      GDG_ACCOUNTANT_EMAIL: configuration.gdg.accountantemail,
+      GDG_WEBSITE: configuration.gdg.website,
       INVOICE_NUMBER: config.invoiceNumber,
       INVOICE_TYPE: invoiceType,
     };
@@ -117,74 +135,72 @@ function generateFile(
   });
 }
 
-export function generateProformaInvoice(config: any, settings: Settings, configurationFromFirestore: Configuration) {
-  const ProformaInvoiceFr =
-    settings.gdg.event === "Devfest Lille"
-      ? require("./template_devfest/proforma_invoice_fr")
-      : require("./template_cloudnord/proforma_invoice_fr");
+export function generateProformaInvoice(
+  config: any,
+  configuration: Configuration
+) {
+  const ProformaInvoiceFr = require(
+    `./${configuration.template_folder}/proforma_invoice_fr`
+  );
 
   return generateFile(
     config,
     `proforma_invoice_${config.id}.pdf`,
     ProformaInvoiceFr,
-    settings,
-    "FACTURE PRO FORMA",
-    configurationFromFirestore
+    configuration,
+    "FACTURE PRO FORMA"
   );
 }
-export function generateDevis(config: any, settings: Settings, configurationFromFirestore: Configuration) {
-  const ProformaInvoiceFr =
-    settings.gdg.event === "Devfest Lille"
-      ? require("./template_devfest/proforma_invoice_fr")
-      : require("./template_cloudnord/proforma_invoice_fr");
+export function generateDevis(config: any, configuration: Configuration) {
+  const ProformaInvoiceFr = require(
+    `./${configuration.template_folder}/proforma_invoice_fr`
+  );
 
   return generateFile(
     config,
     `devis_${config.id}.pdf`,
     ProformaInvoiceFr,
-    settings,
-    "DEVIS",
-    configurationFromFirestore
+    configuration,
+    "DEVIS"
   );
 }
-export function generateDepositInvoice(config: any, settings: Settings, configurationFromFirestore: Configuration) {
-  const ProformaInvoiceFr =
-    settings.gdg.event === "Devfest Lille"
-      ? require("./template_devfest/proforma_invoice_fr")
-      : require("./template_cloudnord/proforma_invoice_fr");
+export function generateDepositInvoice(
+  config: any,
+  configuration: Configuration
+) {
+  const ProformaInvoiceFr = require(
+    `./${configuration.template_folder}/proforma_invoice_fr`
+  );
 
   return generateFile(
     config,
     `deposit_invoice_${config.id}.pdf`,
     ProformaInvoiceFr,
-    settings,
-    "FACTURE ACCOMPTE 100%",
-    configurationFromFirestore
+    configuration,
+    "FACTURE ACCOMPTE 100%"
   );
 }
-export function generateInvoice(config: any, settings: Settings, configurationFromFirestore: Configuration) {
-  const InvoiceFr =
-    settings.gdg.event === "Devfest Lille"
-      ? require("./template_devfest/invoice_fr")
-      : require("./template_cloudnord/invoice_fr");
-  return generateFile(config, `invoice_${config.id}.pdf`, InvoiceFr, settings, "", configurationFromFirestore);
+export function generateInvoice(config: any, configuration: Configuration) {
+  const InvoiceFr = require(`./${configuration.template_folder}/invoice_fr`);
+
+  return generateFile(
+    config,
+    `invoice_${config.id}.pdf`,
+    InvoiceFr,
+    configuration,
+    ""
+  );
 }
-export function generateConvention(config: any, settings: Settings, configurationFromFirestore: Configuration) {
-  const ConventionFr =
-    settings.gdg.event === "Devfest Lille"
-      ? require("./template_devfest/convention_fr")
-      : require("./template_cloudnord/convention_fr");
-  const ConventionEn =
-    settings.gdg.event === "Devfest Lille"
-      ? require("./template_devfest/convention_en")
-      : require("./template_cloudnord/convention_fr");
+export function generateConvention(config: any, configuration: Configuration) {
+  const Convention = require(
+    `./${configuration.template_folder}/convention_${config.lang}`
+  );
 
   return generateFile(
     config,
     `convention_${config.id}.pdf`,
-    config.lang === "fr" ? ConventionFr : ConventionEn,
-    settings,
-    "",
-    configurationFromFirestore
+    Convention,
+    configuration,
+    ""
   );
 }

@@ -1,21 +1,27 @@
-import { Company, Settings } from "../../model";
+import { Company, Configuration } from "../../model";
 
-export default ({ sponsoring, sponsoringOptions }: Company, id: string, settings: Settings) => {
+export default (
+  { sponsoring, sponsoringOptions }: Company,
+  id: string,
+  configuration: Configuration
+) => {
   let options = "";
   if (sponsoringOptions?.length! > 0) {
     options = `
   A ce partenariat, les options suivantes seront ajoutées.<br>
-  ${sponsoringOptions?.map((option) => `- ${option.label} (${option.price} euros)`).join("<br>")}
+  ${sponsoringOptions
+    ?.map((option) => `- ${option.label} (${option.price} euros)`)
+    .join("<br>")}
   `;
   }
   options += "<br></br>";
-  const adress_cms4devfest = `${settings.hosting.baseurl}/partner/${id}`;
+  const adress_cms4devfest = `${configuration.hosting.baseurl}/partner/${id}`;
   return {
-    subject: `${settings.gdg.event} ${settings.convention.edition} : Demande de partenariat bien reçue`,
+    subject: `${configuration.gdg.event} ${configuration.convention.edition} : Demande de partenariat bien reçue`,
     body: `
   Bonjour
   <br><br>
-  Nous avons bien pris connaissance de votre souhait de devenir partenaire ${settings.gdg.event} ${settings.convention.edition} et nous vous en remercions.
+  Nous avons bien pris connaissance de votre souhait de devenir partenaire ${configuration.gdg.event} ${configuration.convention.edition} et nous vous en remercions.
   <br><br>
   ${options}
   <br><br>
@@ -23,11 +29,11 @@ export default ({ sponsoring, sponsoringOptions }: Company, id: string, settings
   <br><br>
   Vous pouvez suivre l'avancement de votre demande sur votre espace dédié : ${adress_cms4devfest}
   <br><br>
-  Nous restons à votre disposition pour tout complément via l'adresse email ${settings.mail.from}.
+  Nous restons à votre disposition pour tout complément via l'adresse email ${configuration.mail.from}.
   <br><br>
   Cordialement 
   <br><br>
-  ${settings.mail.signature} ${settings.convention.edition}
+  ${configuration.mail.signature} ${configuration.convention.edition}
       `,
   };
 };

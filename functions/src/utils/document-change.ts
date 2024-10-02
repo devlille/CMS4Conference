@@ -1,18 +1,19 @@
-import partnershipValidated from "./steps/partnershipValidated";
-import partnershipGenerated from "./steps/partnershipGenerated";
-import { sendEmailToAllContacts } from "./mail";
+import ConventionSignedFactory from "../emails/template/convention-signed";
+import PaymentReceivedFactory from "../emails/template/step-3-payment-received";
 import {
   generateAndStoreInvoice,
   generateAndStoreProformaInvoiceAndConvention,
 } from "./files";
-import PaymentReceivedFactory from "../emails/template/step-3-payment-received";
-import ConventionSignedFactory from "../emails/template/convention-signed";
+import { sendEmailToAllContacts } from "./mail";
+import partnershipGenerated from "./steps/partnershipGenerated";
+import partnershipValidated from "./steps/partnershipValidated";
 
 import CommunicationScheduledFactory from "../emails/template/step-4-communcation-scheduled";
 import BilletWebUrlFactory from "../emails/template/step-5-billet-web-url";
+import { Company, Configuration } from "../model";
 import decreasePacks from "./steps/decreasePacks";
 import sendKoEmails from "./steps/sendKoEmails";
-import { Company, Settings } from "../model";
+import { makeTicketStepAsDone } from "../v3/domain/updateStatus";
 
 export enum StatusEnum {
   PENDING = "pending",
@@ -26,7 +27,7 @@ export async function onDocumentChange(
   before: Company,
   after: Company,
   id: string,
-  settings: Settings
+  configuration: Configuration
 ) {
   const document = firestore.doc("companies-2025/" + id);
   console.log(
@@ -58,32 +59,18 @@ export async function onDocumentChange(
       beforeStatus.generated !== StatusEnum.RETRY) ||
       status.generated === StatusEnum.RETRY)
   ) {
-    const configurationFromFirestore = await firestore
-      .doc("editions/2025")
-      .get()
-      .then((invoice) => {
-        return invoice.data() as any;
-      });
-
     await generateAndStoreProformaInvoiceAndConvention(
       after,
       id,
-      settings,
-      configurationFromFirestore
+      configuration
     );
-    await generateAndStoreInvoice(
-      firestore,
-      after,
-      id,
-      settings,
-      configurationFromFirestore
-    );
+    await generateAndStoreInvoice(firestore, after, id, configuration);
 
     return document.update({
       ...partnershipGenerated(
         after,
         id,
-        settings,
+        configuration,
         status.generated === StatusEnum.DONE
       ),
     });
@@ -98,7 +85,7 @@ export async function onDocumentChange(
       ...partnershipValidated(
         after,
         id,
-        settings,
+        configuration,
         status.validated === StatusEnum.DONE
       ),
     });
@@ -106,13 +93,13 @@ export async function onDocumentChange(
     beforeStatus.validated !== status.validated &&
     status.validated === StatusEnum.REFUSED
   ) {
-    await sendKoEmails(after, settings);
+    await sendKoEmails(after, configuration);
   } else if (
     beforeStatus.sign !== status.sign &&
     status.sign === StatusEnum.DONE
   ) {
-    const emailTemplate = ConventionSignedFactory(id, settings);
-    sendEmailToAllContacts(after, emailTemplate, settings);
+    const emailTemplate = ConventionSignedFactory(id, configuration);
+    sendEmailToAllContacts(after, emailTemplate, configuration);
 
     return document.update({
       status: {
@@ -124,8 +111,8 @@ export async function onDocumentChange(
     beforeStatus.paid !== status.paid &&
     status.paid === StatusEnum.DONE
   ) {
-    const emailTemplate = PaymentReceivedFactory(after, id, settings);
-    sendEmailToAllContacts(after, emailTemplate, settings);
+    const emailTemplate = PaymentReceivedFactory(after, id, configuration);
+    sendEmailToAllContacts(after, emailTemplate, configuration);
     return document.update({
       public: true,
       status: {
@@ -154,9 +141,9 @@ export async function onDocumentChange(
     if (!!after.publicationDate && (after.publicationDate as any) !== "") {
       const emailTemplate = CommunicationScheduledFactory(
         Intl.DateTimeFormat("fr").format(new Date(after.publicationDate)),
-        settings
+        configuration
       );
-      sendEmailToAllContacts(after, emailTemplate, settings);
+      sendEmailToAllContacts(after, emailTemplate, configuration);
 
       return document.update({
         status: {
@@ -169,17 +156,12 @@ export async function onDocumentChange(
     status.code === StatusEnum.PENDING &&
     before.billetWebUrl !== after.billetWebUrl
   ) {
-    const emailTemplate = BilletWebUrlFactory(after, settings);
-    sendEmailToAllContacts(after, emailTemplate, settings);
+    const emailTemplate = BilletWebUrlFactory(after, configuration);
+    sendEmailToAllContacts(after, emailTemplate, configuration);
   } else if (status.code === StatusEnum.PENDING) {
     const billetWebDone = after.billetWebDone;
     if (billetWebDone) {
-      return document.update({
-        status: {
-          ...status,
-          code: StatusEnum.DONE,
-        },
-      });
+      return document.update(makeTicketStepAsDone(status));
     }
   }
 

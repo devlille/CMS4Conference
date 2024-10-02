@@ -7,7 +7,8 @@ import {
 } from "../generator/lib/generator";
 import * as os from "os";
 import * as admin from "firebase-admin";
-import { Company, Configuration, Settings } from "../model";
+import { Company, Configuration } from "../model";
+import { getConfiguration } from "../v3/infrastructure/getConfiguration";
 
 export async function storeFile(cloudStorageDest: string, tempPath: string) {
   await admin
@@ -26,29 +27,16 @@ export async function storeFile(cloudStorageDest: string, tempPath: string) {
 export async function generateAndStoreProformaInvoiceAndConvention(
   company: Company,
   id: string,
-  settings: Settings,
-  configurationFromFirestore: Configuration
+  configuration: Configuration
 ) {
   console.log("Generate Proforma invoice and convention for " + id);
 
   const [convention, proformaInvoice, depositInvoice, devis] =
     await Promise.all([
-      generateConvention(
-        { ...company, id },
-        settings,
-        configurationFromFirestore
-      ),
-      generateProformaInvoice(
-        { ...company, id },
-        settings,
-        configurationFromFirestore
-      ),
-      generateDepositInvoice(
-        { ...company, id },
-        settings,
-        configurationFromFirestore
-      ),
-      generateDevis({ ...company, id }, settings, configurationFromFirestore),
+      generateConvention({ ...company, id }, configuration),
+      generateProformaInvoice({ ...company, id }, configuration),
+      generateDepositInvoice({ ...company, id }, configuration),
+      generateDevis({ ...company, id }, configuration),
     ]);
 
   await Promise.all([
@@ -62,8 +50,7 @@ export async function generateAndStoreInvoice(
   firestore: FirebaseFirestore.Firestore,
   company: Company,
   id: string,
-  settings: any,
-  configurationFromFirestore: Configuration
+  configuration: Configuration
 ) {
   let invoiceNumber = company.invoiceNumber;
 
@@ -77,8 +64,7 @@ export async function generateAndStoreInvoice(
       id,
       invoiceNumber,
     },
-    settings,
-    configurationFromFirestore
+    configuration
   );
   const publicInvoiceUrl = await storeFile("facture/", invoice as any);
 
@@ -95,12 +81,9 @@ export async function generateInvoiceNumber(
   firestore: FirebaseFirestore.Firestore
 ) {
   console.log("Generate Invoice Number");
-  const invoiceNumber = await firestore
-    .doc("editions/2025")
-    .get()
-    .then((invoice) => {
-      return (invoice.data() as any).next_value;
-    });
+  const invoiceNumber = await getConfiguration(firestore).then((invoice) => {
+    return invoice.next_value;
+  });
 
   const formattedNumber = "2025_" + invoiceNumber.padStart(3, "0");
 

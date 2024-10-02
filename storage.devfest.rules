@@ -50,5 +50,5 @@ service firebase.storage {
   }
 }
 function isAdministrator() {
-    return request.auth.token.email.matches(".*@gdglille.org")
+    return request.auth.token.email.matches(".*@devlille.fr")
 }

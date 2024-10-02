@@ -31,13 +31,6 @@ export type Mailjet = {
   api: string;
   private: string;
 };
-export type Settings = {
-  convention: Convention;
-  hosting: Hosting;
-  gdg: Association;
-  mail: Email;
-  mailjet: Mailjet;
-};
 
 export type SponsoringType = Record<string, number>;
 export type SponsorshipConfiguration = {
@@ -49,11 +42,18 @@ export type SponsorshipConfiguration = {
   considerationsEn: string[];
   hasBooth: boolean;
 };
+
 export type Configuration = SponsoringType & {
   next_value: string;
   enabled: boolean;
   sponsorships: SponsorshipConfiguration[];
   webhooks?: string[];
+  convention: Convention;
+  hosting: Hosting;
+  gdg: Association;
+  mail: Email;
+  mailjet: Mailjet;
+  template_folder: string;
 };
 
 export type SponsoringOption = { label: string; price: number };
@@ -70,7 +70,13 @@ export interface WorkflowStatus {
   code?: State;
 }
 
-export type State = "disabled" | "enabled" | "pending" | "done" | "refused" | "retry";
+export type State =
+  | "disabled"
+  | "enabled"
+  | "pending"
+  | "done"
+  | "refused"
+  | "retry";
 
 export interface Company {
   archived?: boolean;

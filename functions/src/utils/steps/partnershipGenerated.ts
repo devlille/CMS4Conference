@@ -2,10 +2,20 @@ import PartnerhipGeneratedFactory from "../../emails/template/step-partnership-g
 import { sendEmailToAllContacts } from "../mail";
 
 import { StatusEnum } from "../document-change";
-import { Company, Settings } from "../../model";
-export default (company: Company, id: string, settings: Settings, shouldSendEmail: boolean) => {
+import { Company, Configuration } from "../../model";
+
+export default (
+  company: Company,
+  id: string,
+  configuration: Configuration,
+  shouldSendEmail: boolean
+) => {
   if (shouldSendEmail) {
-    sendEmailToAllContacts(company, PartnerhipGeneratedFactory(company, id, settings), settings);
+    sendEmailToAllContacts(
+      company,
+      PartnerhipGeneratedFactory(company, id, configuration),
+      configuration
+    );
   }
 
   return {

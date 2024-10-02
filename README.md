@@ -22,21 +22,21 @@ Pour faire fonctionner les Firebase functions, vous devez définir cette configu
     "zipcode": "...",
     "tel": "...",
     "city": "...",
-    "event": "Devfest Lille",
+    "event": "DevLille",
     "address": "...",
-    "accountantemail": "...@gdglille.org",
+    "accountantemail": "...@devlille.fr",
     "website": "https://"
   },
   "mail": {
-    "to": "...@gdglille.org",
-    "from": "...@gdglille.org",
-    "cc": "...@gdglille.org",
+    "to": "...@devlille.fr",
+    "from": "...@devlille.fr",
+    "cc": "...@devlille.fr",
     "enabled": "true",
-    "signature": "L'équipe du Devfest Lille",
+    "signature": "L'équipe du DevLille",
     "fromname": "GDG Lille"
   },
   "hosting": {
-    "baseurl": "https://cms4partners.gdglille.org/"
+    "baseurl": "https://partenaire.devlille.fr/"
   },
   "mailjet": {
     "api": "...",

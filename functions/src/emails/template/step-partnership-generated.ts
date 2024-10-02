@@ -1,8 +1,12 @@
 import { addDays } from "date-fns";
 import { Timestamp } from "@google-cloud/firestore";
-import { Company, Settings } from "../../model";
+import { Company, Configuration } from "../../model";
 
-export default ({ sponsoring, creationDate }: Company, id: string, settings: Settings) => {
+export default (
+  { sponsoring, creationDate }: Company,
+  id: string,
+  configuration: Configuration
+) => {
   const options = {
     weekday: "long",
     year: "numeric",
@@ -14,10 +18,10 @@ export default ({ sponsoring, creationDate }: Company, id: string, settings: Set
 
   const sponsor_reservation_end_date = dateTimeFormat.format(date);
 
-  const address_cms4devfest = `${settings.hosting.baseurl}/partner/${id}`;
+  const address_cms4devfest = `${configuration.hosting.baseurl}/partner/${id}`;
 
   return {
-    subject: `Partenariat ${settings.gdg.event} ${settings.convention.edition}: Contrat et facture à acquitter`,
+    subject: `Partenariat ${configuration.gdg.event} ${configuration.convention.edition}: Contrat et facture à acquitter`,
     body: `
   Bonjour
   <br><br>
@@ -29,11 +33,11 @@ export default ({ sponsoring, creationDate }: Company, id: string, settings: Set
   <br><br>
   Une fois la convention signée et le paiement reçu, nous passerons à la prochaine étape du partenariat.
   <br><br>
-  Nous restons à votre disposition pour tout complément via l'adresse email ${settings.mail.from}.
+  Nous restons à votre disposition pour tout complément via l'adresse email ${configuration.mail.from}.
   <br><br>
   Cordialement     
   <br><br>
-  ${settings.mail.signature} ${settings.convention.edition}
+  ${configuration.mail.signature} ${configuration.convention.edition}
       `,
   };
 };

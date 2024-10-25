@@ -38,7 +38,9 @@ function updatesStatus(id: string, company: any, status: any) {
 
 export const getAllPublicSponsors = functions.https.onRequest(
   async (req, resp) => {
-    const data = await firestore.collection("companies-2025").get();
+
+    const edition = req.query.conversationID;
+    const data = await firestore.collection("companies-" + edition).get();
     const partners = data.docs
       .map((d) => ({
         id: d.id,

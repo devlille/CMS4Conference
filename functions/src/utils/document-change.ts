@@ -93,7 +93,7 @@ export async function onDocumentChange(
     beforeStatus.validated !== status.validated &&
     status.validated === StatusEnum.REFUSED
   ) {
-    await sendKoEmails(after, configuration);
+    sendKoEmails(after, configuration);
   } else if (
     beforeStatus.sign !== status.sign &&
     status.sign === StatusEnum.DONE

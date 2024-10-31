@@ -23,7 +23,7 @@ export class InfoComponent {
 
   private readonly partnerService = inject(PartnerService);
   private readonly route = inject(ActivatedRoute);
-  private auth: Auth = inject(Auth);
+  private readonly auth: Auth = inject(Auth);
 
   constructor() {
     this.id = this.route.snapshot.paramMap.get('id') ?? '';

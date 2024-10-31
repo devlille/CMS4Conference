@@ -25,8 +25,8 @@ import { environment } from '../environments/environment';
 export class AppComponent {
   isLoggedIn: boolean | undefined;
   title = environment.title;
-  private auth: Auth = inject(Auth);
-  private titleService: Title = inject(Title);
+  private readonly auth: Auth = inject(Auth);
+  private readonly titleService: Title = inject(Title);
   constructor() {
     this.titleService.setTitle(environment.title);
     this.auth.onAuthStateChanged((state) => {

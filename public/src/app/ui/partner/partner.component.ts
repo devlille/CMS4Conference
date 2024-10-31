@@ -38,10 +38,10 @@ export class PartnerComponent {
   isAdmin = false;
   partner: Company | undefined;
 
-  private auth: Auth = inject(Auth);
-  private partnerService: PartnerService = inject(PartnerService);
-  private route: ActivatedRoute = inject(ActivatedRoute);
-  private partnerStore: StoreService = inject(StoreService);
+  private readonly auth: Auth = inject(Auth);
+  private readonly partnerService: PartnerService = inject(PartnerService);
+  private readonly route: ActivatedRoute = inject(ActivatedRoute);
+  private readonly partnerStore: StoreService = inject(StoreService);
 
   constructor() {
     this.auth.onAuthStateChanged((state) => {

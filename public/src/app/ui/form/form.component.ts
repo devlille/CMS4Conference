@@ -80,7 +80,7 @@ export class FormComponent {
   updatedCompany: Company = {} as Company;
   config: Configuration | undefined;
 
-  private partnerService = inject(PartnerService);
+  private readonly partnerService = inject(PartnerService);
   async ngOnInit() {
     this.config = await this.partnerService.getCurrentConfiguration();
 

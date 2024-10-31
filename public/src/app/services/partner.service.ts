@@ -24,8 +24,11 @@ import {
 export class PartnerService {
   updateFlag: Subject<boolean> = new BehaviorSubject(true);
 
-  private firestore: Firestore = inject(Firestore);
-  private companiesCollection = collection(this.firestore, 'companies-2025');
+  private readonly firestore: Firestore = inject(Firestore);
+  private readonly companiesCollection = collection(
+    this.firestore,
+    'companies-2025',
+  );
 
   public add(company: Company) {
     return addDoc(this.companiesCollection, {

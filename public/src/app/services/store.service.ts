@@ -6,7 +6,7 @@ import { Company } from '../model/company';
   providedIn: 'root',
 })
 export class StoreService {
-  private _partner = new BehaviorSubject<Company | null>(null);
+  private readonly _partner = new BehaviorSubject<Company | null>(null);
 
   get partner$() {
     return this._partner.asObservable();

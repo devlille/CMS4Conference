@@ -1,13 +1,17 @@
 import { WorkflowStatus } from "../../model";
 import { StatusEnum } from "../../utils/document-change";
 
-export const makeTicketStepAsDone = (
-  status: WorkflowStatus
-): { status: WorkflowStatus } => {
+const makeStepAsDone = (
+  step: keyof WorkflowStatus,
+  previousStatus: WorkflowStatus
+) => {
   return {
     status: {
-      ...status,
-      code: StatusEnum.DONE,
+      ...previousStatus,
+      [step]: StatusEnum.DONE,
     },
   };
 };
+export const makeTicketStepAsDone = (
+  status: WorkflowStatus
+): { status: WorkflowStatus } => makeStepAsDone("code", status);

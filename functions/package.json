@@ -16,6 +16,8 @@
   },
   "main": "lib/index.js",
   "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.3.38",
+    "axios": "^1.6.7",
     "date-fns": "^2.8.1",
     "ejs": "3.1.9",
     "firebase-admin": "^11.8.0",
@@ -24,21 +26,13 @@
     "jest": "^29.7.0",
     "markdown-pdf": "8.1.1",
     "node-mailjet": "3.3.1",
-    "@googlemaps/google-maps-services-js": "^3.3.38",
-    "sharp": "^0.32.6",
-    "axios": "^1.6.7"
+    "sharp": "^0.32.6"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^3.0.1",
     "@types/ejs": "^3.1.5",
     "@types/jest": "^29.5.8",
     "@types/markdown-pdf": "^9.0.5",
-    "@typescript-eslint/eslint-plugin": "^5.12.0",
-    "@typescript-eslint/parser": "^5.12.0",
-    "eslint": "^8.9.0",
-    "eslint-config-google": "^0.14.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-import": "^2.25.4",
     "firebase-functions-test": "^3.1.0",
     "prettier": "^3.1.0",
     "ts-jest": "^29.1.1",

@@ -30,7 +30,7 @@ function generateFile(
 ) {
   const file = fileModule.default;
   const getOfficialName = () => {
-    if (!!config.officialName) {
+    if (config.officialName) {
       return config.officialName;
     }
     return config.name;

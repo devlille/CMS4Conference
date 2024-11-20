@@ -8,7 +8,7 @@ export const sendToWebhooks = async (
   changes: Change<QueryDocumentSnapshot>
 ) => {
   if (configuration.webhooks?.length! > 0) {
-    for (let webhook of configuration.webhooks!) {
+    for (const webhook of configuration.webhooks!) {
       console.log(
         `Sending to webhook ${webhook} information about ${
           changes.after.data().name

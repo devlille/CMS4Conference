@@ -38,7 +38,6 @@ function updatesStatus(id: string, company: any, status: any) {
 
 export const getAllPublicSponsors = functions.https.onRequest(
   async (req, resp) => {
-
     const edition = req.query.edition;
     const data = await firestore.collection("companies-" + edition).get();
     const partners = data.docs
@@ -72,7 +71,7 @@ const relance = (
 };
 
 export const relancePartnaireConventionASigner = functions.https.onCall(
-  async (req, res) => {
+  async () => {
     const configuration = await getConfiguration(firestore);
     const data = await firestore.collection("companies-2025").get();
     const partners = data.docs
@@ -82,19 +81,17 @@ export const relancePartnaireConventionASigner = functions.https.onCall(
   }
 );
 
-export const relancePartnaireFacture = functions.https.onCall(
-  async (req, res) => {
-    const configuration = await getConfiguration(firestore);
-    const data = await firestore.collection("companies-2025").get();
-    const partners = data.docs
-      .map((d) => d.data())
-      .filter((p) => p.status.paid === StatusEnum.PENDING);
-    relance(relancePaiement, partners, configuration);
-  }
-);
+export const relancePartnaireFacture = functions.https.onCall(async () => {
+  const configuration = await getConfiguration(firestore);
+  const data = await firestore.collection("companies-2025").get();
+  const partners = data.docs
+    .map((d) => d.data())
+    .filter((p) => p.status.paid === StatusEnum.PENDING);
+  relance(relancePaiement, partners, configuration);
+});
 
 export const relanceInformationPourGeneration = functions.https.onCall(
-  async (req, res) => {
+  async () => {
     const configuration = await getConfiguration(firestore);
     const data = await firestore.collection("companies-2025").get();
     const partners = data.docs

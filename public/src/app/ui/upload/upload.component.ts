@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  ViewChild,
-  input,
-  output
-} from '@angular/core';
+import { Component, ElementRef, input, output, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,26 +8,25 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'cms-upload',
-    imports: [
-        CommonModule,
-        MatProgressSpinnerModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatButtonModule,
-        MatInputModule,
-        FormsModule,
-    ],
-    templateUrl: './upload.component.html',
-    styleUrls: ['./upload.component.scss']
+  selector: 'cms-upload',
+  imports: [
+    CommonModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatButtonModule,
+    MatInputModule,
+    FormsModule,
+  ],
+  templateUrl: './upload.component.html',
+  styleUrls: ['./upload.component.scss'],
 })
 export class UploadComponent {
   readonly label = input.required<string | undefined>();
   readonly accept = input<string>();
   readonly isEnable = input<boolean>();
-  public readonly uploadFile = output();
-  @ViewChild('fileUpload')
-  fileUpload: ElementRef | undefined;
+  public readonly uploadFile = output<Blob>();
+  readonly fileUpload = viewChild<ElementRef>('fileUpload');
 
   uploaded = false;
 
@@ -57,6 +50,7 @@ export class UploadComponent {
   }
 
   onClick() {
-    if (this.fileUpload) this.fileUpload.nativeElement.click();
+    const fileUpload = this.fileUpload();
+    if (fileUpload) fileUpload.nativeElement.click();
   }
 }

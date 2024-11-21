@@ -1,10 +1,10 @@
 import {
   Component,
-  ViewChild,
   inject,
   AfterViewInit,
   signal,
   computed,
+  viewChild
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Company, Configuration, PartnerType } from '../../model/company';
@@ -17,7 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import {} from '@angular/common/http';
+
 import { Functions, httpsCallable } from '@angular/fire/functions';
 
 type FilterValueType =
@@ -47,7 +47,7 @@ type FilterByType = PartnerType | 'undefined';
     styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements AfterViewInit {
-  @ViewChild(MatSort) sort!: MatSort;
+  readonly sort = viewChild.required(MatSort);
 
   configuration = signal<Configuration | undefined>(undefined);
   displayedColumns: string[] = [
@@ -111,7 +111,7 @@ export class DashboardComponent implements AfterViewInit {
 
   dataSource = computed(() => {
     const dataSource = new MatTableDataSource(this.filteredPartners());
-    dataSource.sort = this.sort;
+    dataSource.sort = this.sort();
 
     return dataSource;
   });

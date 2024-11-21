@@ -2,10 +2,10 @@ import {
   Component,
   ComponentFactoryResolver,
   SimpleChanges,
-  ViewChild,
   ViewContainerRef,
   inject,
-  input
+  input,
+  viewChild
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WorkflowStep, Company } from '../../model/company';
@@ -58,8 +58,7 @@ export class PanelItemComponent {
     code: AdminCodeComponent,
   };
 
-  @ViewChild('content', { read: ViewContainerRef, static: false })
-  public content: ViewContainerRef | undefined;
+  readonly content = viewChild('content', { read: ViewContainerRef });
 
   private readonly componentFactoryResolver = inject(ComponentFactoryResolver);
   private readonly auth = inject(Auth);
@@ -78,7 +77,7 @@ export class PanelItemComponent {
         const components = isAdmin
           ? this.adminComponent
           : this.publicComponents;
-        this.content!.clear();
+        this.content()!.clear();
 
         const step = this.step();
         const componentInstance = step?.key
@@ -88,7 +87,7 @@ export class PanelItemComponent {
           this.componentFactoryResolver.resolveComponentFactory(
             componentInstance,
           );
-        const component = this.content!.createComponent(componentFactory);
+        const component = this.content()!.createComponent(componentFactory);
         (component.instance as any).step = this.step();
         (component.instance as any).company = this.company();
         (component.instance as any).id = this.id();

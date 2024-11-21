@@ -5,11 +5,10 @@ import { FilesComponent } from '../files/files.component';
 import { StorageService } from '../../storage.service';
 
 @Component({
-  selector: 'cms-paid',
-  standalone: true,
-  imports: [CommonModule, FilesComponent],
-  templateUrl: './paid.component.html',
-  styleUrls: ['./paid.component.scss'],
+    selector: 'cms-paid',
+    imports: [CommonModule, FilesComponent],
+    templateUrl: './paid.component.html',
+    styleUrls: ['./paid.component.scss']
 })
 export class PaidComponent {
   @Input({ required: true }) workflow!: Workflow;

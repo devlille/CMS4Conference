@@ -26,11 +26,10 @@ import { GeneratedComponent } from '../../generated/generated.component';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'cms-panel-item',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './panel-item.component.html',
-  styleUrls: ['./panel-item.component.scss'],
+    selector: 'cms-panel-item',
+    imports: [CommonModule],
+    templateUrl: './panel-item.component.html',
+    styleUrls: ['./panel-item.component.scss']
 })
 export class PanelItemComponent {
   @Input() step: WorkflowStep | undefined;

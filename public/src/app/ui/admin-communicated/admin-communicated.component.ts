@@ -12,19 +12,18 @@ import { StorageService } from '../../storage.service';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'cms-admin-communicated',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FilesComponent,
-    UploadComponent,
-    MatInputModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatIconModule,
-  ],
-  templateUrl: './admin-communicated.component.html',
+    selector: 'cms-admin-communicated',
+    imports: [
+        CommonModule,
+        FilesComponent,
+        UploadComponent,
+        MatInputModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatIconModule,
+    ],
+    templateUrl: './admin-communicated.component.html'
 })
 export class AdminCommunicatedComponent {
   @Input({ required: true }) workflow!: Workflow;

@@ -7,11 +7,10 @@ import { Company } from '../model/company';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'cms-register-form',
-  standalone: true,
-  imports: [CommonModule, FormComponent, MatCardModule],
-  templateUrl: './register-form.component.html',
-  styleUrls: ['./register-form.component.scss'],
+    selector: 'cms-register-form',
+    imports: [CommonModule, FormComponent, MatCardModule],
+    templateUrl: './register-form.component.html',
+    styleUrls: ['./register-form.component.scss']
 })
 export class RegisterFormComponent {
   submitted = false;

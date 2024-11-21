@@ -9,17 +9,16 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'cms-admin-filled',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatFormFieldModule,
-    FormsModule,
-    MatButtonModule,
-    MatInputModule,
-    MatIconModule,
-  ],
-  templateUrl: './admin-filled.component.html',
+    selector: 'cms-admin-filled',
+    imports: [
+        CommonModule,
+        MatFormFieldModule,
+        FormsModule,
+        MatButtonModule,
+        MatInputModule,
+        MatIconModule,
+    ],
+    templateUrl: './admin-filled.component.html'
 })
 export class AdminFilledComponent {
   @Input() company: Company | undefined;

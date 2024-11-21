@@ -10,11 +10,10 @@ import { from } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'cms-info',
-  standalone: true,
-  imports: [CommonModule, FormComponent],
-  templateUrl: './info.component.html',
-  styleUrls: ['./info.component.scss'],
+    selector: 'cms-info',
+    imports: [CommonModule, FormComponent],
+    templateUrl: './info.component.html',
+    styleUrls: ['./info.component.scss']
 })
 export class InfoComponent {
   isAdmin = false;

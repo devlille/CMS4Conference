@@ -8,16 +8,15 @@ import {
 import { Timestamp } from '@angular/fire/firestore';
 
 @Component({
-  selector: 'app-closed-form-warning-message',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DatePipe],
-  template: `
+    selector: 'app-closed-form-warning-message',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [DatePipe],
+    template: `
     <p>
       Le formulaire n'est pas encore ouvert. Nous vous donnons rendez-vous le
       {{ date() | date: 'full' }}.
     </p>
-  `,
+  `
 })
 export class ClosedFormWarningMessageComponent {
   openingDate = input<Timestamp>();

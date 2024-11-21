@@ -16,21 +16,20 @@ import { AllFilesComponent } from '../../all-files/all-files.component';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'cms-partner',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatTabsModule,
-    RouterModule,
-    LoaderComponent,
-    InfoComponent,
-    WorkflowComponent,
-    MatCardModule,
-    MatButtonModule,
-    AllFilesComponent,
-  ],
-  templateUrl: './partner.component.html',
-  styleUrls: ['./partner.component.scss'],
+    selector: 'cms-partner',
+    imports: [
+        CommonModule,
+        MatTabsModule,
+        RouterModule,
+        LoaderComponent,
+        InfoComponent,
+        WorkflowComponent,
+        MatCardModule,
+        MatButtonModule,
+        AllFilesComponent,
+    ],
+    templateUrl: './partner.component.html',
+    styleUrls: ['./partner.component.scss']
 })
 export class PartnerComponent {
   partner$: Observable<Company> | undefined;

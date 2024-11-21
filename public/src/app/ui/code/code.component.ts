@@ -9,18 +9,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'cms-code',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatButtonModule,
-    FormsModule,
-  ],
-  templateUrl: './code.component.html',
-  styleUrls: ['./code.component.scss'],
+    selector: 'cms-code',
+    imports: [
+        CommonModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatButtonModule,
+        FormsModule,
+    ],
+    templateUrl: './code.component.html',
+    styleUrls: ['./code.component.scss']
 })
 export class CodeComponent {
   @Input({ required: true }) workflow!: Workflow;

@@ -4,10 +4,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'cms-files',
-  standalone: true,
-  imports: [CommonModule, MatListModule, MatIconModule, MatIconModule],
-  template: `
+    selector: 'cms-files',
+    imports: [CommonModule, MatListModule, MatIconModule, MatIconModule],
+    template: `
     <mat-list role="list">
       <h3 mat-subheader>Fichiers associés</h3>
       @for (item of files | keyvalue; track item) {
@@ -26,7 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
         }
       }
     </mat-list>
-  `,
+  `
 })
 export class FilesComponent {
   @Input()

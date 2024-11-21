@@ -9,18 +9,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'cms-admin-code',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatButtonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatIconModule,
-  ],
-  templateUrl: './admin-code.component.html',
-  styleUrls: ['./admin-code.component.scss'],
+    selector: 'cms-admin-code',
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatButtonModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatIconModule,
+    ],
+    templateUrl: './admin-code.component.html',
+    styleUrls: ['./admin-code.component.scss']
 })
 export class AdminCodeComponent {
   @Input({ required: true }) company!: Company;

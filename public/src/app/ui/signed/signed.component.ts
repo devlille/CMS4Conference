@@ -11,17 +11,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'cms-signed',
-  standalone: true,
-  imports: [
-    CommonModule,
-    UploadComponent,
-    FilesComponent,
-    MatIconModule,
-    MatButtonModule,
-  ],
-  templateUrl: './signed.component.html',
-  styleUrls: ['./signed.component.scss'],
+    selector: 'cms-signed',
+    imports: [
+        CommonModule,
+        UploadComponent,
+        FilesComponent,
+        MatIconModule,
+        MatButtonModule,
+    ],
+    templateUrl: './signed.component.html',
+    styleUrls: ['./signed.component.scss']
 })
 export class SignedComponent {
   @Input({ required: true }) workflow!: Workflow;

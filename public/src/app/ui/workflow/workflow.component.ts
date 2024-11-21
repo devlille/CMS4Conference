@@ -12,16 +12,15 @@ import { Auth } from '@angular/fire/auth';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'cms-workflow',
-  standalone: true,
-  imports: [
-    CommonModule,
-    LoaderComponent,
-    MatExpansionModule,
-    PanelItemComponent,
-  ],
-  templateUrl: './workflow.component.html',
-  styleUrls: ['./workflow.component.scss'],
+    selector: 'cms-workflow',
+    imports: [
+        CommonModule,
+        LoaderComponent,
+        MatExpansionModule,
+        PanelItemComponent,
+    ],
+    templateUrl: './workflow.component.html',
+    styleUrls: ['./workflow.component.scss']
 })
 export class WorkflowComponent {
   public id: string | undefined | null;

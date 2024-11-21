@@ -7,10 +7,9 @@ import { StoreService } from '../services/store.service';
 import { environment } from '../../environments/environment';
 
 @Component({
-  selector: 'cms-all-files',
-  standalone: true,
-  imports: [CommonModule, FilesComponent],
-  template: '<cms-files [files]="files"></cms-files>',
+    selector: 'cms-all-files',
+    imports: [CommonModule, FilesComponent],
+    template: '<cms-files [files]="files"></cms-files>'
 })
 export class AllFilesComponent implements OnInit {
   private readonly partnerStore = inject(StoreService);

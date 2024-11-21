@@ -9,16 +9,15 @@ import { StorageService } from '../../storage.service';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'cms-admin-paid',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    FilesComponent,
-    UploadComponent,
-    MatIconModule,
-  ],
-  templateUrl: './admin-paid.component.html',
+    selector: 'cms-admin-paid',
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        FilesComponent,
+        UploadComponent,
+        MatIconModule,
+    ],
+    templateUrl: './admin-paid.component.html'
 })
 export class AdminPaidComponent {
   @Input({ required: true }) workflow!: Workflow;

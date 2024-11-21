@@ -1,25 +1,20 @@
-import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Workflow, WorkflowStep, Company, State } from '../../model/company';
-import { PartnerService } from '../../services/partner.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { FilesComponent } from '../files/files.component';
-import { UploadComponent } from '../upload/upload.component';
-import { FormsModule } from '@angular/forms';
-import { StorageService } from '../../storage.service';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, Input, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { environment } from '../../../environments/environment';
+import { Company, State, Workflow, WorkflowStep } from '../../model/company';
+import { PartnerService } from '../../services/partner.service';
+import { StorageService } from '../../storage.service';
 
 @Component({
   selector: 'cms-admin-validated',
-  standalone: true,
   imports: [
     CommonModule,
-    FilesComponent,
-    UploadComponent,
     MatFormFieldModule,
     FormsModule,
     MatButtonModule,

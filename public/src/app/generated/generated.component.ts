@@ -22,21 +22,20 @@ import { environment } from '../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'cms-generated',
-  standalone: true,
-  imports: [
-    CommonModule,
-    UploadComponent,
-    FilesComponent,
-    MatIconModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    AddPipe,
-  ],
-  templateUrl: './generated.component.html',
-  styleUrl: './generated.component.scss',
+    selector: 'cms-generated',
+    imports: [
+        CommonModule,
+        UploadComponent,
+        FilesComponent,
+        MatIconModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        AddPipe,
+    ],
+    templateUrl: './generated.component.html',
+    styleUrl: './generated.component.scss'
 })
 export class GeneratedComponent {
   @Input() workflow: Workflow | undefined;

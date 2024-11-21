@@ -9,18 +9,17 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { environment } from '../environments/environment';
 
 @Component({
-  selector: 'cms-root',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterOutlet,
-    RouterLink,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-  ],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+    selector: 'cms-root',
+    imports: [
+        CommonModule,
+        RouterOutlet,
+        RouterLink,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+    ],
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   isLoggedIn: boolean | undefined;

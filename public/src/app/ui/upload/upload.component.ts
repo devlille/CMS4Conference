@@ -15,19 +15,18 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'cms-upload',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatProgressSpinnerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatButtonModule,
-    MatInputModule,
-    FormsModule,
-  ],
-  templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.scss'],
+    selector: 'cms-upload',
+    imports: [
+        CommonModule,
+        MatProgressSpinnerModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatButtonModule,
+        MatInputModule,
+        FormsModule,
+    ],
+    templateUrl: './upload.component.html',
+    styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent {
   @Input({ required: true }) label: string | undefined;

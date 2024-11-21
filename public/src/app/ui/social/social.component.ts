@@ -16,22 +16,21 @@ import { Auth } from '@angular/fire/auth';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'cms-social',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FilesComponent,
-    UploadComponent,
-    MatDividerModule,
-    MatInputModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCheckboxModule,
-  ],
-  templateUrl: './social.component.html',
-  styleUrls: ['./social.component.scss'],
+    selector: 'cms-social',
+    imports: [
+        CommonModule,
+        FilesComponent,
+        UploadComponent,
+        MatDividerModule,
+        MatInputModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCheckboxModule,
+    ],
+    templateUrl: './social.component.html',
+    styleUrls: ['./social.component.scss']
 })
 export class SocialComponent {
   @Input({ required: true }) company!: Company;

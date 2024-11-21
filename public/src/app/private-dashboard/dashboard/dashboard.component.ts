@@ -32,20 +32,19 @@ type FilterByPackValueType = string;
 type FilterByType = PartnerType | 'undefined';
 
 @Component({
-  selector: 'cms-dashboard',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatRadioModule,
-    MatTableModule,
-    FormsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatSortModule,
-    MatButtonToggleModule,
-  ],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+    selector: 'cms-dashboard',
+    imports: [
+        CommonModule,
+        MatRadioModule,
+        MatTableModule,
+        FormsModule,
+        MatCardModule,
+        MatButtonModule,
+        MatSortModule,
+        MatButtonToggleModule,
+    ],
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;

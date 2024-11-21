@@ -1,11 +1,5 @@
 import localeFr from '@angular/common/locales/fr';
-import {
-  APP_INITIALIZER,
-  ApplicationConfig,
-  ErrorHandler,
-  LOCALE_ID,
-  importProvidersFrom,
-} from '@angular/core';
+import { ApplicationConfig, ErrorHandler, LOCALE_ID } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
@@ -36,22 +30,13 @@ export const appConfig: ApplicationConfig = {
       provide: Sentry.TraceService,
       deps: [Router],
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => {},
-      deps: [Sentry.TraceService],
-      multi: true,
-    },
-
     { provide: LOCALE_ID, useValue: 'fr' },
     provideAnimations(),
-    importProvidersFrom(
-      provideFirebaseApp(() => initializeApp(environment.firebase!)),
-    ),
-    importProvidersFrom(provideAuth(() => getAuth())),
-    importProvidersFrom(provideFirestore(() => getFirestore())),
-    importProvidersFrom(provideStorage(() => getStorage())),
-    importProvidersFrom(provideFunctions(() => getFunctions())),
+    provideFirebaseApp(() => initializeApp(environment.firebase!)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+    provideFunctions(() => getFunctions()),
     provideHttpClient(),
   ],
 };

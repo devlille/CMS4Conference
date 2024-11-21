@@ -46,19 +46,18 @@ interface Option {
 type Options = Option[];
 
 @Component({
-  selector: 'cms-form',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    ClosedFormWarningMessageComponent,
-  ],
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss'],
+    selector: 'cms-form',
+    imports: [
+        CommonModule,
+        MatInputModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        ClosedFormWarningMessageComponent,
+    ],
+    templateUrl: './form.component.html',
+    styleUrls: ['./form.component.scss']
 })
 export class FormComponent {
   @Input()

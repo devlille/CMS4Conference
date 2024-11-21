@@ -1,26 +1,21 @@
-import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Workflow, WorkflowStep, Company, State } from '../../model/company';
-import { PartnerService } from '../../services/partner.service';
-import { UploadComponent } from '../upload/upload.component';
-import { FilesComponent } from '../files/files.component';
-import { StorageService } from '../../storage.service';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, inject, input } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+
 import { environment } from '../../../environments/environment';
+import { Workflow, WorkflowStep, Company, State } from '../../model/company';
+import { PartnerService } from '../../services/partner.service';
+import { StorageService } from '../../storage.service';
+import { FilesComponent } from '../files/files.component';
+import { UploadComponent } from '../upload/upload.component';
 
 @Component({
-    selector: 'cms-signed',
-    imports: [
-        CommonModule,
-        UploadComponent,
-        FilesComponent,
-        MatIconModule,
-        MatButtonModule,
-    ],
-    templateUrl: './signed.component.html',
-    styleUrls: ['./signed.component.scss']
+  selector: 'cms-signed',
+  imports: [CommonModule, UploadComponent, FilesComponent, MatIconModule, MatButtonModule],
+  templateUrl: './signed.component.html',
+  styleUrls: ['./signed.component.scss']
 })
 export class SignedComponent {
   readonly workflow = input.required<Workflow>();
@@ -37,14 +32,13 @@ export class SignedComponent {
 
   ngOnInit() {
     this.auth.onAuthStateChanged((state) => {
-      this.isAdmin =
-        state?.email?.endsWith('@' + environment.emailDomain) ?? false;
+      this.isAdmin = state?.email?.endsWith('@' + environment.emailDomain) ?? false;
     });
 
     if (this.company().conventionSignedUrl) {
       this.storageService.getSignedConvention(this.id()).then((invoice) => {
         this.files = {
-          'Convention signée': invoice,
+          'Convention signée': invoice
         };
       });
     }
@@ -54,8 +48,8 @@ export class SignedComponent {
     this.partnerService.update(this.id(), {
       status: {
         ...this.company().status,
-        [this.step().key]: status,
-      },
+        [this.step().key]: status
+      }
     });
   }
 
@@ -64,12 +58,10 @@ export class SignedComponent {
   }
 
   uploadConvention(file: Blob) {
-    this.storageService
-      .uploadFile(this.id(), file, 'conventionSigned')
-      .then((url) => {
-        this.partnerService.update(this.id(), {
-          conventionSignedUrl: url,
-        });
+    this.storageService.uploadFile(this.id(), file, 'conventionSigned').then((url) => {
+      this.partnerService.update(this.id(), {
+        conventionSignedUrl: url
       });
+    });
   }
 }

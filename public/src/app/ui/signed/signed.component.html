@@ -1,24 +1,16 @@
 @if (company().conventionSignedUrl) {
   <p>
-    Vous trouverez ci-dessous la convention et le devis relatifs à notre
-    partenariat.
+    Vous trouverez ci-dessous la convention et le devis relatifs à notre partenariat.
     <cms-files [files]="files"></cms-files>
   </p>
 }
 
 <div class="inline-bloc">
   @if (!company().conventionSignedUrl || isAdmin) {
-    <cms-upload
-      (uploadFile)="uploadConvention($event)"
-      [isEnable]=""
-      accept=".pdf"
-      label="Convention"
-    >
-      Envoyer la convention signée
-    </cms-upload>
+    <cms-upload (uploadFile)="uploadConvention($event)" [isEnable]="" accept=".pdf" label="Convention"> Envoyer la convention signée </cms-upload>
   }
   @if (isAdmin) {
-    @if (company().status?.[step().key] !== "done") {
+    @if (company().status?.[step().key] !== 'done') {
       <button mat-raised-button color="primary" (click)="setDone()">
         <mat-icon>done</mat-icon>
         Valider cette étape

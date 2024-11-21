@@ -1,26 +1,22 @@
-import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { ActivatedRoute } from '@angular/router';
-import { StoreService } from '../../services/store.service';
+import { switchMap, tap } from 'rxjs';
+
+import { environment } from '../../../environments/environment';
 import { Company, Workflow, WorkflowStep } from '../../model/company';
+import { StoreService } from '../../services/store.service';
 import { WorkflowService } from '../../services/workflow.service';
 import { LoaderComponent } from '../loader/loader.component';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { switchMap, tap } from 'rxjs';
 import { PanelItemComponent } from '../panel-item/panel-item.component';
-import { Auth } from '@angular/fire/auth';
-import { environment } from '../../../environments/environment';
 
 @Component({
-    selector: 'cms-workflow',
-    imports: [
-        CommonModule,
-        LoaderComponent,
-        MatExpansionModule,
-        PanelItemComponent,
-    ],
-    templateUrl: './workflow.component.html',
-    styleUrls: ['./workflow.component.scss']
+  selector: 'cms-workflow',
+  imports: [CommonModule, LoaderComponent, MatExpansionModule, PanelItemComponent],
+  templateUrl: './workflow.component.html',
+  styleUrls: ['./workflow.component.scss']
 })
 export class WorkflowComponent {
   public id: string | undefined | null;
@@ -38,8 +34,7 @@ export class WorkflowComponent {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.auth.onAuthStateChanged((state) => {
-      this.isAdmin =
-        state?.email?.endsWith('@' + environment.emailDomain) ?? false;
+      this.isAdmin = state?.email?.endsWith('@' + environment.emailDomain) ?? false;
     });
 
     this.workflowService
@@ -48,7 +43,7 @@ export class WorkflowComponent {
         tap((workflow) => (this.workflow = workflow[0])),
         switchMap(() => {
           return this.partnerStore.partner$;
-        }),
+        })
       )
       .subscribe((partner) => {
         this.partner = partner as Company;
@@ -63,11 +58,7 @@ export class WorkflowComponent {
     workflow.steps = workflow.steps
       .sort((s1, s2) => s1.order - s2.order)
       .map((step: WorkflowStep) => {
-        if (
-          step.key === 'validated' &&
-          this.partner?.status?.[step.key] === 'done' &&
-          this.partner.status.sign === 'pending'
-        ) {
+        if (step.key === 'validated' && this.partner?.status?.[step.key] === 'done' && this.partner.status.sign === 'pending') {
           step.state = 'pending';
           step.class = 'is-secondary';
 

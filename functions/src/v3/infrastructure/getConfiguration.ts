@@ -1,11 +1,10 @@
-import { Firestore } from "firebase-admin/firestore";
-import { Configuration } from "../../model";
+import { Firestore } from 'firebase-admin/firestore';
 
-export const getConfiguration = (
-  firestore: Firestore
-): Promise<Configuration> => {
+import { Configuration } from '../../model';
+
+export const getConfiguration = (firestore: Firestore): Promise<Configuration> => {
   return firestore
-    .doc("editions/2025")
+    .doc('editions/2025')
     .get()
     .then((invoice) => {
       return invoice.data() as Configuration;

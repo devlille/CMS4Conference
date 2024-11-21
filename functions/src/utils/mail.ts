@@ -1,4 +1,4 @@
-import { Company, Configuration, Email } from "../model";
+import { Company, Configuration, Email } from '../model';
 
 export function getFrom(mail: Email): {
   From: { Email: string; Name: string };
@@ -6,56 +6,39 @@ export function getFrom(mail: Email): {
   return {
     From: {
       Email: mail.from,
-      Name: mail.fromname,
-    },
+      Name: mail.fromname
+    }
   };
 }
 
-export function sendEmailToAllContacts(
-  company: Company,
-  emailFactory: any,
-  configuration: Configuration
-) {
+export function sendEmailToAllContacts(company: Company, emailFactory: any, configuration: Configuration) {
   let emails = [configuration.mail.cc];
-  if (configuration.mail.enabled === "true") {
+  if (configuration.mail.enabled === 'true') {
     emails = [...emails, ...company.email];
   }
   return Promise.all(
     emails.map((email: string) => {
-      return sendEmail(
-        email.trim(),
-        `${emailFactory.subject} (${company.name})`,
-        emailFactory.body,
-        configuration
-      );
+      return sendEmail(email.trim(), `${emailFactory.subject} (${company.name})`, emailFactory.body, configuration);
     })
   );
 }
-export function sendEmail(
-  to: string,
-  subject: string,
-  body: string,
-  configuration: Configuration
-) {
+export function sendEmail(to: string, subject: string, body: string, configuration: Configuration) {
   const mailjet = configuration.mailjet;
-  const mailjetClient = require("node-mailjet").connect(
-    mailjet.api,
-    mailjet.private
-  );
-  const request = mailjetClient.post("send", { version: "v3.1" }).request({
+  const mailjetClient = require('node-mailjet').connect(mailjet.api, mailjet.private);
+  const request = mailjetClient.post('send', { version: 'v3.1' }).request({
     Messages: [
       {
         ...getFrom(configuration.mail),
         To: [
           {
-            Email: to,
-          },
+            Email: to
+          }
         ],
         Subject: subject,
         HTMLPart: body,
-        CustomID: "AppGettingStartedTest",
-      },
-    ],
+        CustomID: 'AppGettingStartedTest'
+      }
+    ]
   });
   return request
     .then((result: { body: string }) => {

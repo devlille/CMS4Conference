@@ -1,9 +1,6 @@
-import { Company, Configuration } from "../../model";
+import { Company, Configuration } from '../../model';
 
-const generateEmailForSponsorWithoutStand = (
-  billetWebUrl: string,
-  configuration: Configuration
-) => {
+const generateEmailForSponsorWithoutStand = (billetWebUrl: string, configuration: Configuration) => {
   return {
     subject: `${configuration.gdg.event} ${configuration.convention.edition} : Lien pour récupérer vos billets`,
     body: `
@@ -16,13 +13,10 @@ const generateEmailForSponsorWithoutStand = (
   Cordialement  
   <br><br>
   ${configuration.mail.signature} ${configuration.convention.edition}
-      `,
+      `
   };
 };
-const generateEmailForSponsorWithStand = (
-  billetWebUrl: string,
-  configuration: Configuration
-) => ({
+const generateEmailForSponsorWithStand = (billetWebUrl: string, configuration: Configuration) => ({
   subject: `${configuration.gdg.event} ${configuration.convention.edition} : Lien pour récupérer vos billets`,
   body: `
 Bonjour
@@ -36,16 +30,12 @@ Nous restons à votre disposition pour tout complément via l'adresse ${configur
 Cordialement  
 <br><br>
 ${configuration.mail.signature} ${configuration.convention.edition}
-    `,
+    `
 });
 
 export default (company: Company, configuration: Configuration) => {
   const billetWebUrl = company.billetWebUrl!;
-  if (
-    company.sponsoring === "Platinium" ||
-    company.sponsoring === "Gold" ||
-    company.sponsoring === "Silver"
-  ) {
+  if (company.sponsoring === 'Platinium' || company.sponsoring === 'Gold' || company.sponsoring === 'Silver') {
     return generateEmailForSponsorWithStand(billetWebUrl, configuration);
   }
   return generateEmailForSponsorWithoutStand(billetWebUrl, configuration);

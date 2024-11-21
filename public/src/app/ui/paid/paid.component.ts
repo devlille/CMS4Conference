@@ -1,14 +1,15 @@
-import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, input } from '@angular/core';
+
 import { Workflow, WorkflowStep, Company } from '../../model/company';
-import { FilesComponent } from '../files/files.component';
 import { StorageService } from '../../storage.service';
+import { FilesComponent } from '../files/files.component';
 
 @Component({
-    selector: 'cms-paid',
-    imports: [CommonModule, FilesComponent],
-    templateUrl: './paid.component.html',
-    styleUrls: ['./paid.component.scss']
+  selector: 'cms-paid',
+  imports: [CommonModule, FilesComponent],
+  templateUrl: './paid.component.html',
+  styleUrls: ['./paid.component.scss']
 })
 export class PaidComponent {
   readonly workflow = input.required<Workflow>();
@@ -20,7 +21,7 @@ export class PaidComponent {
   ngOnInit() {
     this.storageService.getInvoice(this.company().id!).then((invoice) => {
       this.files = {
-        Facture: invoice,
+        Facture: invoice
       };
     });
   }

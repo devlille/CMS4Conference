@@ -70,13 +70,7 @@ export interface WorkflowStatus {
   code?: State;
 }
 
-export type State =
-  | "disabled"
-  | "enabled"
-  | "pending"
-  | "done"
-  | "refused"
-  | "retry";
+export type State = 'disabled' | 'enabled' | 'pending' | 'done' | 'refused' | 'retry';
 
 export interface Company {
   archived?: boolean;
@@ -117,11 +111,11 @@ export interface Company {
   socialInformationComplete?: boolean;
   description?: string;
   activities?: string;
-  lang?: "fr" | "en";
+  lang?: 'fr' | 'en';
   pending?: string;
-  invoiceType: "devis" | "facture" | "proforma";
+  invoiceType: 'devis' | 'facture' | 'proforma';
   wldId?: string;
   sponsoringOptions?: SponsoringOption[];
 }
 
-export type PartnerType = "esn" | "other";
+export type PartnerType = 'esn' | 'other';

@@ -1,14 +1,13 @@
-@if (company().status?.communicated === "pending") {
+@if (company().status?.communicated === 'pending') {
   <p>
-    L'équipe est en train de programmer la communication sur les réseaux
-    sociaux.
+    L'équipe est en train de programmer la communication sur les réseaux sociaux.
     @if (company().publicationDate) {
       La date de publication est prévue pour le
       {{ company().publicationDate | date }}
     }
   </p>
 }
-@if (company().status?.communicated === "done") {
+@if (company().status?.communicated === 'done') {
   <p>
     L'équipe a publié la communication sur les réseaux sociaux le
     {{ company().publicationDate | date }}

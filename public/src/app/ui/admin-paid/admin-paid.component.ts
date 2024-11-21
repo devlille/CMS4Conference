@@ -1,23 +1,18 @@
-import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Workflow, WorkflowStep, Company, State } from '../../model/company';
-import { PartnerService } from '../../services/partner.service';
+import { Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { FilesComponent } from '../files/files.component';
-import { UploadComponent } from '../upload/upload.component';
-import { StorageService } from '../../storage.service';
 import { MatIconModule } from '@angular/material/icon';
 
+import { Workflow, WorkflowStep, Company, State } from '../../model/company';
+import { PartnerService } from '../../services/partner.service';
+import { StorageService } from '../../storage.service';
+import { FilesComponent } from '../files/files.component';
+import { UploadComponent } from '../upload/upload.component';
+
 @Component({
-    selector: 'cms-admin-paid',
-    imports: [
-        CommonModule,
-        MatButtonModule,
-        FilesComponent,
-        UploadComponent,
-        MatIconModule,
-    ],
-    templateUrl: './admin-paid.component.html'
+  selector: 'cms-admin-paid',
+  imports: [CommonModule, MatButtonModule, FilesComponent, UploadComponent, MatIconModule],
+  templateUrl: './admin-paid.component.html'
 })
 export class AdminPaidComponent {
   readonly workflow = input.required<Workflow>();
@@ -32,7 +27,7 @@ export class AdminPaidComponent {
   ngOnInit() {
     this.storageService.getInvoice(this.id()).then((invoice) => {
       this.files = {
-        Facture: invoice,
+        Facture: invoice
       };
     });
   }
@@ -41,8 +36,8 @@ export class AdminPaidComponent {
     this.partnerService.update(this.id(), {
       status: {
         ...this.company().status,
-        [this.step().key]: status,
-      },
+        [this.step().key]: status
+      }
     });
   }
   setPending() {
@@ -54,7 +49,7 @@ export class AdminPaidComponent {
   uploadInvoice(file: Blob) {
     this.storageService.uploadInvoice(this.id(), file).then((url) => {
       this.partnerService.update(this.id(), {
-        invoiceUrl: url,
+        invoiceUrl: url
       });
     });
   }

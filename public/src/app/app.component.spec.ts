@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
 import { Auth } from '@angular/fire/auth';
 
+import { AppComponent } from './app.component';
+
 const MockAuth = {
-  onAuthStateChanged: () => {},
+  onAuthStateChanged: () => {}
 };
 
 describe('AppComponent', () => {
@@ -13,10 +14,10 @@ describe('AppComponent', () => {
       providers: [
         {
           provide: Auth,
-          useValue: MockAuth,
-        },
-      ],
-    }),
+          useValue: MockAuth
+        }
+      ]
+    })
   );
 
   it('should create the app', () => {

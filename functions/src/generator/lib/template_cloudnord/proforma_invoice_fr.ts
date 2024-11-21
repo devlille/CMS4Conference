@@ -1,5 +1,6 @@
-import Logo from "./logo";
-import Signature from "./signature";
+import Logo from './logo';
+import Signature from './signature';
+
 export default `
 ${Logo}
 <div style="font-size: 10px">

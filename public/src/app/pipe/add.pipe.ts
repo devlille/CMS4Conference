@@ -4,7 +4,7 @@ import { addDays } from 'date-fns';
 
 @Pipe({
   name: 'add',
-  standalone: true,
+  standalone: true
 })
 export class AddPipe implements PipeTransform {
   transform(value: Timestamp | undefined, days: number): Date {

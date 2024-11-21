@@ -1,4 +1,4 @@
-import { Configuration } from "../../model";
+import { Configuration } from '../../model';
 
 export default (configuration: Configuration) => ({
   subject: `Partenariat ${configuration.gdg.event} ${configuration.convention.edition}: RDV l'année prochaine ?`,
@@ -14,5 +14,5 @@ Nous restons à votre disposition pour tout complément via l'adresse email ${co
 Cordialement     
 <br><br>
 ${configuration.mail.signature} ${configuration.convention.edition}
-    `,
+    `
 });

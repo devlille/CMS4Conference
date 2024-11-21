@@ -1,4 +1,4 @@
-import { Configuration } from "../../model";
+import { Configuration } from '../../model';
 
 export default (date: string, configuration: Configuration) => {
   return {
@@ -13,6 +13,6 @@ export default (date: string, configuration: Configuration) => {
   Cordialement  
   <br><br>
   ${configuration.mail.signature} ${configuration.convention.edition}
-      `,
+      `
   };
 };

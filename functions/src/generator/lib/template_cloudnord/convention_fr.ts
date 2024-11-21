@@ -1,4 +1,4 @@
-import Signature from "./signature";
+import Signature from './signature';
 
 export default `
 # CONVENTION DE PARTENARIAT

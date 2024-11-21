@@ -1,24 +1,18 @@
-import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+
 import { Company, WorkflowStep } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'cms-admin-filled',
-    imports: [
-        CommonModule,
-        MatFormFieldModule,
-        FormsModule,
-        MatButtonModule,
-        MatInputModule,
-        MatIconModule,
-    ],
-    templateUrl: './admin-filled.component.html'
+  selector: 'cms-admin-filled',
+  imports: [CommonModule, MatFormFieldModule, FormsModule, MatButtonModule, MatInputModule, MatIconModule],
+  templateUrl: './admin-filled.component.html'
 })
 export class AdminFilledComponent {
   readonly company = input<Company>();
@@ -29,7 +23,7 @@ export class AdminFilledComponent {
 
   update() {
     this.partnerService.update(this.id()!, {
-      type: this.company()?.type,
+      type: this.company()?.type
     });
   }
 }

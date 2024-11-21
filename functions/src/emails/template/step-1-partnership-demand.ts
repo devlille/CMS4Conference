@@ -1,22 +1,16 @@
-import { Company, Configuration } from "../../model";
+import { Company, Configuration } from '../../model';
 
-export default (
-  { sponsoring, sponsoringOptions }: Company,
-  id: string,
-  configuration: Configuration
-) => {
-  let options = "";
+export default ({ sponsoring, sponsoringOptions }: Company, id: string, configuration: Configuration) => {
+  let options = '';
 
   const length = ponsoringOptions?.length ?? 0;
   if (length > 0) {
     options = `
   A ce partenariat, les options suivantes seront ajoutées.<br>
-  ${sponsoringOptions
-    ?.map((option) => `- ${option.label} (${option.price} euros)`)
-    .join("<br>")}
+  ${sponsoringOptions?.map((option) => `- ${option.label} (${option.price} euros)`).join('<br>')}
   `;
   }
-  options += "<br></br>";
+  options += '<br></br>';
   const adress_cms4devfest = `${configuration.hosting.baseurl}/partner/${id}`;
   return {
     subject: `${configuration.gdg.event} ${configuration.convention.edition} : Demande de partenariat bien reçue`,
@@ -36,6 +30,6 @@ export default (
   Cordialement 
   <br><br>
   ${configuration.mail.signature} ${configuration.convention.edition}
-      `,
+      `
   };
 };

@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+
 import { environment } from '../../../environments/environment';
 import { Company, State, Workflow, WorkflowStep } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
@@ -13,16 +14,9 @@ import { StorageService } from '../../storage.service';
 
 @Component({
   selector: 'cms-admin-validated',
-  imports: [
-    CommonModule,
-    MatFormFieldModule,
-    FormsModule,
-    MatButtonModule,
-    MatInputModule,
-    MatIconModule,
-  ],
+  imports: [CommonModule, MatFormFieldModule, FormsModule, MatButtonModule, MatInputModule, MatIconModule],
   templateUrl: './admin-validated.component.html',
-  styleUrls: ['./admin-validated.component.scss'],
+  styleUrls: ['./admin-validated.component.scss']
 })
 export class AdminValidatedComponent {
   readonly workflow = input<Workflow>();
@@ -43,12 +37,11 @@ export class AdminValidatedComponent {
     const config = await this.partnerService.getCurrentConfiguration();
 
     this.auth.onAuthStateChanged((state) => {
-      this.isAdmin =
-        state?.email?.endsWith('@' + environment.emailDomain) ?? false;
+      this.isAdmin = state?.email?.endsWith('@' + environment.emailDomain) ?? false;
 
       const options = config.sponsorships.map((sponsorship) => ({
         value: sponsorship.name.toLowerCase(),
-        label: sponsorship.name.toLowerCase(),
+        label: sponsorship.name.toLowerCase()
       }));
       if (this.isAdmin) {
         this.options = options;
@@ -56,21 +49,11 @@ export class AdminValidatedComponent {
         //TO BE REMOVED NEXT YEAR
         const company = this.company();
         company.sponsoring = company.sponsoring.toLocaleLowerCase();
-        company.secondSponsoring =
-          company.secondSponsoring?.toLocaleLowerCase();
+        company.secondSponsoring = company.secondSponsoring?.toLocaleLowerCase();
       } else {
-        this.options = [
-          options.find(
-            ({ value }) => value === this.company().sponsoring.toLowerCase(),
-          )!,
-        ];
+        this.options = [options.find(({ value }) => value === this.company().sponsoring.toLowerCase())!];
         if (this.company()?.secondSponsoring) {
-          this.options.push(
-            options.find(
-              ({ value }) =>
-                value === this.company().secondSponsoring?.toLocaleLowerCase(),
-            )!,
-          );
+          this.options.push(options.find(({ value }) => value === this.company().secondSponsoring?.toLocaleLowerCase())!);
         }
       }
     });
@@ -86,8 +69,8 @@ export class AdminValidatedComponent {
     this.partnerService.update(this.id()!, {
       status: {
         ...(this.company()?.status ?? {}),
-        [this.step()?.key ?? '']: status,
-      },
+        [this.step()?.key ?? '']: status
+      }
     });
   }
   setPending() {
@@ -106,23 +89,20 @@ export class AdminValidatedComponent {
     const company = this.company();
     this.partnerService.update(this.id()!, {
       sponsoring: this.choice,
-      secondSponsoring:
-        this.choice === company?.sponsoring
-          ? company?.secondSponsoring
-          : company?.sponsoring,
+      secondSponsoring: this.choice === company?.sponsoring ? company?.secondSponsoring : company?.sponsoring
     });
   }
   uploadConvention(file: Blob) {
     this.storageService.uploadConvention(this.id()!, file).then((url) => {
       this.partnerService.update(this.id()!, {
-        conventionUrl: url,
+        conventionUrl: url
       });
     });
   }
   uploadDevis(file: Blob) {
     this.storageService.uploadDevis(this.id()!, file).then((url) => {
       this.partnerService.update(this.id()!, {
-        devisUrl: url,
+        devisUrl: url
       });
     });
   }

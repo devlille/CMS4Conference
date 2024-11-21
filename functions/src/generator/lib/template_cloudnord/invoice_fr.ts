@@ -1,5 +1,5 @@
-import Logo from "./logo";
-import Signature from "./signature";
+import Logo from './logo';
+import Signature from './signature';
 
 export default `
 ${Logo}

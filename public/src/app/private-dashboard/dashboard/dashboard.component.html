@@ -1,87 +1,38 @@
 <mat-card>
   <mat-card-title>Filter</mat-card-title>
   <p>Par Statut</p>
-  <mat-button-toggle-group
-    [ngModel]="filterByStatusValue()"
-    (ngModelChange)="filterByStatusValueHandler($event)"
-    multiple
-  >
+  <mat-button-toggle-group [ngModel]="filterByStatusValue()" (ngModelChange)="filterByStatusValueHandler($event)" multiple>
     @for (option of filterByStatus; track option) {
-      <mat-button-toggle [value]="option.value">{{
-        option.label
-      }}</mat-button-toggle>
+      <mat-button-toggle [value]="option.value">{{ option.label }}</mat-button-toggle>
     }
   </mat-button-toggle-group>
 
   <p>Par Pack</p>
-  <mat-button-toggle-group
-    multiple
-    [ngModel]="filterByPackValue()"
-    (ngModelChange)="filterByPackHandler($event)"
-  >
+  <mat-button-toggle-group multiple [ngModel]="filterByPackValue()" (ngModelChange)="filterByPackHandler($event)">
     @for (option of packOptions(); track option) {
-      <mat-button-toggle [value]="option.value">{{
-        option.label
-      }}</mat-button-toggle>
+      <mat-button-toggle [value]="option.value">{{ option.label }}</mat-button-toggle>
     }
   </mat-button-toggle-group>
 
   <p>Par Type</p>
-  <mat-button-toggle-group
-    multiple
-    [ngModel]="filterByTypeValue()"
-    (ngModelChange)="filterByTypeHandler($event)"
-  >
+  <mat-button-toggle-group multiple [ngModel]="filterByTypeValue()" (ngModelChange)="filterByTypeHandler($event)">
     @for (option of filterByType(); track option) {
-      <mat-button-toggle [value]="option.value">{{
-        option.label
-      }}</mat-button-toggle>
+      <mat-button-toggle [value]="option.value">{{ option.label }}</mat-button-toggle>
     }
   </mat-button-toggle-group>
 </mat-card>
 
-<button
-  type="button"
-  id="copy"
-  (click)="copyEmails()"
-  mat-raised-button
-  color="primary"
->
-  Copier les emails des sociétés affichées
-</button>
+<button type="button" id="copy" (click)="copyEmails()" mat-raised-button color="primary">Copier les emails des sociétés affichées</button>
 
-<button
-  id="public"
-  type="button"
-  mat-raised-button
-  color="primary"
-  (click)="changeVisibility()"
->
-  Inverser la visibilité du formulaire
-</button>
+<button id="public" type="button" mat-raised-button color="primary" (click)="changeVisibility()">Inverser la visibilité du formulaire</button>
 
 @if (shouldDisplayRelanceButton()) {
-  <button
-    id="relance"
-    type="button"
-    mat-raised-button
-    color="primary"
-    (click)="relance()"
-  >
-    Relancer ces partenaires
-  </button>
+  <button id="relance" type="button" mat-raised-button color="primary" (click)="relance()">Relancer ces partenaires</button>
 }
 
-<table
-  matSort
-  mat-table
-  [dataSource]="dataSource()"
-  class="mat-elevation-z8 full-width"
->
+<table matSort mat-table [dataSource]="dataSource()" class="mat-elevation-z8 full-width">
   <ng-container matColumnDef="creationDate">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>
-      Date Enregistrement
-    </th>
+    <th mat-header-cell mat-sort-header *matHeaderCellDef>Date Enregistrement</th>
     <td mat-cell *matCellDef="let element">{{ element.formattedDate }}</td>
   </ng-container>
   <!-- Name Column -->
@@ -104,18 +55,10 @@
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef>Action</th>
     <td mat-cell *matCellDef="let element">
-      <a [href]="'/admin/partner/' + element.id" mat-button color="primary">
-        Modifier
-      </a>
-      <button (click)="archive(element.id)" mat-button color="warn">
-        Archiver
-      </button>
+      <a [href]="'/admin/partner/' + element.id" mat-button color="primary"> Modifier </a>
+      <button (click)="archive(element.id)" mat-button color="warn">Archiver</button>
     </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr
-    [ngClass]="{ 'need-some-work': row.needAction }"
-    mat-row
-    *matRowDef="let row; columns: displayedColumns"
-  ></tr>
+  <tr [ngClass]="{ 'need-some-work': row.needAction }" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>

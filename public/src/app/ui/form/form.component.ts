@@ -1,21 +1,17 @@
-import { Component, inject, input, output } from '@angular/core';
-import {
-  ReactiveFormsModule,
-  FormGroup,
-  FormControl,
-  Validators,
-} from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Component, inject, input, output } from '@angular/core';
+import { Timestamp } from '@angular/fire/firestore';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { Observable, of } from 'rxjs';
+import { ClosedFormWarningMessageComponent } from 'src/app/v3/closed-form-warning-message.component';
+
 import { Company, Configuration } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
 import { Emails } from './validators';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Timestamp } from '@angular/fire/firestore';
-import { ClosedFormWarningMessageComponent } from 'src/app/v3/closed-form-warning-message.component';
 
 const defaultCompany: Company = {
   name: '',
@@ -35,7 +31,7 @@ const defaultCompany: Company = {
   conventionUrl: '',
   invoiceUrl: '',
   siteUrl: '',
-  invoiceType: 'facture',
+  invoiceType: 'facture'
 };
 
 interface Option {
@@ -47,17 +43,9 @@ type Options = Option[];
 
 @Component({
   selector: 'cms-form',
-  imports: [
-    CommonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    ClosedFormWarningMessageComponent,
-  ],
+  imports: [CommonModule, MatInputModule, MatFormFieldModule, ReactiveFormsModule, MatButtonModule, MatCheckboxModule, ClosedFormWarningMessageComponent],
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss'],
+  styleUrls: ['./form.component.scss']
 })
 export class FormComponent {
   readonly readOnly = input(false);
@@ -87,9 +75,7 @@ export class FormComponent {
         return {
           enabled: this.config![sponsorship.name.toLocaleLowerCase()] > 0,
           value: sponsorship.name.toLowerCase(),
-          label: !sponsorship.price
-            ? sponsorship.name
-            : `${sponsorship.name} (${sponsorship?.price} euros)`,
+          label: !sponsorship.price ? sponsorship.name : `${sponsorship.name} (${sponsorship?.price} euros)`
         };
       });
 
@@ -104,35 +90,23 @@ export class FormComponent {
 
   private initFormGroup(company: Company) {
     const formGroup = new FormGroup({
-      name: new FormControl({ value: company.name, disabled: false }, [
-        Validators.required,
-      ]),
-      tel: new FormControl({ value: company.tel, disabled: false }, [
-        Validators.required,
-      ]),
-      email: new FormControl({ value: company.email, disabled: false }, [
-        Validators.required,
-        Emails(),
-      ]),
-      sponsoring: new FormControl(
-        { value: company.sponsoring, disabled: this.readOnly() },
-        [Validators.required],
-      ),
+      name: new FormControl({ value: company.name, disabled: false }, [Validators.required]),
+      tel: new FormControl({ value: company.tel, disabled: false }, [Validators.required]),
+      email: new FormControl({ value: company.email, disabled: false }, [Validators.required, Emails()]),
+      sponsoring: new FormControl({ value: company.sponsoring, disabled: this.readOnly() }, [Validators.required]),
       secondSponsoring: new FormControl({
         value: company.secondSponsoring,
-        disabled: this.readOnly(),
+        disabled: this.readOnly()
       }),
       ...(this.config?.sponsoringOptions || [])?.reduce((acc, option) => {
         return {
           ...acc,
           ['options_' + option.key]: new FormControl({
-            value: !!company.sponsoringOptions?.find(
-              (o) => o.key === option.key,
-            ),
-            disabled: this.readOnly(),
-          }),
+            value: !!company.sponsoringOptions?.find((o) => o.key === option.key),
+            disabled: this.readOnly()
+          })
         };
-      }, {}),
+      }, {})
     });
 
     return formGroup;
@@ -143,44 +117,36 @@ export class FormComponent {
 
     const formValues: Record<string, any> = this.companyProfile?.value;
 
-    const options = Object.entries(formValues).reduce(
-      (acc: Record<string, boolean>, [key, value]: [string, any]) => {
-        if (key.startsWith('options_')) {
-          return {
-            ...acc,
-            [key]: !!value,
-          };
-        }
+    const options = Object.entries(formValues).reduce((acc: Record<string, boolean>, [key, value]: [string, any]) => {
+      if (key.startsWith('options_')) {
         return {
           ...acc,
+          [key]: !!value
         };
-      },
-      {},
-    );
+      }
+      return {
+        ...acc
+      };
+    }, {});
 
-    const formWithoutOptions = Object.entries(formValues).reduce(
-      (acc: Record<string, boolean>, [key, value]: [string, any]) => {
-        if (key.indexOf('options_') < 0) {
-          return {
-            ...acc,
-            [key]: value,
-          };
-        }
+    const formWithoutOptions = Object.entries(formValues).reduce((acc: Record<string, boolean>, [key, value]: [string, any]) => {
+      if (key.indexOf('options_') < 0) {
         return {
           ...acc,
+          [key]: value
         };
-      },
-      {},
-    );
+      }
+      return {
+        ...acc
+      };
+    }, {});
 
     const company: Company = {
       ...this.updatedCompany,
       ...formWithoutOptions,
-      sponsoringOptions: this.config?.sponsoringOptions?.filter(
-        (sponsoring) => {
-          return !!options[`options_${sponsoring.key}`];
-        },
-      ),
+      sponsoringOptions: this.config?.sponsoringOptions?.filter((sponsoring) => {
+        return !!options[`options_${sponsoring.key}`];
+      })
     };
 
     this.submitEvent.emit(company);

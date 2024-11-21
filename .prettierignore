@@ -1,2 +1,7 @@
 public/.angular
 public/dist
+*.pdf
+*.ico
+.DS_Store
+*.png
+.gitkeep

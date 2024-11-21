@@ -10,12 +10,11 @@ export const environment: Environement = {
     storageBucket: 'cms4partners-ce427.appspot.com',
     messagingSenderId: '486924521070',
     appId: '1:486924521070:web:0cb85efacc81b6c896207f',
-    measurementId: 'G-S558S2HZ11',
+    measurementId: 'G-S558S2HZ11'
   },
   emailDomain: 'devlille.fr',
   files: {
     'RIB du GDG Lille': '/assets/RIB.pdf',
-    'Journal Officiel suite à la création du GDG Lille':
-      '/assets/JournalOfficiel.pdf',
-  },
+    'Journal Officiel suite à la création du GDG Lille': '/assets/JournalOfficiel.pdf'
+  }
 };

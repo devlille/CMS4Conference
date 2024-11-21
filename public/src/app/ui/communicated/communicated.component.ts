@@ -1,13 +1,14 @@
-import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, input } from '@angular/core';
+
 import { Company, WorkflowStep } from '../../model/company';
-import { FilesComponent } from '../files/files.component';
 import { StorageService } from '../../storage.service';
+import { FilesComponent } from '../files/files.component';
 
 @Component({
-    selector: 'cms-communicated',
-    imports: [CommonModule, FilesComponent],
-    templateUrl: './communicated.component.html'
+  selector: 'cms-communicated',
+  imports: [CommonModule, FilesComponent],
+  templateUrl: './communicated.component.html'
 })
 export class CommunicatedComponent {
   readonly company = input.required<Company>();
@@ -20,7 +21,7 @@ export class CommunicatedComponent {
   ngOnInit() {
     this.storageService.getFlyers(this.company().id!).then((flyer) => {
       this.files = {
-        Flyer: flyer,
+        Flyer: flyer
       };
     });
   }

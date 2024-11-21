@@ -6,20 +6,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Title } from '@angular/platform-browser';
 import { RouterLink, RouterOutlet } from '@angular/router';
+
 import { environment } from '../environments/environment';
 
 @Component({
-    selector: 'cms-root',
-    imports: [
-        CommonModule,
-        RouterOutlet,
-        RouterLink,
-        MatToolbarModule,
-        MatIconModule,
-        MatButtonModule,
-    ],
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+  selector: 'cms-root',
+  imports: [CommonModule, RouterOutlet, RouterLink, MatToolbarModule, MatIconModule, MatButtonModule],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   isLoggedIn: boolean | undefined;
@@ -37,8 +31,8 @@ export class AppComponent {
     signInWithPopup(
       this.auth,
       new GoogleAuthProvider().setCustomParameters({
-        hd: environment.emailDomain,
-      }),
+        hd: environment.emailDomain
+      })
     );
   }
 

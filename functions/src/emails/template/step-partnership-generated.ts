@@ -1,20 +1,17 @@
-import { addDays } from "date-fns";
-import { Timestamp } from "@google-cloud/firestore";
-import { Company, Configuration } from "../../model";
+import { Timestamp } from '@google-cloud/firestore';
+import { addDays } from 'date-fns';
 
-export default (
-  { sponsoring, creationDate }: Company,
-  id: string,
-  configuration: Configuration
-) => {
+import { Company, Configuration } from '../../model';
+
+export default ({ sponsoring, creationDate }: Company, id: string, configuration: Configuration) => {
   const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
   };
   const date = addDays((creationDate as Timestamp).toDate(), 15);
-  const dateTimeFormat = new Intl.DateTimeFormat("fr-FR", options as any);
+  const dateTimeFormat = new Intl.DateTimeFormat('fr-FR', options as any);
 
   const sponsor_reservation_end_date = dateTimeFormat.format(date);
 
@@ -38,6 +35,6 @@ export default (
   Cordialement     
   <br><br>
   ${configuration.mail.signature} ${configuration.convention.edition}
-      `,
+      `
   };
 };

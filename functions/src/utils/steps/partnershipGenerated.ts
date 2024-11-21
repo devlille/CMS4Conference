@@ -1,28 +1,18 @@
-import PartnerhipGeneratedFactory from "../../emails/template/step-partnership-generated";
-import { sendEmailToAllContacts } from "../mail";
+import PartnerhipGeneratedFactory from '../../emails/template/step-partnership-generated';
+import { Company, Configuration } from '../../model';
+import { StatusEnum } from '../document-change';
+import { sendEmailToAllContacts } from '../mail';
 
-import { StatusEnum } from "../document-change";
-import { Company, Configuration } from "../../model";
-
-export default (
-  company: Company,
-  id: string,
-  configuration: Configuration,
-  shouldSendEmail: boolean
-) => {
+export default (company: Company, id: string, configuration: Configuration, shouldSendEmail: boolean) => {
   if (shouldSendEmail) {
-    sendEmailToAllContacts(
-      company,
-      PartnerhipGeneratedFactory(company, id, configuration),
-      configuration
-    );
+    sendEmailToAllContacts(company, PartnerhipGeneratedFactory(company, id, configuration), configuration);
   }
 
   return {
     status: {
       ...company.status,
       generated: StatusEnum.DONE,
-      sign: StatusEnum.PENDING,
-    },
+      sign: StatusEnum.PENDING
+    }
   };
 };

@@ -1,35 +1,26 @@
-import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Company } from '../../model/company';
+import { Component, inject } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
+
+import { environment } from '../../../environments/environment';
+import { AllFilesComponent } from '../../all-files/all-files.component';
+import { Company } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
 import { StoreService } from '../../services/store.service';
-import { Auth } from '@angular/fire/auth';
-import { MatTabsModule } from '@angular/material/tabs';
-import { LoaderComponent } from '../loader/loader.component';
 import { InfoComponent } from '../info/info.component';
+import { LoaderComponent } from '../loader/loader.component';
 import { WorkflowComponent } from '../workflow/workflow.component';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { AllFilesComponent } from '../../all-files/all-files.component';
-import { environment } from '../../../environments/environment';
 
 @Component({
-    selector: 'cms-partner',
-    imports: [
-        CommonModule,
-        MatTabsModule,
-        RouterModule,
-        LoaderComponent,
-        InfoComponent,
-        WorkflowComponent,
-        MatCardModule,
-        MatButtonModule,
-        AllFilesComponent,
-    ],
-    templateUrl: './partner.component.html',
-    styleUrls: ['./partner.component.scss']
+  selector: 'cms-partner',
+  imports: [CommonModule, MatTabsModule, RouterModule, LoaderComponent, InfoComponent, WorkflowComponent, MatCardModule, MatButtonModule, AllFilesComponent],
+  templateUrl: './partner.component.html',
+  styleUrls: ['./partner.component.scss']
 })
 export class PartnerComponent {
   partner$: Observable<Company> | undefined;
@@ -44,8 +35,7 @@ export class PartnerComponent {
 
   constructor() {
     this.auth.onAuthStateChanged((state) => {
-      this.isAdmin =
-        state?.email?.endsWith('@' + environment.emailDomain) ?? false;
+      this.isAdmin = state?.email?.endsWith('@' + environment.emailDomain) ?? false;
     });
   }
 

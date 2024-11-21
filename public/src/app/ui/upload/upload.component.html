@@ -9,11 +9,4 @@
     Fichier enregistré
   </button>
 }
-<input
-  #fileUpload
-  type="file"
-  class="input_fileupload--hidden"
-  (change)="uploadFileEvent($event)"
-  [(ngModel)]="inputFileName"
-  [accept]="accept()"
-/>
+<input #fileUpload type="file" class="input_fileupload--hidden" (change)="uploadFileEvent($event)" [(ngModel)]="inputFileName" [accept]="accept()" />

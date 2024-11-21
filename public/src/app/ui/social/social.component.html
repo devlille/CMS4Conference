@@ -1,36 +1,22 @@
 <div class="social-container">
   <div class="social-container-row">
     <p>
-      Vous pouvez uploader le logo de votre société au format svg, et si
-      possible avec un fond transparent. Il sera utilisé par l'équipe pour créer
-      le flyer qui sera publier sur les réseaux sociaux ainsi que sur le site
-      web.
+      Vous pouvez uploader le logo de votre société au format svg, et si possible avec un fond transparent. Il sera utilisé par l'équipe pour créer le flyer qui sera publier sur
+      les réseaux sociaux ainsi que sur le site web.
     </p>
     <div>
-      <cms-upload
-        (uploadFile)="upload($event)"
-        [isEnable]=""
-        accept=".svg"
-        label="Logo (*.svg)"
-        >Choisir un logo</cms-upload
-      >
+      <cms-upload (uploadFile)="upload($event)" [isEnable]="" accept=".svg" label="Logo (*.svg)">Choisir un logo</cms-upload>
       <cms-files [files]="files"></cms-files>
     </div>
   </div>
 
   <mat-divider></mat-divider>
-  @if (
-    isAdmin || company().sponsoring === "Gold" || company().sponsoring === "Silver"
-  ) {
+  @if (isAdmin || company().sponsoring === 'Gold' || company().sponsoring === 'Silver') {
     <div class="social-container-row">
       <p>
-        Vous pouvez nous indiquer les comptes LinkedIN et X de votre société.
-        Ils seront utilisés par l'équipe pour les différentes communications
-        réalisées. Vous pouvez également indiquer les messages que vous
-        souhaitez voir publier sur les réseaux sociaux. Si vous n'avez pas
-        d'imagination, vous pouvez laisser l'équipe le faire pour vous. Dans ce
-        cas, seules les informations liées à vos profils LinkedIN et X nous sont
-        utiles.
+        Vous pouvez nous indiquer les comptes LinkedIN et X de votre société. Ils seront utilisés par l'équipe pour les différentes communications réalisées. Vous pouvez également
+        indiquer les messages que vous souhaitez voir publier sur les réseaux sociaux. Si vous n'avez pas d'imagination, vous pouvez laisser l'équipe le faire pour vous. Dans ce
+        cas, seules les informations liées à vos profils LinkedIN et X nous sont utiles.
       </p>
 
       <div class="social-fields">
@@ -44,16 +30,10 @@
           <input matInput type="text" [(ngModel)]="company().linkedinAccount" />
         </mat-form-field>
 
-        <mat-checkbox [(ngModel)]="company().keepDevFestTeam"
-          >Laissez l'équipe organisatrice écrire vos messages!</mat-checkbox
-        >
+        <mat-checkbox [(ngModel)]="company().keepDevFestTeam">Laissez l'équipe organisatrice écrire vos messages!</mat-checkbox>
         <mat-form-field class="full-width">
           <mat-label>Message X (Twitter)</mat-label>
-          <textarea
-            [(ngModel)]="company().twitter"
-            matInput
-            maxlength="280"
-          ></textarea>
+          <textarea [(ngModel)]="company().twitter" matInput maxlength="280"></textarea>
         </mat-form-field>
         <mat-form-field class="full-width">
           <mat-label>Message LinkedIN</mat-label>
@@ -63,15 +43,9 @@
     </div>
   }
 
-  @if (
-    !isAdmin && company().sponsoring !== "Gold" && company().sponsoring !== "Silver"
-  ) {
+  @if (!isAdmin && company().sponsoring !== 'Gold' && company().sponsoring !== 'Silver') {
     <div class="social-container-row">
-      <p>
-        Vous pouvez nous indiquer les comptes LinkedIN et X de votre société.
-        Ils seront utilisés par l'équipe pour les différentes communications
-        réalisées.
-      </p>
+      <p>Vous pouvez nous indiquer les comptes LinkedIN et X de votre société. Ils seront utilisés par l'équipe pour les différentes communications réalisées.</p>
       <div class="social-fields">
         <mat-form-field class="full-width">
           <mat-label>Compte X (Twitter)</mat-label>
@@ -86,22 +60,12 @@
     </div>
   }
   <div class="social-container-row">
-    <p>
-      Vous pouvez également indiquer une petite description de votre société.
-    </p>
+    <p>Vous pouvez également indiquer une petite description de votre société.</p>
     <div class="social-fields">
       <mat-form-field class="full-width">
-        <textarea
-          [(ngModel)]="company().description"
-          matInput
-          placeholder="Description"
-          maxlength="280"
-        ></textarea>
+        <textarea [(ngModel)]="company().description" matInput placeholder="Description" maxlength="280"></textarea>
       </mat-form-field>
-      <mat-checkbox [(ngModel)]="company().socialInformationComplete"
-        >Je confirme que toutes les informations ci-dessus sont
-        complètes</mat-checkbox
-      >
+      <mat-checkbox [(ngModel)]="company().socialInformationComplete">Je confirme que toutes les informations ci-dessus sont complètes</mat-checkbox>
     </div>
   </div>
 </div>

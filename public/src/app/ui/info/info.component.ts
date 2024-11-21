@@ -1,19 +1,20 @@
-import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PartnerService } from '../../services/partner.service';
-import { ActivatedRoute } from '@angular/router';
-import { Company } from '../../model/company';
+import { Component, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { FormComponent } from '../form/form.component';
-import { Observable } from 'rxjs/internal/Observable';
+import { ActivatedRoute } from '@angular/router';
 import { from } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+
 import { environment } from '../../../environments/environment';
+import { Company } from '../../model/company';
+import { PartnerService } from '../../services/partner.service';
+import { FormComponent } from '../form/form.component';
 
 @Component({
-    selector: 'cms-info',
-    imports: [CommonModule, FormComponent],
-    templateUrl: './info.component.html',
-    styleUrls: ['./info.component.scss']
+  selector: 'cms-info',
+  imports: [CommonModule, FormComponent],
+  templateUrl: './info.component.html',
+  styleUrls: ['./info.component.scss']
 })
 export class InfoComponent {
   isAdmin = false;
@@ -28,19 +29,16 @@ export class InfoComponent {
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
     this.partner$ = from(
       this.partnerService.get(this.id).then((partner) => {
-        const email = Array.isArray(partner.email)
-          ? partner.email.join(',')
-          : partner.email;
+        const email = Array.isArray(partner.email) ? partner.email.join(',') : partner.email;
         return {
           ...partner,
-          email,
+          email
         };
-      }),
+      })
     );
 
     this.auth.onAuthStateChanged((state) => {
-      this.isAdmin =
-        state?.email?.endsWith('@' + environment.emailDomain) ?? false;
+      this.isAdmin = state?.email?.endsWith('@' + environment.emailDomain) ?? false;
     });
   }
 

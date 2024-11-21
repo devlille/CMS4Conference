@@ -1,25 +1,19 @@
-import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Workflow, WorkflowStep, Company } from '../../model/company';
-import { MatInputModule } from '@angular/material/input';
+import { Component, inject, input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+
+import { Workflow, WorkflowStep, Company } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
-import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'cms-code',
-    imports: [
-        CommonModule,
-        MatInputModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatButtonModule,
-        FormsModule,
-    ],
-    templateUrl: './code.component.html',
-    styleUrls: ['./code.component.scss']
+  selector: 'cms-code',
+  imports: [CommonModule, MatInputModule, MatFormFieldModule, MatIconModule, MatButtonModule, FormsModule],
+  templateUrl: './code.component.html',
+  styleUrls: ['./code.component.scss']
 })
 export class CodeComponent {
   readonly workflow = input.required<Workflow>();
@@ -45,7 +39,7 @@ export class CodeComponent {
     this.partnerService.update(this.id()!, {
       activities: this.activities,
       standInstallationTime: this.standInstallationTime,
-      standPhoneNumber: this.standPhoneNumber,
+      standPhoneNumber: this.standPhoneNumber
     });
   }
 }

@@ -1,25 +1,17 @@
-import { Component, ElementRef, input, output, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Component, ElementRef, input, output, viewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'cms-upload',
-  imports: [
-    CommonModule,
-    MatProgressSpinnerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatButtonModule,
-    MatInputModule,
-    FormsModule,
-  ],
+  imports: [CommonModule, MatProgressSpinnerModule, MatFormFieldModule, MatIconModule, MatButtonModule, MatInputModule, FormsModule],
   templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.scss'],
+  styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent {
   readonly label = input.required<string | undefined>();

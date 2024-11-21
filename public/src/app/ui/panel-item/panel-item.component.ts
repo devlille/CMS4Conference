@@ -1,35 +1,28 @@
-import {
-  Component,
-  ComponentFactoryResolver,
-  SimpleChanges,
-  ViewContainerRef,
-  inject,
-  input,
-  viewChild,
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WorkflowStep, Company } from '../../model/company';
-import { FilledComponent } from '../filled/filled.component';
+import { Component, ComponentFactoryResolver, SimpleChanges, ViewContainerRef, inject, input, viewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { DefaultComponent } from '../default/default.component';
-import { AdminFilledComponent } from '../admin-filled/admin-filled.component';
-import { AdminValidatedComponent } from '../admin-validated/admin-validated.component';
-import { AdminPaidComponent } from '../admin-paid/admin-paid.component';
-import { AdminCommunicatedComponent } from '../admin-communicated/admin-communicated.component';
+
+import { environment } from '../../../environments/environment';
+import { GeneratedComponent } from '../../generated/generated.component';
+import { WorkflowStep, Company } from '../../model/company';
 import { AdminCodeComponent } from '../admin-code/admin-code.component';
+import { AdminCommunicatedComponent } from '../admin-communicated/admin-communicated.component';
+import { AdminFilledComponent } from '../admin-filled/admin-filled.component';
+import { AdminPaidComponent } from '../admin-paid/admin-paid.component';
+import { AdminValidatedComponent } from '../admin-validated/admin-validated.component';
 import { CodeComponent } from '../code/code.component';
 import { CommunicatedComponent } from '../communicated/communicated.component';
-import { SocialComponent } from '../social/social.component';
+import { DefaultComponent } from '../default/default.component';
+import { FilledComponent } from '../filled/filled.component';
 import { PaidComponent } from '../paid/paid.component';
 import { SignedComponent } from '../signed/signed.component';
-import { GeneratedComponent } from '../../generated/generated.component';
-import { environment } from '../../../environments/environment';
+import { SocialComponent } from '../social/social.component';
 
 @Component({
   selector: 'cms-panel-item',
   imports: [CommonModule],
   templateUrl: './panel-item.component.html',
-  styleUrls: ['./panel-item.component.scss'],
+  styleUrls: ['./panel-item.component.scss']
 })
 export class PanelItemComponent {
   readonly step = input<WorkflowStep>();
@@ -44,7 +37,7 @@ export class PanelItemComponent {
     paid: PaidComponent,
     received: SocialComponent,
     communicated: CommunicatedComponent,
-    code: CodeComponent,
+    code: CodeComponent
   };
 
   adminComponent = {
@@ -55,7 +48,7 @@ export class PanelItemComponent {
     paid: AdminPaidComponent,
     received: SocialComponent,
     communicated: AdminCommunicatedComponent,
-    code: AdminCodeComponent,
+    code: AdminCodeComponent
   };
 
   readonly content = viewChild('content', { read: ViewContainerRef });
@@ -71,22 +64,14 @@ export class PanelItemComponent {
 
   private createComponent() {
     this.auth.onAuthStateChanged((state) => {
-      const isAdmin =
-        state?.email?.endsWith('@' + environment.emailDomain) ?? false;
+      const isAdmin = state?.email?.endsWith('@' + environment.emailDomain) ?? false;
       try {
-        const components = isAdmin
-          ? this.adminComponent
-          : this.publicComponents;
+        const components = isAdmin ? this.adminComponent : this.publicComponents;
         this.content()!.clear();
 
         const step = this.step();
-        const componentInstance = step?.key
-          ? components[step.key] ?? DefaultComponent
-          : DefaultComponent;
-        const componentFactory =
-          this.componentFactoryResolver.resolveComponentFactory(
-            componentInstance,
-          );
+        const componentInstance = step?.key ? (components[step.key] ?? DefaultComponent) : DefaultComponent;
+        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentInstance);
         const component = this.content()!.createComponent(componentFactory);
         (component.instance as any).step = this.step();
         (component.instance as any).company = this.company();

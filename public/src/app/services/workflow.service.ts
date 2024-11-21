@@ -1,12 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import {
-  Firestore,
-  addDoc,
-  collection,
-  collectionData,
-  doc,
-  updateDoc,
-} from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, doc, updateDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 export interface Workflow {
@@ -14,13 +7,7 @@ export interface Workflow {
   steps: WorkflowStep[];
 }
 
-export type State =
-  | 'disabled'
-  | 'enabled'
-  | 'pending'
-  | 'done'
-  | 'refused'
-  | 'retry';
+export type State = 'disabled' | 'enabled' | 'pending' | 'done' | 'refused' | 'retry';
 
 export interface WorkflowStep {
   key: keyof WorkflowStatus;
@@ -42,14 +29,11 @@ export interface WorkflowStatus {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class WorkflowService {
   private readonly firestore = inject(Firestore);
-  private readonly workflowCollectionRef = collection(
-    this.firestore,
-    'workflows',
-  );
+  private readonly workflowCollectionRef = collection(this.firestore, 'workflows');
 
   public add(workflow: Workflow) {
     return addDoc(this.workflowCollectionRef, workflow);

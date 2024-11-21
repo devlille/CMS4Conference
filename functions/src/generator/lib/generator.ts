@@ -1,33 +1,17 @@
-import * as ejs from "ejs";
-import * as markdownToPDf from "markdown-pdf";
-import * as os from "os";
+import * as ejs from 'ejs';
+import * as markdownToPDf from 'markdown-pdf';
+import * as os from 'os';
 
-import {
-  Configuration,
-  SponsoringOption,
-  SponsorshipConfiguration,
-} from "../../model";
+import { Configuration, SponsoringOption, SponsorshipConfiguration } from '../../model';
 
-function getSponsoringFees(
-  sponsoringConfiguration: SponsorshipConfiguration
-): [string, number, number] {
+function getSponsoringFees(sponsoringConfiguration: SponsorshipConfiguration): [string, number, number] {
   if (!sponsoringConfiguration) {
-    return ["", 0, 0];
+    return ['', 0, 0];
   }
-  return [
-    sponsoringConfiguration.priceString,
-    sponsoringConfiguration.price,
-    sponsoringConfiguration.freeTickets,
-  ];
+  return [sponsoringConfiguration.priceString, sponsoringConfiguration.price, sponsoringConfiguration.freeTickets];
 }
 
-function generateFile(
-  config: any,
-  fileName: string,
-  fileModule: any,
-  configuration: Configuration,
-  invoiceType: any
-) {
+function generateFile(config: any, fileName: string, fileModule: any, configuration: Configuration, invoiceType: any) {
   const file = fileModule.default;
   const getOfficialName = () => {
     if (config.officialName) {
@@ -35,24 +19,19 @@ function generateFile(
     }
     return config.name;
   };
-  const DATE = new Intl.DateTimeFormat("fr-FR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
+  const DATE = new Intl.DateTimeFormat('fr-FR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
   }).format(new Date());
 
-  const sponsoringConfiguration: SponsorshipConfiguration | undefined =
-    configuration.sponsorships.find(
-      (s) => s.name.toLowerCase() === config.sponsoring.toLowerCase()
-    );
+  const sponsoringConfiguration: SponsorshipConfiguration | undefined = configuration.sponsorships.find((s) => s.name.toLowerCase() === config.sponsoring.toLowerCase());
 
   if (!sponsoringConfiguration) {
     return;
   }
 
-  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(
-    sponsoringConfiguration
-  );
+  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(sponsoringConfiguration);
 
   const LINES: { label: string; price: number }[] = [];
   let total = 0;
@@ -61,7 +40,7 @@ function generateFile(
     total += SPONSORING_NUMBER;
     LINES.push({
       label: `Partenariat ${configuration.gdg.event}`,
-      price: SPONSORING_NUMBER,
+      price: SPONSORING_NUMBER
     });
   }
 
@@ -71,20 +50,11 @@ function generateFile(
   });
 
   return new Promise((resolve, reject) => {
-    const considerations =
-      config.lang === "fr"
-        ? sponsoringConfiguration?.considerations
-        : sponsoringConfiguration?.considerationsEn ??
-          sponsoringConfiguration?.considerations;
+    const considerations = config.lang === 'fr' ? sponsoringConfiguration?.considerations : (sponsoringConfiguration?.considerationsEn ?? sponsoringConfiguration?.considerations);
 
     const data = {
       LINES,
-      CONSIDERATIONS: [
-        ...considerations,
-        ...(config.sponsoringOptions ?? []).map(
-          (option: SponsoringOption) => option.label
-        ),
-      ],
+      CONSIDERATIONS: [...considerations, ...(config.sponsoringOptions ?? []).map((option: SponsoringOption) => option.label)],
       HAS_BOOTH: sponsoringConfiguration?.hasBooth?.toString(),
       COMPANY: getOfficialName().trim(),
       SIRET: config.siret,
@@ -112,95 +82,51 @@ function generateFile(
       GDG_ACCOUNTANT_EMAIL: configuration.gdg.accountantemail,
       GDG_WEBSITE: configuration.gdg.website,
       INVOICE_NUMBER: config.invoiceNumber,
-      INVOICE_TYPE: invoiceType,
+      INVOICE_TYPE: invoiceType
     };
 
     try {
-      console.log("Generator:", "generate " + fileName);
+      console.log('Generator:', 'generate ' + fileName);
       console.log(data);
 
       const str = ejs.render(file, data);
       markdownToPDf({
-        paperBorder: "3cm",
+        paperBorder: '3cm'
       })
         .from.string(str)
-        .to(os.tmpdir() + "/" + fileName, () => {
+        .to(os.tmpdir() + '/' + fileName, () => {
           resolve(fileName);
         });
     } catch (e) {
-      console.log("Generator:", "error when generating " + fileName, e);
+      console.log('Generator:', 'error when generating ' + fileName, e);
 
       reject(e);
     }
   });
 }
 
-export function generateProformaInvoice(
-  config: any,
-  configuration: Configuration
-) {
-  const ProformaInvoiceFr = require(
-    `./${configuration.template_folder}/proforma_invoice_fr`
-  );
+export function generateProformaInvoice(config: any, configuration: Configuration) {
+  const ProformaInvoiceFr = require(`./${configuration.template_folder}/proforma_invoice_fr`);
 
-  return generateFile(
-    config,
-    `proforma_invoice_${config.id}.pdf`,
-    ProformaInvoiceFr,
-    configuration,
-    "FACTURE PRO FORMA"
-  );
+  return generateFile(config, `proforma_invoice_${config.id}.pdf`, ProformaInvoiceFr, configuration, 'FACTURE PRO FORMA');
 }
 export function generateDevis(config: any, configuration: Configuration) {
-  const ProformaInvoiceFr = require(
-    `./${configuration.template_folder}/proforma_invoice_fr`
-  );
+  const ProformaInvoiceFr = require(`./${configuration.template_folder}/proforma_invoice_fr`);
 
-  return generateFile(
-    config,
-    `devis_${config.id}.pdf`,
-    ProformaInvoiceFr,
-    configuration,
-    "DEVIS"
-  );
+  return generateFile(config, `devis_${config.id}.pdf`, ProformaInvoiceFr, configuration, 'DEVIS');
 }
-export function generateDepositInvoice(
-  config: any,
-  configuration: Configuration
-) {
-  const ProformaInvoiceFr = require(
-    `./${configuration.template_folder}/proforma_invoice_fr`
-  );
+export function generateDepositInvoice(config: any, configuration: Configuration) {
+  const ProformaInvoiceFr = require(`./${configuration.template_folder}/proforma_invoice_fr`);
 
-  return generateFile(
-    config,
-    `deposit_invoice_${config.id}.pdf`,
-    ProformaInvoiceFr,
-    configuration,
-    "FACTURE ACCOMPTE 100%"
-  );
+  return generateFile(config, `deposit_invoice_${config.id}.pdf`, ProformaInvoiceFr, configuration, 'FACTURE ACCOMPTE 100%');
 }
 export function generateInvoice(config: any, configuration: Configuration) {
   const InvoiceFr = require(`./${configuration.template_folder}/invoice_fr`);
 
-  return generateFile(
-    config,
-    `invoice_${config.id}.pdf`,
-    InvoiceFr,
-    configuration,
-    ""
-  );
+  return generateFile(config, `invoice_${config.id}.pdf`, InvoiceFr, configuration, '');
 }
 export function generateConvention(config: any, configuration: Configuration) {
-  const Convention = require(
-    `./${configuration.template_folder}/convention_${config.lang}`
-  );
+  const Convention = require(`./${configuration.template_folder}/convention_${config.lang}`);
 
-  return generateFile(
-    config,
-    `convention_${config.id}.pdf`,
-    Convention,
-    configuration,
-    ""
-  );
+  return generateFile(config, `convention_${config.id}.pdf`, Convention, configuration, '');
 }

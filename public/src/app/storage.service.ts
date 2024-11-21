@@ -1,13 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import {
-  Storage,
-  getDownloadURL,
-  ref,
-  uploadBytes,
-} from '@angular/fire/storage';
+import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class StorageService {
   private readonly storage = inject(Storage);
@@ -60,14 +55,8 @@ export class StorageService {
     return this.uploadFile(`invoice_${id}`, file, 'facture');
   }
 
-  public uploadFile(
-    name: string,
-    file: Blob,
-    bucket = 'logo',
-  ): Promise<string> {
+  public uploadFile(name: string, file: Blob, bucket = 'logo'): Promise<string> {
     const storageRef = ref(this.storage, `${bucket}/${name}.pdf`);
-    return uploadBytes(storageRef, file).then((snapshot) =>
-      getDownloadURL(snapshot.ref),
-    ) as Promise<string>;
+    return uploadBytes(storageRef, file).then((snapshot) => getDownloadURL(snapshot.ref)) as Promise<string>;
   }
 }

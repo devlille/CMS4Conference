@@ -13,24 +13,20 @@
 <div class="inline-bloc">
   <mat-form-field appearance="fill">
     <mat-label>Activités sur le Stand</mat-label>
-    <textarea
-      [(ngModel)]="company().activities"
-      matInput
-      maxlength="280"
-    ></textarea>
+    <textarea [(ngModel)]="company().activities" matInput maxlength="280"></textarea>
   </mat-form-field>
 </div>
 <div class="inline-bloc">
-<mat-form-field appearance="fill">
-  <mat-label>Heure d'arrivée pour l'installation du Stand</mat-label>
-  <textarea matInput [(ngModel)]="company().standInstallationTime"></textarea>
-</mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Heure d'arrivée pour l'installation du Stand</mat-label>
+    <textarea matInput [(ngModel)]="company().standInstallationTime"></textarea>
+  </mat-form-field>
 </div>
 <div class="inline-bloc">
-<mat-form-field appearance="fill">
-  <mat-label>Numéro de téléphone de la personne en charge de l'installation</mat-label>
-  <textarea matInput [(ngModel)]="company().standPhoneNumber"></textarea>
-</mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Numéro de téléphone de la personne en charge de l'installation</mat-label>
+    <textarea matInput [(ngModel)]="company().standPhoneNumber"></textarea>
+  </mat-form-field>
 </div>
 <div class="inline-bloc">
   <button color="primary" mat-raised-button (click)="updateBilletwebUrl()">

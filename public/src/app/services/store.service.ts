@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+
 import { Company } from '../model/company';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class StoreService {
   private readonly _partner = new BehaviorSubject<Company | null>(null);

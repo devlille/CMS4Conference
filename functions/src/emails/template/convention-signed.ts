@@ -1,4 +1,4 @@
-import { Configuration } from "../../model";
+import { Configuration } from '../../model';
 
 export default (id: string, configuration: Configuration) => {
   const adress_cms4devfest = `${configuration.hosting.baseurl}/partner/${id}`;
@@ -18,6 +18,6 @@ export default (id: string, configuration: Configuration) => {
   Cordialement  
   <br><br>
   ${configuration.mail.signature} ${configuration.convention.edition}
-      `,
+      `
   };
 };

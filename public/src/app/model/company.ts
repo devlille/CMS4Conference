@@ -12,9 +12,9 @@ export const ZodConfiguration = z.object({
       freeTickets: z.number(),
       name: z.string(),
       price: z.number(),
-      priceString: z.string(),
-    }),
-  ),
+      priceString: z.string()
+    })
+  )
 });
 export type Configuration = SponsoringType & {
   sponsoringOptions?: SponsoringOption[];
@@ -26,13 +26,7 @@ export interface Workflow {
   steps: WorkflowStep[];
 }
 
-export type State =
-  | 'disabled'
-  | 'enabled'
-  | 'pending'
-  | 'done'
-  | 'refused'
-  | 'retry';
+export type State = 'disabled' | 'enabled' | 'pending' | 'done' | 'refused' | 'retry';
 
 export interface WorkflowStep {
   key: keyof WorkflowStatus;

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WorkflowStep } from '../../model/company';
 
@@ -8,6 +8,5 @@ import { WorkflowStep } from '../../model/company';
     templateUrl: './default.component.html'
 })
 export class DefaultComponent {
-  @Input()
-  step: WorkflowStep | undefined;
+  readonly step = input<WorkflowStep>();
 }

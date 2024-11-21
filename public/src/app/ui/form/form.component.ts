@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject, input } from '@angular/core';
 import {
   ReactiveFormsModule,
   FormGroup,
@@ -60,11 +60,9 @@ type Options = Option[];
     styleUrls: ['./form.component.scss']
 })
 export class FormComponent {
-  @Input()
-  readOnly = false;
+  readonly readOnly = input(false);
 
-  @Input()
-  company: Observable<Company> = of(defaultCompany);
+  readonly company = input<Observable<Company>>(of(defaultCompany));
 
   @Output()
   public submitEvent = new EventEmitter<Company>();
@@ -96,7 +94,7 @@ export class FormComponent {
         };
       });
 
-      this.company.subscribe((c) => {
+      this.company().subscribe((c) => {
         this.updatedCompany = c;
         if (this.config) {
           this.companyProfile = this.initFormGroup(c);
@@ -118,12 +116,12 @@ export class FormComponent {
         Emails(),
       ]),
       sponsoring: new FormControl(
-        { value: company.sponsoring, disabled: this.readOnly },
+        { value: company.sponsoring, disabled: this.readOnly() },
         [Validators.required],
       ),
       secondSponsoring: new FormControl({
         value: company.secondSponsoring,
-        disabled: this.readOnly,
+        disabled: this.readOnly(),
       }),
       ...(this.config?.sponsoringOptions || [])?.reduce((acc, option) => {
         return {
@@ -132,7 +130,7 @@ export class FormComponent {
             value: !!company.sponsoringOptions?.find(
               (o) => o.key === option.key,
             ),
-            disabled: this.readOnly,
+            disabled: this.readOnly(),
           }),
         };
       }, {}),

@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Company, WorkflowStep } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
@@ -21,15 +21,15 @@ import { MatIconModule } from '@angular/material/icon';
     templateUrl: './admin-filled.component.html'
 })
 export class AdminFilledComponent {
-  @Input() company: Company | undefined;
-  @Input() id: string | undefined;
-  @Input() step: WorkflowStep | undefined;
+  readonly company = input<Company>();
+  readonly id = input<string>();
+  readonly step = input<WorkflowStep>();
 
   private readonly partnerService = inject(PartnerService);
 
   update() {
-    this.partnerService.update(this.id!, {
-      type: this.company?.type,
+    this.partnerService.update(this.id()!, {
+      type: this.company()?.type,
     });
   }
 }

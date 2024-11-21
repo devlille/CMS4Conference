@@ -3,13 +3,13 @@
     matInput
     type="date"
     placeholder="date de publication"
-    [(ngModel)]="company.publicationDate"
+    [(ngModel)]="company().publicationDate"
   />
 </mat-form-field>
 
 <br />
 
-@if (company.flyerUrl) {
+@if (company().flyerUrl) {
   <cms-files [files]="files"></cms-files>
 }
 

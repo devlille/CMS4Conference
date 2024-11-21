@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,10 +25,10 @@ import { StorageService } from '../../storage.service';
   styleUrls: ['./admin-validated.component.scss'],
 })
 export class AdminValidatedComponent {
-  @Input() workflow: Workflow | undefined;
-  @Input() step: WorkflowStep | undefined;
-  @Input({ required: true }) company!: Company;
-  @Input() id: string | undefined;
+  readonly workflow = input<Workflow>();
+  readonly step = input<WorkflowStep>();
+  readonly company = input.required<Company>();
+  readonly id = input<string>();
 
   files = {};
   choice = '';
@@ -54,37 +54,39 @@ export class AdminValidatedComponent {
         this.options = options;
 
         //TO BE REMOVED NEXT YEAR
-        this.company.sponsoring = this.company.sponsoring.toLocaleLowerCase();
-        this.company.secondSponsoring =
-          this.company.secondSponsoring?.toLocaleLowerCase();
+        const company = this.company();
+        company.sponsoring = company.sponsoring.toLocaleLowerCase();
+        company.secondSponsoring =
+          company.secondSponsoring?.toLocaleLowerCase();
       } else {
         this.options = [
           options.find(
-            ({ value }) => value === this.company.sponsoring.toLowerCase(),
+            ({ value }) => value === this.company().sponsoring.toLowerCase(),
           )!,
         ];
-        if (this.company?.secondSponsoring) {
+        if (this.company()?.secondSponsoring) {
           this.options.push(
             options.find(
               ({ value }) =>
-                value === this.company.secondSponsoring?.toLocaleLowerCase(),
+                value === this.company().secondSponsoring?.toLocaleLowerCase(),
             )!,
           );
         }
       }
     });
-    if (!this.company) {
+    const company = this.company();
+    if (!company) {
       return;
     }
 
-    this.choice = this.company.sponsoring;
+    this.choice = company.sponsoring;
   }
 
   updateStatus(status: State) {
-    this.partnerService.update(this.id!, {
+    this.partnerService.update(this.id()!, {
       status: {
-        ...(this.company?.status ?? {}),
-        [this.step?.key ?? '']: status,
+        ...(this.company()?.status ?? {}),
+        [this.step()?.key ?? '']: status,
       },
     });
   }
@@ -101,24 +103,25 @@ export class AdminValidatedComponent {
     this.updateStatus('refused');
   }
   updateSponsoring() {
-    this.partnerService.update(this.id!, {
+    const company = this.company();
+    this.partnerService.update(this.id()!, {
       sponsoring: this.choice,
       secondSponsoring:
-        this.choice === this.company?.sponsoring
-          ? this.company?.secondSponsoring
-          : this.company?.sponsoring,
+        this.choice === company?.sponsoring
+          ? company?.secondSponsoring
+          : company?.sponsoring,
     });
   }
   uploadConvention(file: Blob) {
-    this.storageService.uploadConvention(this.id!, file).then((url) => {
-      this.partnerService.update(this.id!, {
+    this.storageService.uploadConvention(this.id()!, file).then((url) => {
+      this.partnerService.update(this.id()!, {
         conventionUrl: url,
       });
     });
   }
   uploadDevis(file: Blob) {
-    this.storageService.uploadDevis(this.id!, file).then((url) => {
-      this.partnerService.update(this.id!, {
+    this.storageService.uploadDevis(this.id()!, file).then((url) => {
+      this.partnerService.update(this.id()!, {
         devisUrl: url,
       });
     });

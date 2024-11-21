@@ -1,11 +1,11 @@
 import {
   Component,
   ComponentFactoryResolver,
-  Input,
   SimpleChanges,
   ViewChild,
   ViewContainerRef,
   inject,
+  input
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WorkflowStep, Company } from '../../model/company';
@@ -32,9 +32,9 @@ import { environment } from '../../../environments/environment';
     styleUrls: ['./panel-item.component.scss']
 })
 export class PanelItemComponent {
-  @Input() step: WorkflowStep | undefined;
-  @Input() company: Company | undefined;
-  @Input() id: string | undefined;
+  readonly step = input<WorkflowStep>();
+  readonly company = input<Company>();
+  readonly id = input<string>();
 
   publicComponents = {
     filled: FilledComponent,
@@ -80,17 +80,18 @@ export class PanelItemComponent {
           : this.publicComponents;
         this.content!.clear();
 
-        const componentInstance = this.step?.key
-          ? components[this.step.key] ?? DefaultComponent
+        const step = this.step();
+        const componentInstance = step?.key
+          ? components[step.key] ?? DefaultComponent
           : DefaultComponent;
         const componentFactory =
           this.componentFactoryResolver.resolveComponentFactory(
             componentInstance,
           );
         const component = this.content!.createComponent(componentFactory);
-        (component.instance as any).step = this.step;
-        (component.instance as any).company = this.company;
-        (component.instance as any).id = this.id;
+        (component.instance as any).step = this.step();
+        (component.instance as any).company = this.company();
+        (component.instance as any).id = this.id();
 
         component.changeDetectorRef.detectChanges();
       } catch (e) {}

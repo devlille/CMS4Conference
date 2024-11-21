@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Workflow, WorkflowStep, Company } from '../../model/company';
 import { MatInputModule } from '@angular/material/input';
@@ -22,10 +22,10 @@ import { FormsModule } from '@angular/forms';
     styleUrls: ['./code.component.scss']
 })
 export class CodeComponent {
-  @Input({ required: true }) workflow!: Workflow;
-  @Input({ required: true }) step!: WorkflowStep;
-  @Input({ required: true }) company!: Company;
-  @Input() id: string | undefined;
+  readonly workflow = input.required<Workflow>();
+  readonly step = input.required<WorkflowStep>();
+  readonly company = input.required<Company>();
+  readonly id = input<string>();
 
   billetWebUrl: string | undefined;
   activities!: string;
@@ -35,14 +35,14 @@ export class CodeComponent {
   private readonly partnerService = inject(PartnerService);
 
   ngOnInit() {
-    this.billetWebUrl = this.company.billetWebUrl;
-    this.activities = this.company.activities ?? '';
-    this.standInstallationTime = this.company.standInstallationTime ?? '';
-    this.standPhoneNumber = this.company.standPhoneNumber ?? '';
+    this.billetWebUrl = this.company().billetWebUrl;
+    this.activities = this.company().activities ?? '';
+    this.standInstallationTime = this.company().standInstallationTime ?? '';
+    this.standPhoneNumber = this.company().standPhoneNumber ?? '';
   }
 
   updateSponsoring() {
-    this.partnerService.update(this.id!, {
+    this.partnerService.update(this.id()!, {
       activities: this.activities,
       standInstallationTime: this.standInstallationTime,
       standPhoneNumber: this.standPhoneNumber,

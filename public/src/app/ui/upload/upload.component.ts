@@ -2,9 +2,9 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
   Output,
   ViewChild,
+  input
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -29,9 +29,9 @@ import { FormsModule } from '@angular/forms';
     styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent {
-  @Input({ required: true }) label: string | undefined;
-  @Input() accept: string | undefined;
-  @Input() isEnable: boolean | undefined;
+  readonly label = input.required<string | undefined>();
+  readonly accept = input<string>();
+  readonly isEnable = input<boolean>();
   @Output() public uploadFile = new EventEmitter();
   @ViewChild('fileUpload')
   fileUpload: ElementRef | undefined;

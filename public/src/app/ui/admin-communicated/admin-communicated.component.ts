@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Workflow, WorkflowStep, Company, State } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
@@ -26,30 +26,30 @@ import { MatIconModule } from '@angular/material/icon';
     templateUrl: './admin-communicated.component.html'
 })
 export class AdminCommunicatedComponent {
-  @Input({ required: true }) workflow!: Workflow;
-  @Input({ required: true }) step!: WorkflowStep;
-  @Input({ required: true }) company!: Company;
-  @Input({ required: true }) id!: string;
+  readonly workflow = input.required<Workflow>();
+  readonly step = input.required<WorkflowStep>();
+  readonly company = input.required<Company>();
+  readonly id = input.required<string>();
   files = {};
 
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);
 
   setDate() {
-    this.partnerService.update(this.id, {
-      publicationDate: this.company.publicationDate,
+    this.partnerService.update(this.id(), {
+      publicationDate: this.company().publicationDate,
     });
   }
   uploadFlyer(file: Blob) {
-    this.storageService.uploadFile(this.id, file, 'flyers').then((url) => {
-      this.partnerService.update(this.id, {
+    this.storageService.uploadFile(this.id(), file, 'flyers').then((url) => {
+      this.partnerService.update(this.id(), {
         flyerUrl: url,
       });
     });
   }
 
   ngOnInit() {
-    this.storageService.getFlyers(this.id).then((flyer) => {
+    this.storageService.getFlyers(this.id()).then((flyer) => {
       this.files = {
         Flyer: flyer,
       };
@@ -57,10 +57,10 @@ export class AdminCommunicatedComponent {
   }
 
   updateStatus(status: State) {
-    this.partnerService.update(this.id, {
+    this.partnerService.update(this.id(), {
       status: {
-        ...this.company.status,
-        [this.step.key]: status,
+        ...this.company().status,
+        [this.step().key]: status,
       },
     });
   }

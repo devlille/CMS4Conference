@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Workflow, WorkflowStep, Company, State } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
@@ -23,10 +23,10 @@ import { environment } from '../../../environments/environment';
     styleUrls: ['./signed.component.scss']
 })
 export class SignedComponent {
-  @Input({ required: true }) workflow!: Workflow;
-  @Input({ required: true }) step!: WorkflowStep;
-  @Input({ required: true }) company!: Company;
-  @Input({ required: true }) id!: string;
+  readonly workflow = input.required<Workflow>();
+  readonly step = input.required<WorkflowStep>();
+  readonly company = input.required<Company>();
+  readonly id = input.required<string>();
 
   files = {};
   isAdmin = false;
@@ -41,8 +41,8 @@ export class SignedComponent {
         state?.email?.endsWith('@' + environment.emailDomain) ?? false;
     });
 
-    if (this.company.conventionSignedUrl) {
-      this.storageService.getSignedConvention(this.id).then((invoice) => {
+    if (this.company().conventionSignedUrl) {
+      this.storageService.getSignedConvention(this.id()).then((invoice) => {
         this.files = {
           'Convention signée': invoice,
         };
@@ -51,10 +51,10 @@ export class SignedComponent {
   }
 
   updateStatus(status: State) {
-    this.partnerService.update(this.id, {
+    this.partnerService.update(this.id(), {
       status: {
-        ...this.company.status,
-        [this.step.key]: status,
+        ...this.company().status,
+        [this.step().key]: status,
       },
     });
   }
@@ -65,9 +65,9 @@ export class SignedComponent {
 
   uploadConvention(file: Blob) {
     this.storageService
-      .uploadFile(this.id, file, 'conventionSigned')
+      .uploadFile(this.id(), file, 'conventionSigned')
       .then((url) => {
-        this.partnerService.update(this.id, {
+        this.partnerService.update(this.id(), {
           conventionSignedUrl: url,
         });
       });

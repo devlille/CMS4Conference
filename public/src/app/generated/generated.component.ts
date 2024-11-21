@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Workflow, WorkflowStep, Company, State } from '../model/company';
 import { PartnerService } from '../services/partner.service';
@@ -38,10 +38,10 @@ import { ToastrService } from 'ngx-toastr';
     styleUrl: './generated.component.scss'
 })
 export class GeneratedComponent {
-  @Input() workflow: Workflow | undefined;
-  @Input() step: WorkflowStep | undefined;
-  @Input() company: Company | undefined;
-  @Input() id: string | undefined;
+  readonly workflow = input<Workflow>();
+  readonly step = input<WorkflowStep>();
+  readonly company = input<Company>();
+  readonly id = input<string>();
   files: Record<string, string> = {
     ...environment.files,
   };
@@ -54,32 +54,34 @@ export class GeneratedComponent {
   form!: FormGroup;
 
   ngOnInit() {
-    if (!this.company) {
+    const company = this.company();
+    if (!company) {
       return;
     }
     this.form = new FormGroup({
-      officialName: new FormControl(this.company.officialName),
-      address: new FormControl(this.company.address, Validators.required),
-      siret: new FormControl(this.company.siret, {
+      officialName: new FormControl(company.officialName),
+      address: new FormControl(company.address, Validators.required),
+      siret: new FormControl(company.siret, {
         validators: [Validators.required, Siret()],
       }),
       representant: new FormControl(
-        this.company.representant,
+        company.representant,
         Validators.required,
       ),
-      role: new FormControl(this.company.role, Validators.required),
-      siteUrl: new FormControl(this.company.siteUrl, Validators.required),
+      role: new FormControl(company.role, Validators.required),
+      siteUrl: new FormControl(company.siteUrl, Validators.required),
       invoiceType: new FormControl(
-        this.company.invoiceType,
+        company.invoiceType,
         Validators.required,
       ),
-      PO: new FormControl(this.company.PO),
-      lang: new FormControl(this.company.lang, Validators.required),
+      PO: new FormControl(company.PO),
+      lang: new FormControl(company.lang, Validators.required),
     });
 
-    if (this.step?.state === 'done') {
+    const step = this.step();
+    if (step?.state === 'done') {
       this.storageService
-        .getDepositInvoice(this.company.id!)
+        .getDepositInvoice(company.id!)
         .then((deposit) => {
           this.files = {
             ...this.files,
@@ -93,12 +95,12 @@ export class GeneratedComponent {
         state?.email?.endsWith('@' + environment.emailDomain) ?? false;
     });
 
-    if (this.step?.state === 'done') {
+    if (step?.state === 'done') {
       Promise.all([
-        this.storageService.getConvention(this.company.id!),
-        this.storageService.getProformaInvoice(this.company.id!),
-        this.storageService.getDevis(this.company.id!),
-        this.storageService.getInvoice(this.company.id!),
+        this.storageService.getConvention(company.id!),
+        this.storageService.getProformaInvoice(company.id!),
+        this.storageService.getDevis(company.id!),
+        this.storageService.getInvoice(company.id!),
       ]).then(([convention, proforma, devis, invoice]) => {
         this.files = {
           ...this.files,
@@ -112,15 +114,15 @@ export class GeneratedComponent {
   }
 
   uploadConvention(file: Blob) {
-    this.storageService.uploadConvention(this.id!, file).then((url) => {
-      this.partnerService.update(this.id!, {
+    this.storageService.uploadConvention(this.id()!, file).then((url) => {
+      this.partnerService.update(this.id()!, {
         conventionUrl: url,
       });
     });
   }
   uploadDevis(file: Blob) {
-    this.storageService.uploadDevis(this.id!, file).then((url) => {
-      this.partnerService.update(this.id!, {
+    this.storageService.uploadDevis(this.id()!, file).then((url) => {
+      this.partnerService.update(this.id()!, {
         devisUrl: url,
       });
     });
@@ -131,10 +133,10 @@ export class GeneratedComponent {
   }
 
   updateStatus(status: State) {
-    this.partnerService.update(this.id!, {
+    this.partnerService.update(this.id()!, {
       status: {
-        ...(this.company?.status ?? {}),
-        [this.step?.key ?? '']: status,
+        ...(this.company()?.status ?? {}),
+        [this.step()?.key ?? '']: status,
       },
     });
   }
@@ -145,7 +147,7 @@ export class GeneratedComponent {
   updateSponsoring() {
     const sponsor: Partial<Company> = this.form.value;
     this.partnerService
-      .update(this.id!, sponsor)
+      .update(this.id()!, sponsor)
       .then(() => this.toastr.success('Les informations ont été sauvegardées'));
   }
 }

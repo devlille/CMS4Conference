@@ -102,7 +102,7 @@
     </mat-form-field>
   </div>
 </form>
-@if (company?.status?.generated === "done") {
+@if (company()?.status?.generated === "done") {
   <p>Vous trouverez ci joint :</p>
   <ul>
     <li>la convention pour ce partenariat à nous retourner signée</li>
@@ -112,8 +112,8 @@
   <p>
     Vous pouvez nous faire parvenir la convention soit en retour de ce mail,
     soit en la transférant sur ce site. Ce pack
-    {{ company?.sponsoring }} vous est reservé jusqu'au
-    {{ company?.creationDate | add: 15 | date }}.
+    {{ company()?.sponsoring }} vous est reservé jusqu'au
+    {{ company()?.creationDate | add: 15 | date }}.
   </p>
   <div>
     <cms-files [files]="files"></cms-files>
@@ -130,14 +130,14 @@
     <mat-icon>save</mat-icon>
     Sauvegarder
   </button>
-  @if (isAdmin && company?.status?.generated !== "done") {
+  @if (isAdmin && company()?.status?.generated !== "done") {
     <button mat-raised-button color="primary" (click)="setDone()">
       <mat-icon>precision_manufacturing</mat-icon>
 
       Générer
     </button>
   }
-  @if (isAdmin && company?.status?.generated === "done") {
+  @if (isAdmin && company()?.status?.generated === "done") {
     <button mat-raised-button color="primary" (click)="regenerate()">
       <mat-icon>redo</mat-icon>
       Regénérer

@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Company, WorkflowStep } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
@@ -33,9 +33,9 @@ import { environment } from '../../../environments/environment';
     styleUrls: ['./social.component.scss']
 })
 export class SocialComponent {
-  @Input({ required: true }) company!: Company;
-  @Input({ required: true }) id!: string;
-  @Input({ required: true }) step!: WorkflowStep;
+  readonly company = input.required<Company>();
+  readonly id = input.required<string>();
+  readonly step = input.required<WorkflowStep>();
   files = {};
   isAdmin: boolean = false;
 
@@ -45,7 +45,7 @@ export class SocialComponent {
 
   ngOnInit() {
     this.files = {
-      Logo: this.company.logoUrl,
+      Logo: this.company().logoUrl,
     };
 
     this.auth.onAuthStateChanged((state) => {
@@ -54,20 +54,20 @@ export class SocialComponent {
     });
   }
   update() {
-    this.partnerService.update(this.id, {
-      linkedinAccount: this.company.linkedinAccount || '',
-      twitterAccount: this.company.twitterAccount || '',
-      twitter: this.company.twitter || '',
-      linkedin: this.company.linkedin || '',
-      description: this.company.description || '',
-      keepDevFestTeam: this.company.keepDevFestTeam || false,
+    this.partnerService.update(this.id(), {
+      linkedinAccount: this.company().linkedinAccount || '',
+      twitterAccount: this.company().twitterAccount || '',
+      twitter: this.company().twitter || '',
+      linkedin: this.company().linkedin || '',
+      description: this.company().description || '',
+      keepDevFestTeam: this.company().keepDevFestTeam || false,
       socialInformationComplete:
-        this.company.socialInformationComplete ?? false,
+        this.company().socialInformationComplete ?? false,
     });
   }
   upload(file: Blob) {
-    this.storageService.uploadFile(this.id, file).then((url: string) => {
-      this.partnerService.update(this.id, {
+    this.storageService.uploadFile(this.id(), file).then((url: string) => {
+      this.partnerService.update(this.id(), {
         logoUrl: url,
       });
     });

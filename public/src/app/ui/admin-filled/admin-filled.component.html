@@ -1,7 +1,7 @@
 <div class="inline-bloc">
   <mat-form-field class="full-width">
     <mat-label>Type de société</mat-label>
-    <select matNativeControl required [(ngModel)]="company!.type">
+    <select matNativeControl required [(ngModel)]="company()!.type">
       <option value="esn">ESN</option>
       <option value="other">Autres</option>
     </select>

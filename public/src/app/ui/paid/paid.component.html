@@ -1,10 +1,10 @@
-@if (company.status?.paid !== "done") {
+@if (company().status?.paid !== "done") {
   <p>
     Nous sommes dans l'attente de reception du paiement de votre part. Une fois
     celui-ci reçu, nous pourrons finaliser notre partenariat.
   </p>
 }
-@if (company.status?.paid === "done") {
+@if (company().status?.paid === "done") {
   <p>
     Nous avons bien reçu votre paiement et nous vous remercions pour votre
     réactivité. Vous trouverez ci joint la facture:

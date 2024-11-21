@@ -15,5 +15,5 @@
   class="input_fileupload--hidden"
   (change)="uploadFileEvent($event)"
   [(ngModel)]="inputFileName"
-  [accept]="accept"
+  [accept]="accept()"
 />

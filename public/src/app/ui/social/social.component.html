@@ -20,7 +20,7 @@
 
   <mat-divider></mat-divider>
   @if (
-    isAdmin || company.sponsoring === "Gold" || company.sponsoring === "Silver"
+    isAdmin || company().sponsoring === "Gold" || company().sponsoring === "Silver"
   ) {
     <div class="social-container-row">
       <p>
@@ -36,35 +36,35 @@
       <div class="social-fields">
         <mat-form-field class="full-width">
           <mat-label>Compte X (Twitter)</mat-label>
-          <input matInput type="text" [(ngModel)]="company.twitterAccount" />
+          <input matInput type="text" [(ngModel)]="company().twitterAccount" />
         </mat-form-field>
 
         <mat-form-field class="full-width">
           <mat-label>Compte Linkedin</mat-label>
-          <input matInput type="text" [(ngModel)]="company.linkedinAccount" />
+          <input matInput type="text" [(ngModel)]="company().linkedinAccount" />
         </mat-form-field>
 
-        <mat-checkbox [(ngModel)]="company.keepDevFestTeam"
+        <mat-checkbox [(ngModel)]="company().keepDevFestTeam"
           >Laissez l'équipe organisatrice écrire vos messages!</mat-checkbox
         >
         <mat-form-field class="full-width">
           <mat-label>Message X (Twitter)</mat-label>
           <textarea
-            [(ngModel)]="company.twitter"
+            [(ngModel)]="company().twitter"
             matInput
             maxlength="280"
           ></textarea>
         </mat-form-field>
         <mat-form-field class="full-width">
           <mat-label>Message LinkedIN</mat-label>
-          <textarea [(ngModel)]="company.linkedin" matInput></textarea>
+          <textarea [(ngModel)]="company().linkedin" matInput></textarea>
         </mat-form-field>
       </div>
     </div>
   }
 
   @if (
-    !isAdmin && company.sponsoring !== "Gold" && company.sponsoring !== "Silver"
+    !isAdmin && company().sponsoring !== "Gold" && company().sponsoring !== "Silver"
   ) {
     <div class="social-container-row">
       <p>
@@ -75,12 +75,12 @@
       <div class="social-fields">
         <mat-form-field class="full-width">
           <mat-label>Compte X (Twitter)</mat-label>
-          <input matInput type="text" [(ngModel)]="company.twitterAccount" />
+          <input matInput type="text" [(ngModel)]="company().twitterAccount" />
         </mat-form-field>
 
         <mat-form-field class="full-width">
           <mat-label>Compte Linkedin</mat-label>
-          <input matInput type="text" [(ngModel)]="company.linkedinAccount" />
+          <input matInput type="text" [(ngModel)]="company().linkedinAccount" />
         </mat-form-field>
       </div>
     </div>
@@ -92,13 +92,13 @@
     <div class="social-fields">
       <mat-form-field class="full-width">
         <textarea
-          [(ngModel)]="company.description"
+          [(ngModel)]="company().description"
           matInput
           placeholder="Description"
           maxlength="280"
         ></textarea>
       </mat-form-field>
-      <mat-checkbox [(ngModel)]="company.socialInformationComplete"
+      <mat-checkbox [(ngModel)]="company().socialInformationComplete"
         >Je confirme que toutes les informations ci-dessus sont
         complètes</mat-checkbox
       >

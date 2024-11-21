@@ -1,4 +1,4 @@
-@if (company.conventionSignedUrl) {
+@if (company().conventionSignedUrl) {
   <p>
     Vous trouverez ci-dessous la convention et le devis relatifs à notre
     partenariat.
@@ -7,7 +7,7 @@
 }
 
 <div class="inline-bloc">
-  @if (!company.conventionSignedUrl || isAdmin) {
+  @if (!company().conventionSignedUrl || isAdmin) {
     <cms-upload
       (uploadFile)="uploadConvention($event)"
       [isEnable]=""
@@ -18,7 +18,7 @@
     </cms-upload>
   }
   @if (isAdmin) {
-    @if (company.status?.[step.key] !== "done") {
+    @if (company().status?.[step().key] !== "done") {
       <button mat-raised-button color="primary" (click)="setDone()">
         <mat-icon>done</mat-icon>
         Valider cette étape

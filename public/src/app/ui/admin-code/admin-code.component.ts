@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Company, WorkflowStep } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
@@ -22,24 +22,24 @@ import { MatIconModule } from '@angular/material/icon';
     styleUrls: ['./admin-code.component.scss']
 })
 export class AdminCodeComponent {
-  @Input({ required: true }) company!: Company;
-  @Input({ required: true }) id!: string;
-  @Input({ required: true }) step!: WorkflowStep;
+  readonly company = input.required<Company>();
+  readonly id = input.required<string>();
+  readonly step = input.required<WorkflowStep>();
 
   private readonly partnerService = inject(PartnerService);
 
 
   updateBilletwebUrl() {
-    this.partnerService.update(this.id, {
-      billetWebUrl: this.company.billetWebUrl ?? '',
-      wldId: this.company.wldId ?? '',
-      standInstallationTime: this.company.standInstallationTime,
-      standPhoneNumber: this.company.standPhoneNumber,
+    this.partnerService.update(this.id(), {
+      billetWebUrl: this.company().billetWebUrl ?? '',
+      wldId: this.company().wldId ?? '',
+      standInstallationTime: this.company().standInstallationTime,
+      standPhoneNumber: this.company().standPhoneNumber,
     });
   }
 
   updateBilletwebDone() {
-    this.partnerService.update(this.id, {
+    this.partnerService.update(this.id(), {
       billetWebDone: true,
     });
   }

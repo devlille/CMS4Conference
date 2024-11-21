@@ -6,7 +6,9 @@ export default (
   configuration: Configuration
 ) => {
   let options = "";
-  if (sponsoringOptions?.length! > 0) {
+
+  const length = ponsoringOptions?.length ?? 0;
+  if (length > 0) {
     options = `
   A ce partenariat, les options suivantes seront ajoutées.<br>
   ${sponsoringOptions

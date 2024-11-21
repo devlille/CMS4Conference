@@ -5,7 +5,7 @@ import {
   ViewContainerRef,
   inject,
   input,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WorkflowStep, Company } from '../../model/company';
@@ -26,10 +26,10 @@ import { GeneratedComponent } from '../../generated/generated.component';
 import { environment } from '../../../environments/environment';
 
 @Component({
-    selector: 'cms-panel-item',
-    imports: [CommonModule],
-    templateUrl: './panel-item.component.html',
-    styleUrls: ['./panel-item.component.scss']
+  selector: 'cms-panel-item',
+  imports: [CommonModule],
+  templateUrl: './panel-item.component.html',
+  styleUrls: ['./panel-item.component.scss'],
 })
 export class PanelItemComponent {
   readonly step = input<WorkflowStep>();
@@ -93,7 +93,9 @@ export class PanelItemComponent {
         (component.instance as any).id = this.id();
 
         component.changeDetectorRef.detectChanges();
-      } catch (e) {}
+      } catch (e) {
+        console.error(e);
+      }
     });
   }
 

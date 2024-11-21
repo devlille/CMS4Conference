@@ -88,7 +88,7 @@ export class PartnerService {
   public update(id: string, fields: Partial<Company>) {
     this.updateFlag.next(true);
 
-    if (!!fields.email) {
+    if (fields.email) {
       return updateDoc(doc(this.firestore, `companies-2025/${id}`), {
         ...fields,
         email: this.convertEmailsToArray(fields.email),

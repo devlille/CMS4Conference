@@ -7,7 +7,8 @@ export const sendToWebhooks = async (
   configuration: Configuration,
   changes: Change<QueryDocumentSnapshot>
 ) => {
-  if (configuration.webhooks?.length! > 0) {
+  const length = configuration.webhooks?.length ?? 0;
+  if (length > 0) {
     for (const webhook of configuration.webhooks!) {
       console.log(
         `Sending to webhook ${webhook} information about ${

@@ -12,7 +12,7 @@ export function Emails(): ValidatorFn {
           throw new Error('wrong emails');
         }
       });
-    } catch (e) {
+    } catch {
       return { emails: { value: control.value } };
     }
 

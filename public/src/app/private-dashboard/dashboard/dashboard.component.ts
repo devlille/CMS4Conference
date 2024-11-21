@@ -4,7 +4,7 @@ import {
   AfterViewInit,
   signal,
   computed,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Company, Configuration, PartnerType } from '../../model/company';
@@ -32,19 +32,19 @@ type FilterByPackValueType = string;
 type FilterByType = PartnerType | 'undefined';
 
 @Component({
-    selector: 'cms-dashboard',
-    imports: [
-        CommonModule,
-        MatRadioModule,
-        MatTableModule,
-        FormsModule,
-        MatCardModule,
-        MatButtonModule,
-        MatSortModule,
-        MatButtonToggleModule,
-    ],
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.scss']
+  selector: 'cms-dashboard',
+  imports: [
+    CommonModule,
+    MatRadioModule,
+    MatTableModule,
+    FormsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatSortModule,
+    MatButtonToggleModule,
+  ],
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements AfterViewInit {
   readonly sort = viewChild.required(MatSort);
@@ -90,12 +90,16 @@ export class DashboardComponent implements AfterViewInit {
   filteredPartnersByStatusAndPacks = computed(() => {
     const packs = this.filterByPackValue();
 
-    return this.filteredPartnersByStatus().filter(
-      (partner) =>
+    return this.filteredPartnersByStatus().filter((partner) => {
+      if (!partner.sponsoring) {
+        return false;
+      }
+      return (
         packs.indexOf(
-          partner.sponsoring?.toLowerCase()! as FilterByPackValueType,
-        ) >= 0,
-    );
+          partner.sponsoring.toLowerCase() as FilterByPackValueType,
+        ) >= 0
+      );
+    });
   });
 
   filteredPartners = computed(() => {

@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "prettier -l \"functions/src/**/*\" \"public/src/**/*\" && eslint functions/src && eslint public/src",
-    "lint-fix": "prettier --write \"functions/src/**/*\" \"public/src/**/*\" && eslint functions/src --fix . && eslint public/src --fix ."
+    "lint-fix": "prettier --write \"functions/src/**/*\" \"public/src/**/*\" && eslint functions/src --fix . && eslint public/src --fix .",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "@types/jest": "^29.5.8",
     "eslint": "^9.15.0",
     "globals": "^15.12.0",
+    "husky": "^9.1.7",
     "jest": "^29.7.0",
     "prettier": "^3.3.3",
     "ts-jest": "^29.1.1",

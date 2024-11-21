@@ -1,10 +1,9 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
-  Output,
   ViewChild,
-  input
+  input,
+  output
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -32,7 +31,7 @@ export class UploadComponent {
   readonly label = input.required<string | undefined>();
   readonly accept = input<string>();
   readonly isEnable = input<boolean>();
-  @Output() public uploadFile = new EventEmitter();
+  public readonly uploadFile = output();
   @ViewChild('fileUpload')
   fileUpload: ElementRef | undefined;
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject, input } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import {
   ReactiveFormsModule,
   FormGroup,
@@ -64,8 +64,7 @@ export class FormComponent {
 
   readonly company = input<Observable<Company>>(of(defaultCompany));
 
-  @Output()
-  public submitEvent = new EventEmitter<Company>();
+  public readonly submitEvent = output<Company>();
 
   companyProfile: FormGroup | undefined;
 

@@ -48,6 +48,7 @@ export class PartnerService {
   }
 
   public getAll(): Observable<Company[]> {
+    console.log('getall');
     return collectionSnapshots(this.companiesCollection).pipe(
       map((snapshots: QueryDocumentSnapshot[]) => {
         return snapshots.map((snapshot) => ({ ...snapshot.data(), id: snapshot.id }) as Company).filter((company) => !company.archived && company.status?.validated !== 'refused');

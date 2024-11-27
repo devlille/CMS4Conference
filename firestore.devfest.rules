@@ -17,6 +17,10 @@ service cloud.firestore {
       allow get: if true;
       allow update: if isAdministrator();
     }
+     match /editions/{configurationId} {
+      allow get: if true;
+      allow update: if isAdministrator();
+    }
   }
 }
 
@@ -28,5 +32,5 @@ function isOwner(companyId) {
     return request.auth.token.email in resource.data.email;
 }
 function isAdministrator() {
-    return request.auth.token.email.matches(".*@devlille.fr")
+    return request.auth.token.email.matches(".*@devlille.fr") || request.auth.token.email.matches(".*@gdglille.org")
 }

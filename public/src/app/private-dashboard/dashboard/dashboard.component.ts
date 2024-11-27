@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, AfterViewInit, signal, computed, viewChild } from '@angular/core';
+import { Component, inject, AfterViewInit, signal, computed, viewChild, linkedSignal } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { Functions, httpsCallable } from '@angular/fire/functions';
 import { FormsModule } from '@angular/forms';
@@ -34,21 +34,25 @@ export class DashboardComponent implements AfterViewInit {
   originalPartners = signal<Partial<Company>[]>([]);
   filterByStatusValue = signal<FilterValueType[]>(['validated', 'generated', 'sign', 'paid', 'received', 'communicated', 'code']);
 
-  shouldDisplayRelanceButton = computed(() => {
+  shouldDisplayRelanceButton = linkedSignal(() => {
     const status = this.filterByStatusValue();
     return status.length === 1 && ['generated', 'sign', 'paid'].indexOf(status[0]) >= 0;
   });
   filterByTypeValue = signal<FilterByType[]>(['esn', 'other', 'undefined']);
 
-  filteredPartnersByStatus = computed(() => {
+  filteredPartnersByStatus = linkedSignal(() => {
     const status = this.filterByStatusValue();
+    console.log(this.originalPartners(), status);
+
     return this.originalPartners().filter((partner) => status.find((v) => !!partner.status && partner.status[v] === 'pending'));
   });
 
-  filteredPartnersByStatusAndPacks = computed(() => {
+  filteredPartnersByStatusAndPacks = linkedSignal(() => {
     const packs = this.filterByPackValue();
 
+    console.log(packs, this.filteredPartnersByStatus());
     return this.filteredPartnersByStatus().filter((partner) => {
+      console.log(partner.sponsoring);
       if (!partner.sponsoring) {
         return false;
       }
@@ -58,16 +62,17 @@ export class DashboardComponent implements AfterViewInit {
 
   filteredPartners = computed(() => {
     const types = this.filterByTypeValue();
-
+    console.log(types, this.filteredPartnersByStatusAndPacks());
     return this.filteredPartnersByStatusAndPacks().filter((partner) => {
+      console.log({ partner });
       return types.indexOf(partner.type!) >= 0 || (!partner.type && types.indexOf('undefined') >= 0);
     });
   });
 
-  dataSource = computed(() => {
+  dataSource = linkedSignal(() => {
     const dataSource = new MatTableDataSource(this.filteredPartners());
     dataSource.sort = this.sort();
-
+    console.log({ dataSource });
     return dataSource;
   });
 
@@ -110,7 +115,7 @@ export class DashboardComponent implements AfterViewInit {
     this.filterByPackSelected.set(pack);
   }
 
-  filterByType = computed(() => {
+  filterByType = linkedSignal(() => {
     const partners = this.filteredPartnersByStatusAndPacks();
 
     let numberESN = 0;
@@ -161,6 +166,7 @@ export class DashboardComponent implements AfterViewInit {
     this.partnerService.getCurrentConfiguration().then((config) => this.configuration.set(config));
 
     this.partnerService.getAll().subscribe((partners) => {
+      console.log(partners);
       this.originalPartners.set(
         partners.map((partners) => ({
           ...partners,

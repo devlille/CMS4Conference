@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase-admin/firestore';
+
 export type Convention = {
   edition: string;
   startdate: string;
@@ -46,6 +48,7 @@ export type SponsorshipConfiguration = {
 export type Configuration = SponsoringType & {
   next_value: string;
   enabled: boolean;
+  openingDate: Timestamp;
   sponsorships: SponsorshipConfiguration[];
   webhooks?: string[];
   convention: Convention;

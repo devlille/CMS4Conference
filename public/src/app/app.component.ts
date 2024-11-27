@@ -23,6 +23,7 @@ export class AppComponent {
   constructor() {
     this.titleService.setTitle(environment.title);
     this.auth.onAuthStateChanged((state) => {
+      console.log(state);
       this.isLoggedIn = !!state?.email?.endsWith('@' + environment.emailDomain);
     });
   }

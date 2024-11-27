@@ -11,7 +11,7 @@ export default ({ sponsoring, creationDate }: Company, id: string, configuration
     day: 'numeric'
   };
   const date = addDays((creationDate as Timestamp).toDate(), 15);
-  const dateTimeFormat = new Intl.DateTimeFormat('fr-FR', options as any);
+  const dateTimeFormat = new Intl.DateTimeFormat('fr-FR', options as Intl.DateTimeFormatOptions);
 
   const sponsor_reservation_end_date = dateTimeFormat.format(date);
 

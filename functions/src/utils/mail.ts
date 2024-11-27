@@ -11,7 +11,7 @@ export function getFrom(mail: Email): {
   };
 }
 
-export function sendEmailToAllContacts(company: Company, emailFactory: any, configuration: Configuration) {
+export function sendEmailToAllContacts(company: Company, emailFactory: { subject: string; body: string }, configuration: Configuration) {
   let emails = [configuration.mail.cc];
   if (configuration.mail.enabled === 'true') {
     emails = [...emails, ...company.email];

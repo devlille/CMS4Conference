@@ -9,7 +9,7 @@ import { Timestamp } from '@angular/fire/firestore';
   template: `
     <p>
       Le formulaire n'est pas encore ouvert. Nous vous donnons rendez-vous le
-      {{ date() | date: 'full' }}.
+      {{ date() | date: 'short' }}.
     </p>
   `
 })

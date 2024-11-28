@@ -29,12 +29,7 @@ export async function generateAndStoreProformaInvoiceAndConvention(company: Comp
     generateDevis({ ...company, id }, configuration)
   ]);
 
-  await Promise.all([
-    storeFile('convention/', convention as any),
-    storeFile('devis/', proformaInvoice as any),
-    storeFile('devis/', depositInvoice as any),
-    storeFile('devis/', devis as any)
-  ]);
+  await Promise.all([storeFile('convention/', convention), storeFile('devis/', proformaInvoice), storeFile('devis/', depositInvoice), storeFile('devis/', devis)]);
 }
 export async function generateAndStoreInvoice(firestore: FirebaseFirestore.Firestore, company: Company, id: string, configuration: Configuration) {
   let invoiceNumber = company.invoiceNumber;

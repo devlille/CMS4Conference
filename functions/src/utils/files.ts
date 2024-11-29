@@ -46,7 +46,7 @@ export async function generateAndStoreInvoice(firestore: FirebaseFirestore.Fires
     },
     configuration
   );
-  const publicInvoiceUrl = await storeFile('facture/', invoice as any);
+  const publicInvoiceUrl = await storeFile('facture/', invoice);
 
   await firestore
     .doc('companies-2025/' + id)

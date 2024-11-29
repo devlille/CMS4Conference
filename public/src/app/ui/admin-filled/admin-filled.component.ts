@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, computed, inject, input } from '@angular/core';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,7 +11,7 @@ import { PartnerService } from '../../services/partner.service';
 
 @Component({
   selector: 'cms-admin-filled',
-  imports: [CommonModule, MatFormFieldModule, FormsModule, MatButtonModule, MatInputModule, MatIconModule],
+  imports: [CommonModule, MatFormFieldModule, ReactiveFormsModule, MatButtonModule, MatInputModule, MatIconModule],
   templateUrl: './admin-filled.component.html'
 })
 export class AdminFilledComponent {
@@ -20,10 +20,17 @@ export class AdminFilledComponent {
   readonly step = input<WorkflowStep>();
 
   private readonly partnerService = inject(PartnerService);
+  private readonly formBuilder = inject(FormBuilder);
+
+  form = computed(() => {
+    return this.formBuilder.group({
+      type: new FormControl((this.company as unknown as Company)?.type)
+    });
+  });
 
   update() {
-    this.partnerService.update(this.id()!, {
-      type: this.company()?.type
+    this.partnerService.update(this.id as unknown as string, {
+      ...this.form().value
     });
   }
 }

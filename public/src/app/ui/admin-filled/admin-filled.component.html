@@ -1,15 +1,15 @@
-<div class="inline-bloc">
+<form class="inline-bloc" [formGroup]="form()">
   <mat-form-field class="full-width">
     <mat-label>Type de société</mat-label>
-    <select matNativeControl required [(ngModel)]="company()!.type">
+    <select matNativeControl required formControlName="type">
       <option value="esn">ESN</option>
       <option value="other">Autres</option>
     </select>
   </mat-form-field>
-</div>
-<div class="inline-bloc">
-  <button color="primary" mat-raised-button (click)="update()">
-    <mat-icon>save</mat-icon>
-    Sauvegarder
-  </button>
-</div>
+  <div class="inline-bloc">
+    <button type="submit" color="primary" mat-raised-button (click)="update()">
+      <mat-icon>save</mat-icon>
+      Sauvegarder
+    </button>
+  </div>
+</form>

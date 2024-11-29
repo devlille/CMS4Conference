@@ -96,4 +96,4 @@ export interface Company {
   standPhoneNumber?: string;
 }
 
-export type PartnerType = 'esn' | 'other';
+export type PartnerType = 'esn' | 'other' | null | undefined;

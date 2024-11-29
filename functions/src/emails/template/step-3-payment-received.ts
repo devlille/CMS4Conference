@@ -1,6 +1,6 @@
 import { Configuration } from '../../model';
 
-export default (company: any, id: string, configuration: Configuration) => {
+export default (company: unknown, id: string, configuration: Configuration) => {
   const adress_cms4devfest = `${configuration.hosting.baseurl}/partner/${id}`;
 
   return {

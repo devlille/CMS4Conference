@@ -1,11 +1,11 @@
-@if (!isAdmin) {
-  @if (company().status?.validated !== 'done') {
+@if (!isAdmin()) {
+  @if (companySignal().status?.validated !== 'done') {
     <p>
       Etant donné la forte affluence des demandes de partenariat, nous reviendrons vers vous par email dans une dizaine de jours maximum pour vous valider la réservation du pack
       <strong>{{ company().sponsoring }}</strong> ou de votre choix de pack sponsor de replis le cas échéant.
     </p>
   }
-  @if (company().status?.validated === 'done') {
+  @if (companySignal().status?.validated === 'done') {
     <p>
       Bonne nouvelle ! Votre demande de pack
       <strong>{{ company().sponsoring }}</strong> pour le DevLille 2025 a été validé.
@@ -13,17 +13,17 @@
     <p>Veuillez remplir dans l'étape suivante les informations qui seront utilisées pour la génération de la convention et de la facture.</p>
   }
 }
-@if (isAdmin) {
-  <div class="file-bloc">
+@if (isAdmin()) {
+  <form class="file-bloc" [formGroup]="form()">
     <mat-form-field class="full-width">
       <mat-label>Sponsoring</mat-label>
-      <select matNativeControl required [(ngModel)]="choice">
-        @for (option of options; track option.value) {
+      <select matNativeControl required formControlName="sponsoring">
+        @for (option of options(); track option.value) {
           <option [value]="option.value">{{ option.label }}</option>
         }
       </select>
     </mat-form-field>
-  </div>
+  </form>
 
   <br />
 
@@ -32,7 +32,7 @@
       <mat-icon>save</mat-icon>
       Sauvegarder
     </button>
-    @if (company().status?.validated !== 'done') {
+    @if (companySignal().status?.validated !== 'done') {
       <button mat-raised-button color="primary" (click)="setDone()">
         <mat-icon>send</mat-icon>
         Valider le partenaire

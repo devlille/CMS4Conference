@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input, resource, signal } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,7 +14,7 @@ import { StorageService } from '../../storage.service';
 
 @Component({
   selector: 'cms-admin-validated',
-  imports: [CommonModule, MatFormFieldModule, FormsModule, MatButtonModule, MatInputModule, MatIconModule],
+  imports: [CommonModule, MatFormFieldModule, FormsModule, MatButtonModule, MatInputModule, MatIconModule, ReactiveFormsModule],
   templateUrl: './admin-validated.component.html',
   styleUrls: ['./admin-validated.component.scss']
 })
@@ -24,86 +24,75 @@ export class AdminValidatedComponent {
   readonly company = input.required<Company>();
   readonly id = input<string>();
 
+  companySignal = computed(() => this.company as unknown as Company);
   files = {};
   choice = '';
-  isAdmin: boolean = false;
+  isAdmin = signal(true);
 
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);
   private readonly auth = inject(Auth);
+  private readonly formBuilder = inject(FormBuilder);
 
-  options: { value: string; label: string }[] = [];
-  async ngOnInit() {
-    const config = await this.partnerService.getCurrentConfiguration();
-
-    this.auth.onAuthStateChanged((state) => {
-      this.isAdmin = state?.email?.endsWith('@' + environment.emailDomain) ?? false;
-
-      const options = config.sponsorships.map((sponsorship) => ({
-        value: sponsorship.name.toLowerCase(),
-        label: sponsorship.name.toLowerCase()
-      }));
-      if (this.isAdmin) {
-        this.options = options;
-
-        //TO BE REMOVED NEXT YEAR
-        const company = this.company();
-        company.sponsoring = company.sponsoring.toLocaleLowerCase();
-        company.secondSponsoring = company.secondSponsoring?.toLocaleLowerCase();
-      } else {
-        this.options = [options.find(({ value }) => value === this.company().sponsoring.toLowerCase())!];
-        if (this.company()?.secondSponsoring) {
-          this.options.push(options.find(({ value }) => value === this.company().secondSponsoring?.toLocaleLowerCase())!);
-        }
-      }
+  form = computed(() => {
+    return this.formBuilder.group({
+      sponsoring: new FormControl((this.company as unknown as Company).sponsoring)
     });
-    const company = this.company();
-    if (!company) {
+  });
+
+  optionsResources = resource({
+    loader: () => this.partnerService.getCurrentConfiguration()
+  });
+
+  options = computed(() => {
+    const optionsFromFirestore = this.optionsResources.value();
+
+    if (!optionsFromFirestore) {
       return;
     }
 
-    this.choice = company.sponsoring;
-  }
+    const options = optionsFromFirestore.sponsorships.map((sponsorship) => ({
+      value: sponsorship.name.toLowerCase(),
+      label: sponsorship.name.toLowerCase()
+    }));
+    if (this.isAdmin()) {
+      return options;
+    } else {
+      const firstAndSecondOptions = [options.find(({ value }) => value === this.company().sponsoring.toLowerCase())!];
 
-  updateStatus(status: State) {
-    this.partnerService.update(this.id()!, {
-      status: {
-        ...(this.company()?.status ?? {}),
-        [this.step()?.key ?? '']: status
+      if (this.company()?.secondSponsoring) {
+        firstAndSecondOptions.push(options.find(({ value }) => value === this.company().secondSponsoring?.toLocaleLowerCase())!);
       }
+
+      return firstAndSecondOptions;
+    }
+  });
+
+  async ngOnInit() {
+    this.auth.onAuthStateChanged((state) => {
+      this.isAdmin.set(state?.email?.endsWith('@' + environment.emailDomain) ?? false);
     });
   }
-  setPending() {
-    this.updateStatus('pending');
+  updateStatus(status: State) {
+    this.partnerService.update(this.id as unknown as string, {
+      status: {
+        ...(this.companySignal()?.status ?? {}),
+        [(this.step as unknown as WorkflowStep)?.key ?? '']: status
+      }
+    });
   }
   setDone() {
     this.updateStatus('done');
   }
-  regenerate() {
-    this.updateStatus('retry');
-  }
+
   setKo() {
     this.updateStatus('refused');
   }
   updateSponsoring() {
-    const company = this.company();
-    this.partnerService.update(this.id()!, {
-      sponsoring: this.choice,
-      secondSponsoring: this.choice === company?.sponsoring ? company?.secondSponsoring : company?.sponsoring
-    });
-  }
-  uploadConvention(file: Blob) {
-    this.storageService.uploadConvention(this.id()!, file).then((url) => {
-      this.partnerService.update(this.id()!, {
-        conventionUrl: url
-      });
-    });
-  }
-  uploadDevis(file: Blob) {
-    this.storageService.uploadDevis(this.id()!, file).then((url) => {
-      this.partnerService.update(this.id()!, {
-        devisUrl: url
-      });
+    const company = this.companySignal();
+    this.partnerService.update(this.id as unknown as string, {
+      sponsoring: this.form().value.sponsoring!,
+      secondSponsoring: this.form().value.sponsoring! === company?.sponsoring ? company?.secondSponsoring : company?.sponsoring
     });
   }
 }

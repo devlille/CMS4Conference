@@ -2,7 +2,7 @@ import * as ejs from 'ejs';
 import * as markdownToPDf from 'markdown-pdf';
 import * as os from 'os';
 
-import { Configuration, SponsoringOption, SponsorshipConfiguration } from '../../model';
+import { Company, Configuration, SponsoringOption, SponsorshipConfiguration } from '../../model';
 
 function getSponsoringFees(sponsoringConfiguration: SponsorshipConfiguration): [string, number, number] {
   if (!sponsoringConfiguration) {
@@ -11,13 +11,13 @@ function getSponsoringFees(sponsoringConfiguration: SponsorshipConfiguration): [
   return [sponsoringConfiguration.priceString, sponsoringConfiguration.price, sponsoringConfiguration.freeTickets];
 }
 
-function generateFile(config: any, fileName: string, fileModule: any, configuration: Configuration, invoiceType: any): Promise<string> {
+function generateFile(company: Company, fileName: string, fileModule: any, configuration: Configuration, invoiceType: any): Promise<string> {
   const file = fileModule.default;
   const getOfficialName = () => {
-    if (config.officialName) {
-      return config.officialName;
+    if (company.officialName) {
+      return company.officialName;
     }
-    return config.name;
+    return company.name;
   };
   const DATE = new Intl.DateTimeFormat('fr-FR', {
     day: '2-digit',
@@ -44,31 +44,31 @@ function generateFile(config: any, fileName: string, fileModule: any, configurat
     });
   }
 
-  (config.sponsoringOptions ?? []).forEach((option: SponsoringOption) => {
+  (company.sponsoringOptions ?? []).forEach((option: SponsoringOption) => {
     total += option.price;
     LINES.push({ label: option.label, price: option.price });
   });
 
   return new Promise((resolve, reject) => {
-    const considerations = config.lang === 'fr' ? sponsoringConfiguration?.considerations : (sponsoringConfiguration?.considerationsEn ?? sponsoringConfiguration?.considerations);
+    const considerations = company.lang === 'fr' ? sponsoringConfiguration?.considerations : (sponsoringConfiguration?.considerationsEn ?? sponsoringConfiguration?.considerations);
 
     const data = {
       LINES,
-      CONSIDERATIONS: [...considerations, ...(config.sponsoringOptions ?? []).map((option: SponsoringOption) => option.label)],
+      CONSIDERATIONS: [...considerations, ...(company.sponsoringOptions ?? []).map((option: SponsoringOption) => option.label)],
       HAS_BOOTH: sponsoringConfiguration?.hasBooth?.toString(),
       COMPANY: getOfficialName().trim(),
-      SIRET: config.siret,
-      COMPANY_ADDRESS: config.address?.trim(),
-      COMPANY_CP: config.zipCode?.toString()?.trim(),
-      COMPANY_CITY: config.city?.trim(),
-      COMPANY_PERSON: config.representant,
-      CONTACT: config.representant.trim(),
-      ROLE: config.role.trim(),
+      SIRET: company.siret,
+      COMPANY_ADDRESS: company.address?.trim(),
+      COMPANY_CP: company.zipCode?.toString()?.trim(),
+      COMPANY_CITY: company.city?.trim(),
+      COMPANY_PERSON: company.representant,
+      CONTACT: company.representant.trim(),
+      ROLE: company.role.trim(),
       EVENT_EDITION: configuration.convention.edition,
       EVENT_NAME: configuration.gdg.event,
       NUMBER_PLACE,
-      SPONSORING: config.sponsoring,
-      PO: config.PO,
+      SPONSORING: company.sponsoring,
+      PO: company.PO,
       SPONSORING_TEXT,
       SPONSORING_NUMBER: total,
       START_DATE: configuration.convention.startdate,
@@ -81,7 +81,7 @@ function generateFile(config: any, fileName: string, fileModule: any, configurat
       GDG_TEL: configuration.gdg.tel,
       GDG_ACCOUNTANT_EMAIL: configuration.gdg.accountantemail,
       GDG_WEBSITE: configuration.gdg.website,
-      INVOICE_NUMBER: config.invoiceNumber,
+      INVOICE_NUMBER: company.invoiceNumber,
       INVOICE_TYPE: invoiceType
     };
 
@@ -105,28 +105,28 @@ function generateFile(config: any, fileName: string, fileModule: any, configurat
   });
 }
 
-export function generateProformaInvoice(config: any, configuration: Configuration) {
+export function generateProformaInvoice(company: Company, configuration: Configuration) {
   const ProformaInvoiceFr = require(`./${configuration.template_folder}/proforma_invoice_fr`);
 
-  return generateFile(config, `proforma_invoice_${config.id}.pdf`, ProformaInvoiceFr, configuration, 'FACTURE PRO FORMA');
+  return generateFile(company, `proforma_invoice_${company.id}.pdf`, ProformaInvoiceFr, configuration, 'FACTURE PRO FORMA');
 }
-export function generateDevis(config: any, configuration: Configuration) {
+export function generateDevis(company: Company, configuration: Configuration) {
   const ProformaInvoiceFr = require(`./${configuration.template_folder}/proforma_invoice_fr`);
 
-  return generateFile(config, `devis_${config.id}.pdf`, ProformaInvoiceFr, configuration, 'DEVIS');
+  return generateFile(company, `devis_${company.id}.pdf`, ProformaInvoiceFr, configuration, 'DEVIS');
 }
-export function generateDepositInvoice(config: any, configuration: Configuration) {
+export function generateDepositInvoice(company: Company, configuration: Configuration) {
   const ProformaInvoiceFr = require(`./${configuration.template_folder}/proforma_invoice_fr`);
 
-  return generateFile(config, `deposit_invoice_${config.id}.pdf`, ProformaInvoiceFr, configuration, 'FACTURE ACCOMPTE 100%');
+  return generateFile(company, `deposit_invoice_${company.id}.pdf`, ProformaInvoiceFr, configuration, 'FACTURE ACCOMPTE 100%');
 }
-export function generateInvoice(config: any, configuration: Configuration) {
+export function generateInvoice(company: Company, configuration: Configuration) {
   const InvoiceFr = require(`./${configuration.template_folder}/invoice_fr`);
 
-  return generateFile(config, `invoice_${config.id}.pdf`, InvoiceFr, configuration, '');
+  return generateFile(company, `invoice_${company.id}.pdf`, InvoiceFr, configuration, '');
 }
-export function generateConvention(config: any, configuration: Configuration) {
-  const Convention = require(`./${configuration.template_folder}/convention_${config.lang}`);
+export function generateConvention(company: Company, configuration: Configuration) {
+  const Convention = require(`./${configuration.template_folder}/convention_${company.lang}`);
 
-  return generateFile(config, `convention_${config.id}.pdf`, Convention, configuration, '');
+  return generateFile(company, `convention_${company.id}.pdf`, Convention, configuration, '');
 }

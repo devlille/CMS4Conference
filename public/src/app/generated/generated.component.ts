@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input, resource, signal } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ToastrService } from 'ngx-toastr';
 
 import { environment } from '../../environments/environment';
-import { Workflow, WorkflowStep, Company, State } from '../model/company';
+import { Company, State, Workflow, WorkflowStep } from '../model/company';
 import { AddPipe } from '../pipe/add.pipe';
 import { PartnerService } from '../services/partner.service';
 import { StorageService } from '../storage.service';
@@ -28,23 +28,18 @@ export class GeneratedComponent {
   readonly step = input<WorkflowStep>();
   readonly company = input<Company>();
   readonly id = input<string>();
-  files: Record<string, string> = {
-    ...environment.files
-  };
-  isAdmin = false;
+
+  isAdmin = signal(false);
+  companySignal = computed(() => this.company as unknown as Company);
+
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);
   private readonly auth: Auth = inject(Auth);
   private readonly toastr: ToastrService = inject(ToastrService);
 
-  form!: FormGroup;
-
-  ngOnInit() {
-    const company = this.company();
-    if (!company) {
-      return;
-    }
-    this.form = new FormGroup({
+  form = computed(() => {
+    const company = this.companySignal();
+    return new FormGroup({
       officialName: new FormControl(company.officialName),
       address: new FormControl(company.address, Validators.required),
       siret: new FormControl(company.siret, {
@@ -57,49 +52,58 @@ export class GeneratedComponent {
       PO: new FormControl(company.PO),
       lang: new FormControl(company.lang, Validators.required)
     });
+  });
 
-    const step = this.step();
-    if (step?.state === 'done') {
-      this.storageService.getDepositInvoice(company.id!).then((deposit) => {
-        this.files = {
-          ...this.files,
-          'Facture Accompte 100%': deposit
-        };
-      });
-    }
+  filesResources = resource({
+    request: () => ({ company: this.companySignal() }),
+    loader: ({ request: { company } }): Promise<string[]> => {
+      const step = this.step as unknown as WorkflowStep;
 
-    this.auth.onAuthStateChanged((state) => {
-      this.isAdmin = state?.email?.endsWith('@' + environment.emailDomain) ?? false;
-    });
-
-    if (step?.state === 'done') {
-      Promise.all([
+      if (step?.state !== 'done') {
+        return Promise.resolve([]);
+      }
+      return Promise.all([
+        this.storageService.getDepositInvoice(company.id!),
         this.storageService.getConvention(company.id!),
         this.storageService.getProformaInvoice(company.id!),
         this.storageService.getDevis(company.id!),
         this.storageService.getInvoice(company.id!)
-      ]).then(([convention, proforma, devis, invoice]) => {
-        this.files = {
-          ...this.files,
-          Convention: convention,
-          'Facture Proforma': proforma,
-          Devis: devis,
-          Facture: invoice
-        };
-      });
+      ]);
     }
+  });
+
+  files = computed(() => {
+    const resources = this.filesResources.value();
+    if (!resources) {
+      return { ...environment.files };
+    }
+    const [deposit, convention, proforma, devis, invoice] = resources;
+    return {
+      'Facture Accompte 100%': deposit,
+      Convention: convention,
+      'Facture Proforma': proforma,
+      Devis: devis,
+      Facture: invoice,
+      ...environment.files
+    };
+  });
+
+  ngOnInit() {
+    this.auth.onAuthStateChanged((state) => {
+      this.isAdmin.set(state?.email?.endsWith('@' + environment.emailDomain) ?? false);
+    });
   }
 
   uploadConvention(file: Blob) {
-    this.storageService.uploadConvention(this.id()!, file).then((url) => {
-      this.partnerService.update(this.id()!, {
+    this.storageService.uploadConvention(this.id as unknown as string, file).then((url) => {
+      this.partnerService.update(this.id as unknown as string, {
         conventionUrl: url
       });
     });
   }
   uploadDevis(file: Blob) {
-    this.storageService.uploadDevis(this.id()!, file).then((url) => {
-      this.partnerService.update(this.id()!, {
+    this.storageService.uploadDevis(this.id as unknown as string, file).then((url) => {
+      this.partnerService.update(this.id as unknown as string, {
         devisUrl: url
       });
     });
@@ -110,10 +114,10 @@ export class GeneratedComponent {
   }
 
   updateStatus(status: State) {
-    this.partnerService.update(this.id()!, {
+    this.partnerService.update(this.id as unknown as string, {
       status: {
-        ...(this.company()?.status ?? {}),
-        [this.step()?.key ?? '']: status
+        ...(this.companySignal()?.status ?? {}),
+        [(this.step as unknown as WorkflowStep)?.key ?? '']: status
       }
     });
   }
@@ -122,7 +126,7 @@ export class GeneratedComponent {
   }
 
   updateSponsoring() {
-    const sponsor: Partial<Company> = this.form.value;
-    this.partnerService.update(this.id()!, sponsor).then(() => this.toastr.success('Les informations ont été sauvegardées'));
+    const sponsor: Partial<Company> = this.form().value as Partial<Company>;
+    this.partnerService.update(this.id as unknown as string, sponsor).then(() => this.toastr.success('Les informations ont été sauvegardées'));
   }
 }

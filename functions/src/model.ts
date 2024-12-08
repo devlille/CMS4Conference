@@ -21,6 +21,8 @@ export type Association = {
 };
 
 export type Email = {
+  mailgun: string;
+  mailgun_email: 'mailgun@sandbox07d5e9881cce48d691889e3818d67885.mailgun.org';
   enabled: string;
   signature: string;
   to: string;

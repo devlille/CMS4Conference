@@ -12,10 +12,10 @@ jobs:
         include:
           - org: DevLille
             secret: DEVFEST_FIREBASE_TOKEN
-            function: "functions:cms4devfestgdg"
-            target: "default"
-            front: "production"
-            config: "firebase.devfest.json"
+            function: 'functions:cms4devfestgdg'
+            target: 'default'
+            front: 'production'
+            config: 'firebase.devfest.json'
           #- org: Cloud Nord
           #  secret: CLOUDNORD_FIREBASE_TOKEN
           #  function: "functions:cms4devfestcloudnord"
@@ -28,8 +28,8 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
-          cache: "npm"
+          node-version: '20.x'
+          cache: 'npm'
       - name: Install Front
         run: npm --prefix public install --force
       - name: Build Back

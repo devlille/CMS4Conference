@@ -7,7 +7,7 @@ import relanceInformationsComplementaires from './emails/template/relanceInforma
 import relancePaiement from './emails/template/relancePaiement';
 import { Company, Configuration } from './model';
 import { StatusEnum, onDocumentChange } from './utils/document-change';
-import { sendEmailToAllContacts } from './utils/mail';
+import { sendEmail, sendEmailToAllContacts } from './utils/mail';
 import { sendNewPartnerToOrganizationTeam, sendWelcomeEmail } from './v3/domain/email';
 import { getConfiguration } from './v3/infrastructure/getConfiguration';
 
@@ -43,6 +43,12 @@ export const getAllPublicSponsors = functions.https.onRequest(async (req, resp) 
     }))
     .filter((p: any) => p.status.paid === StatusEnum.DONE && p.public && !!p.siteUrl && !!p.logoUrl);
   resp.send(partners);
+});
+
+export const testEmail = functions.https.onRequest(async (req, resp) => {
+  const configuration = await getConfiguration(firestore);
+  await sendEmail(['demey.emmanuel@gmail.com'], 'subject', 'body', configuration);
+  resp.send(1);
 });
 
 const relance = (emailFactory: (partner: Record<string, any>, configuration: Configuration) => any, partners: any[], configuration: Configuration) => {

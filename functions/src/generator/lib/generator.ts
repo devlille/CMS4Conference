@@ -11,7 +11,7 @@ function getSponsoringFees(sponsoringConfiguration: SponsorshipConfiguration): [
   return [sponsoringConfiguration.priceString, sponsoringConfiguration.price, sponsoringConfiguration.freeTickets];
 }
 
-function generateFile(company: Company, fileName: string, fileModule: any, configuration: Configuration, invoiceType: any): Promise<string> {
+function generateFile(company: Company, fileName: string, fileModule: { default: string }, configuration: Configuration, invoiceType: string): Promise<string> {
   const file = fileModule.default;
   const getOfficialName = () => {
     if (company.officialName) {
@@ -25,7 +25,7 @@ function generateFile(company: Company, fileName: string, fileModule: any, confi
     year: 'numeric'
   }).format(new Date());
 
-  const sponsoringConfiguration: SponsorshipConfiguration | undefined = configuration.sponsorships.find((s) => s.name.toLowerCase() === config.sponsoring.toLowerCase());
+  const sponsoringConfiguration: SponsorshipConfiguration | undefined = configuration.sponsorships.find((s) => s.name.toLowerCase() === company.sponsoring.toLowerCase());
 
   if (!sponsoringConfiguration) {
     return Promise.reject();

@@ -3,7 +3,7 @@ import { Company, Configuration } from '../../model';
 export default ({ sponsoring, sponsoringOptions }: Company, id: string, configuration: Configuration) => {
   let options = '';
 
-  const length = ponsoringOptions?.length ?? 0;
+  const length = sponsoringOptions?.length ?? 0;
   if (length > 0) {
     options = `
   A ce partenariat, les options suivantes seront ajoutées.<br>

@@ -9,7 +9,7 @@ export const sendWelcomeEmail = (company: Company, id: string, configuration: Co
 
 export const sendNewPartnerToOrganizationTeam = (company: Company, configuration: Configuration) => {
   return sendEmail(
-    configuration.mail.to,
+    [configuration.mail.to],
     '🎉 Nouveau Partenaire ' + company.name,
     `
   La société ${company.name} souhaite devenir partenaire ${company.sponsoring}<br>

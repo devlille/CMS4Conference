@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { Company, Configuration, Email } from '../model';
 
 export function getFrom(mail: Email): {
@@ -12,39 +14,28 @@ export function getFrom(mail: Email): {
 }
 
 export function sendEmailToAllContacts(company: Company, emailFactory: { subject: string; body: string }, configuration: Configuration) {
-  let emails = [configuration.mail.cc];
-  if (configuration.mail.enabled) {
-    emails = [...emails, ...company.email];
+  if (!configuration.mail.enabled) {
+    return;
   }
-  return Promise.all(
-    emails.map((email: string) => {
-      return sendEmail(email.trim(), `${emailFactory.subject} (${company.name})`, emailFactory.body, configuration);
-    })
+
+  const emails = Array.isArray(company.email) ? company.email : [company.email];
+
+  return sendEmail(
+    emails.map((m) => m.trim()),
+    `${emailFactory.subject} (${company.name})`,
+    emailFactory.body,
+    configuration
   );
 }
-export function sendEmail(to: string, subject: string, body: string, configuration: Configuration) {
-  const mailjet = configuration.mailjet;
-  const mailjetClient = require('node-mailjet').connect(mailjet.api, mailjet.private);
-  const request = mailjetClient.post('send', { version: 'v3.1' }).request({
-    Messages: [
-      {
-        ...getFrom(configuration.mail),
-        To: [
-          {
-            Email: to
-          }
-        ],
-        Subject: subject,
-        HTMLPart: body,
-        CustomID: 'AppGettingStartedTest'
-      }
-    ]
-  });
-  return request
-    .then((result: { body: string }) => {
-      console.log(result.body);
+export function sendEmail(to: string[], subject: string, body: string, configuration: Configuration) {
+  return axios
+    .post('https://hook.eu2.make.com/kdsvi4rcd8hzdphroyif3ch9udw33xke', {
+      from: configuration.mail.from,
+      to: to,
+      cc: configuration.mail.cc,
+      subject: subject,
+      text: body
     })
-    .catch((err: { statusCode: number }) => {
-      console.log(err);
-    });
+    .then(() => console.log('Email Send'))
+    .catch((err: string) => console.log(err));
 }

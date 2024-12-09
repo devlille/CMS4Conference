@@ -1,6 +1,6 @@
-import { Configuration } from '../../model';
+import { Company, Configuration } from '../../model';
 
-export default ({ sponsoring }: any, id: string, configuration: Configuration) => {
+export default ({ sponsoring }: Company, id: string, configuration: Configuration) => {
   const edition = configuration.convention.edition;
   const address_cms4devfest = `${configuration.hosting.baseurl}/partner/${id}`;
   return {

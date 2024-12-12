@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input, resource, signal } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,8 +23,23 @@ export class SignedComponent {
   readonly company = input.required<Company>();
   readonly id = input.required<string>();
 
-  files = {};
-  isAdmin = false;
+  idSignal = computed(() => this.id as unknown as string);
+  stepSignal = computed(() => this.step as unknown as WorkflowStep);
+  companySignal = computed(() => this.company as unknown as Company);
+  files = resource({
+    request: () => ({ id: this.idSignal() }),
+    loader: ({ request: { id } }) => {
+      return this.storageService.getSignedConvention(id).then((invoice) => {
+        console.log(invoice);
+        return {
+          'Convention signée': invoice
+        };
+      });
+    }
+  });
+
+  choice = '';
+  isAdmin = signal(true);
 
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);
@@ -32,22 +47,14 @@ export class SignedComponent {
 
   ngOnInit() {
     this.auth.onAuthStateChanged((state) => {
-      this.isAdmin = state?.email?.endsWith('@' + environment.emailDomain) ?? false;
+      this.isAdmin.set(state?.email?.endsWith('@' + environment.emailDomain) ?? false);
     });
-
-    if (this.company().conventionSignedUrl) {
-      this.storageService.getSignedConvention(this.id()).then((invoice) => {
-        this.files = {
-          'Convention signée': invoice
-        };
-      });
-    }
   }
 
   updateStatus(status: State) {
-    this.partnerService.update(this.id(), {
+    this.partnerService.update(this.id as unknown as string, {
       status: {
-        ...this.company().status,
+        ...this.companySignal().status,
         [this.step().key]: status
       }
     });
@@ -58,8 +65,8 @@ export class SignedComponent {
   }
 
   uploadConvention(file: Blob) {
-    this.storageService.uploadFile(this.id(), file, 'conventionSigned').then((url) => {
-      this.partnerService.update(this.id(), {
+    this.storageService.uploadFile(this.id as unknown as string, file, 'conventionSigned').then((url) => {
+      this.partnerService.update(this.id as unknown as string, {
         conventionSignedUrl: url
       });
     });

@@ -51,8 +51,8 @@ export const testEmail = functions.https.onRequest(async (req, resp) => {
   resp.send(1);
 });
 
-const relance = (emailFactory: (partner: Record<string, any>, configuration: Configuration) => any, partners: any[], configuration: Configuration) => {
-  partners.forEach((c: any) => {
+const relance = (emailFactory: (partner: Company, configuration: Configuration) => any, partners: Company[], configuration: Configuration) => {
+  partners.forEach((c: Company) => {
     const emailTemplate = emailFactory(c, configuration);
     sendEmailToAllContacts(c, emailTemplate, configuration);
   });

@@ -20,7 +20,7 @@ import { UploadComponent } from '../upload/upload.component';
   selector: 'cms-social',
   imports: [CommonModule, FilesComponent, UploadComponent, MatDividerModule, MatInputModule, FormsModule, MatFormFieldModule, MatButtonModule, MatIconModule, MatCheckboxModule],
   templateUrl: './social.component.html',
-  styleUrls: ['./social.component.scss']
+  styleUrls: ['./social.component.css']
 })
 export class SocialComponent {
   readonly company = input.required<Company>();

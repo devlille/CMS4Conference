@@ -13,8 +13,7 @@ import { FormComponent } from '../form/form.component';
 @Component({
   selector: 'cms-info',
   imports: [CommonModule, FormComponent],
-  templateUrl: './info.component.html',
-  styleUrls: ['./info.component.scss']
+  templateUrl: './info.component.html'
 })
 export class InfoComponent {
   isAdmin = false;

@@ -13,7 +13,7 @@ import { PartnerService } from '../../services/partner.service';
   selector: 'cms-admin-code',
   imports: [CommonModule, FormsModule, MatButtonModule, MatInputModule, MatFormFieldModule, MatIconModule],
   templateUrl: './admin-code.component.html',
-  styleUrls: ['./admin-code.component.scss']
+  styleUrls: ['./admin-code.component.css']
 })
 export class AdminCodeComponent {
   readonly company = input.required<Company>();

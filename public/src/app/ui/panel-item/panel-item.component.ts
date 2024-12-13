@@ -21,8 +21,7 @@ import { SocialComponent } from '../social/social.component';
 @Component({
   selector: 'cms-panel-item',
   imports: [CommonModule],
-  templateUrl: './panel-item.component.html',
-  styleUrls: ['./panel-item.component.scss']
+  templateUrl: './panel-item.component.html'
 })
 export class PanelItemComponent {
   readonly step = input<WorkflowStep>();

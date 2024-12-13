@@ -13,7 +13,7 @@ import { environment } from '../environments/environment';
   selector: 'cms-root',
   imports: [CommonModule, RouterOutlet, RouterLink, MatToolbarModule, MatIconModule, MatButtonModule],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   isLoggedIn: boolean | undefined;

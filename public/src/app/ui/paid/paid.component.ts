@@ -9,7 +9,7 @@ import { FilesComponent } from '../files/files.component';
   selector: 'cms-paid',
   imports: [CommonModule, FilesComponent],
   templateUrl: './paid.component.html',
-  styleUrls: ['./paid.component.scss']
+  styleUrls: ['./paid.component.css']
 })
 export class PaidComponent {
   readonly workflow = input.required<Workflow>();

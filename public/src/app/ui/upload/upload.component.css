@@ -9,11 +9,11 @@
 .container {
   position: relative;
   margin: 0;
+}
 
-  &:hover {
-    .upload-icon {
-      transform: scale(0.9);
-    }
+.container :hover {
+  .upload-icon {
+    transform: scale(0.9);
   }
 }
 
@@ -25,19 +25,19 @@ label {
   height: 50px;
   z-index: 2;
   cursor: pointer;
+}
 
-  .upload-icon {
-    transition: 0.2s;
-    background: #ff4081;
-    height: 50px;
-    width: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    color: #ffffff;
-    float: right;
-  }
+label .upload-icon {
+  transition: 0.2s;
+  background: #ff4081;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #ffffff;
+  float: right;
 }
 
 mat-spinner {

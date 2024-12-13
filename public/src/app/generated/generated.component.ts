@@ -21,7 +21,7 @@ import { UploadComponent } from '../ui/upload/upload.component';
   selector: 'cms-generated',
   imports: [CommonModule, UploadComponent, FilesComponent, MatIconModule, MatButtonModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, AddPipe],
   templateUrl: './generated.component.html',
-  styleUrl: './generated.component.scss'
+  styleUrl: './generated.component.css'
 })
 export class GeneratedComponent {
   readonly workflow = input<Workflow>();

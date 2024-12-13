@@ -16,7 +16,7 @@ import { StorageService } from '../../storage.service';
   selector: 'cms-admin-validated',
   imports: [CommonModule, MatFormFieldModule, FormsModule, MatButtonModule, MatInputModule, MatIconModule, ReactiveFormsModule],
   templateUrl: './admin-validated.component.html',
-  styleUrls: ['./admin-validated.component.scss']
+  styleUrls: ['./admin-validated.component.css']
 })
 export class AdminValidatedComponent {
   readonly workflow = input<Workflow>();

@@ -13,7 +13,7 @@ import { PartnerService } from '../../services/partner.service';
   selector: 'cms-code',
   imports: [CommonModule, MatInputModule, MatFormFieldModule, MatIconModule, MatButtonModule, FormsModule],
   templateUrl: './code.component.html',
-  styleUrls: ['./code.component.scss']
+  styleUrls: ['./code.component.css']
 })
 export class CodeComponent {
   readonly workflow = input.required<Workflow>();

@@ -11,7 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   selector: 'cms-upload',
   imports: [CommonModule, MatProgressSpinnerModule, MatFormFieldModule, MatIconModule, MatButtonModule, MatInputModule, FormsModule],
   templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.scss']
+  styleUrls: ['./upload.component.css']
 })
 export class UploadComponent {
   readonly label = input.required<string | undefined>();

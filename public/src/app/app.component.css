@@ -1,12 +1,10 @@
-.navbar-brand {
-  .navbar-item {
-    font-size: 11px;
-    font-weight: bold;
+.navbar-brand .navbar-item {
+  font-size: 11px;
+  font-weight: bold;
+}
 
-    img {
-      margin-right: 20px;
-    }
-  }
+.navbar-brand .navbar-item img {
+  margin-right: 20px;
 }
 
 @media screen and (max-width: 600px) {

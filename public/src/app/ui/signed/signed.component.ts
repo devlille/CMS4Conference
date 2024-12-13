@@ -14,8 +14,7 @@ import { UploadComponent } from '../upload/upload.component';
 @Component({
   selector: 'cms-signed',
   imports: [CommonModule, UploadComponent, FilesComponent, MatIconModule, MatButtonModule],
-  templateUrl: './signed.component.html',
-  styleUrls: ['./signed.component.scss']
+  templateUrl: './signed.component.html'
 })
 export class SignedComponent {
   readonly workflow = input.required<Workflow>();

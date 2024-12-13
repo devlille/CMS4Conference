@@ -5,6 +5,6 @@ import { Component } from '@angular/core';
   selector: 'cms-loader',
   imports: [CommonModule],
   templateUrl: './loader.component.html',
-  styleUrls: ['./loader.component.scss']
+  styleUrls: ['./loader.component.css']
 })
 export class LoaderComponent {}

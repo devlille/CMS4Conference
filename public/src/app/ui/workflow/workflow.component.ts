@@ -15,8 +15,7 @@ import { PanelItemComponent } from '../panel-item/panel-item.component';
 @Component({
   selector: 'cms-workflow',
   imports: [CommonModule, LoaderComponent, MatExpansionModule, PanelItemComponent],
-  templateUrl: './workflow.component.html',
-  styleUrls: ['./workflow.component.scss']
+  templateUrl: './workflow.component.html'
 })
 export class WorkflowComponent {
   public id: string | undefined | null;

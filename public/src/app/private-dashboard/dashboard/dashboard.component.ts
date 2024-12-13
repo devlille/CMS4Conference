@@ -21,7 +21,7 @@ type FilterByType = PartnerType | 'undefined';
   selector: 'cms-dashboard',
   imports: [CommonModule, MatRadioModule, MatTableModule, FormsModule, MatCardModule, MatButtonModule, MatSortModule, MatButtonToggleModule],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements AfterViewInit {
   readonly sort = viewChild.required(MatSort);

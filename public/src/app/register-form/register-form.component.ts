@@ -11,7 +11,7 @@ import { FormComponent } from '../ui/form/form.component';
   selector: 'cms-register-form',
   imports: [CommonModule, FormComponent, MatCardModule],
   templateUrl: './register-form.component.html',
-  styleUrls: ['./register-form.component.scss']
+  styleUrls: ['./register-form.component.css']
 })
 export class RegisterFormComponent {
   submitted = false;

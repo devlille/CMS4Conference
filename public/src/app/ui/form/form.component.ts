@@ -45,7 +45,7 @@ type Options = Option[];
   selector: 'cms-form',
   imports: [CommonModule, MatInputModule, MatFormFieldModule, ReactiveFormsModule, MatButtonModule, MatCheckboxModule, ClosedFormWarningMessageComponent],
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss']
+  styleUrls: ['./form.component.css']
 })
 export class FormComponent {
   readonly readOnly = input(false);

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { Company, Configuration, Email } from '../model';
+import type { Company, Configuration, Email, EmailContent } from '../model';
 
 export function getFrom(mail: Email): {
   From: { Email: string; Name: string };
@@ -13,7 +13,7 @@ export function getFrom(mail: Email): {
   };
 }
 
-export function sendEmailToAllContacts(company: Company, emailFactory: { subject: string; body: string }, configuration: Configuration) {
+export function sendEmailToAllContacts(company: Company, emailFactory: EmailContent, configuration: Configuration) {
   if (!configuration.mail.enabled) {
     return;
   }

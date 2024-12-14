@@ -5,7 +5,7 @@ import * as functions from 'firebase-functions';
 import relanceConventionSignee from './emails/template/relanceConventionSignee';
 import relanceInformationsComplementaires from './emails/template/relanceInformationsComplementaires';
 import relancePaiement from './emails/template/relancePaiement';
-import { Company, Configuration } from './model';
+import type { Company, Configuration, EmailContent, WorkflowStatus } from './model';
 import { StatusEnum, onDocumentChange } from './utils/document-change';
 import { sendEmail, sendEmailToAllContacts } from './utils/mail';
 import { sendNewPartnerToOrganizationTeam, sendWelcomeEmail } from './v3/domain/email';
@@ -23,7 +23,7 @@ function addCreationDate(id: string) {
     .catch((err) => console.log(err));
 }
 
-function updatesStatus(id: string, company: any, status: any) {
+function updatesStatus(id: string, company: Company, status: WorkflowStatus) {
   return firestore
     .doc('companies-2025/' + id)
     .update({
@@ -51,7 +51,7 @@ export const testEmail = functions.https.onRequest(async (req, resp) => {
   resp.send(1);
 });
 
-const relance = (emailFactory: (partner: Company, configuration: Configuration) => any, partners: Company[], configuration: Configuration) => {
+const relance = (emailFactory: (partner: Company, configuration: Configuration) => EmailContent, partners: Company[], configuration: Configuration) => {
   partners.forEach((c: Company) => {
     const emailTemplate = emailFactory(c, configuration);
     sendEmailToAllContacts(c, emailTemplate, configuration);

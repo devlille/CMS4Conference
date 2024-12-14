@@ -1,5 +1,7 @@
 import { Timestamp } from 'firebase-admin/firestore';
 
+export type EmailContent = { subject: string; body: string };
+
 export type Convention = {
   edition: string;
   startdate: string;

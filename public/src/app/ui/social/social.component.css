@@ -3,6 +3,7 @@
   display: flex;
   gap: 2em;
 }
+
 .social-container .social-container-row > * {
   flex: 0 0 50%;
 }
@@ -10,6 +11,7 @@
 .social-container .social-container-row div > * {
   margin-top: 1em;
 }
+
 .social-fields {
   display: flex;
   flex-direction: column;

@@ -10,7 +10,8 @@
   position: relative;
   margin: 0 auto;
   width: 100px;
-  &:before {
+
+  &::before {
     content: '';
     display: block;
     padding-top: 100%;
@@ -23,10 +24,7 @@
   transform-origin: center center;
   width: 100%;
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: 0;
   margin: auto;
 }
 
@@ -50,10 +48,12 @@
     stroke-dasharray: 1, 200;
     stroke-dashoffset: 0;
   }
+
   50% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -35px;
   }
+
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -124px;
@@ -65,12 +65,15 @@
   0% {
     stroke: #d62d20;
   }
+
   40% {
     stroke: #0057e7;
   }
+
   66% {
     stroke: #008744;
   }
+
   80%,
   90% {
     stroke: #ffa700;

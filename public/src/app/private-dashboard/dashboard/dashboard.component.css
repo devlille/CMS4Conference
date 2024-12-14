@@ -15,6 +15,7 @@ tr.need-some-work {
 mat-button-toggle-group {
   display: flex;
   margin-bottom: 1em;
+
   mat-button-toggle {
     flex: 1;
   }

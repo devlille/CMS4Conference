@@ -7,11 +7,6 @@
   margin-right: 20px;
 }
 
-@media screen and (max-width: 600px) {
-  #logout {
-    display: none;
-  }
-}
 .example-spacer {
   flex: 1 1 auto;
 }

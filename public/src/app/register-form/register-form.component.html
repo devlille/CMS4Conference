@@ -8,5 +8,7 @@
   </mat-card>
 }
 @if (!submitted) {
-  <cms-form (submitEvent)="createPartner($event)"></cms-form>
+  <div id="container">
+    <cms-form (submitEvent)="createPartner($event)"></cms-form>
+  </div>
 }

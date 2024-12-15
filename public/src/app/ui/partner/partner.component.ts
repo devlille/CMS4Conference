@@ -19,7 +19,14 @@ import { WorkflowComponent } from '../workflow/workflow.component';
 @Component({
   selector: 'cms-partner',
   imports: [CommonModule, MatTabsModule, RouterModule, LoaderComponent, InfoComponent, WorkflowComponent, MatCardModule, MatButtonModule, AllFilesComponent],
-  templateUrl: './partner.component.html'
+  templateUrl: './partner.component.html',
+  styles: `
+    :host {
+      display: block;
+      width: 70%;
+      margin: auto;
+    }
+  `
 })
 export class PartnerComponent {
   partner$: Observable<Company> | undefined;

@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, AfterViewInit, signal, computed, viewChild, linkedSignal } from '@angular/core';
+import { AfterViewInit, Component, computed, inject, linkedSignal, signal, viewChild } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { Functions, httpsCallable } from '@angular/fire/functions';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -19,7 +21,7 @@ type FilterByType = PartnerType | 'undefined';
 
 @Component({
   selector: 'cms-dashboard',
-  imports: [CommonModule, MatRadioModule, MatTableModule, FormsModule, MatCardModule, MatButtonModule, MatSortModule, MatButtonToggleModule],
+  imports: [MatCheckboxModule, MatExpansionModule, CommonModule, MatRadioModule, MatTableModule, FormsModule, MatCardModule, MatButtonModule, MatSortModule, MatButtonToggleModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -32,7 +34,7 @@ export class DashboardComponent implements AfterViewInit {
   filterByStatus: { value: FilterValueType; label: string }[] = [];
 
   originalPartners = signal<Partial<Company>[]>([]);
-  filterByStatusValue = signal<FilterValueType[]>(['validated', 'generated', 'sign', 'paid', 'received', 'communicated', 'code']);
+  filterByStatusValue = signal<FilterValueType[]>([]);
 
   shouldDisplayRelanceButton = linkedSignal(() => {
     const status = this.filterByStatusValue();
@@ -42,7 +44,10 @@ export class DashboardComponent implements AfterViewInit {
 
   filteredPartnersByStatus = linkedSignal(() => {
     const status = this.filterByStatusValue();
-    console.log(this.originalPartners(), status);
+    console.log(
+      { status, partners: this.originalPartners() },
+      this.originalPartners().filter((partner) => status.find((v) => !!partner.status && partner.status[v] === 'pending'))
+    );
 
     return this.originalPartners().filter((partner) => status.find((v) => !!partner.status && partner.status[v] === 'pending'));
   });
@@ -50,9 +55,7 @@ export class DashboardComponent implements AfterViewInit {
   filteredPartnersByStatusAndPacks = linkedSignal(() => {
     const packs = this.filterByPackValue();
 
-    console.log(packs, this.filteredPartnersByStatus());
     return this.filteredPartnersByStatus().filter((partner) => {
-      console.log(partner.sponsoring);
       if (!partner.sponsoring) {
         return false;
       }
@@ -62,9 +65,7 @@ export class DashboardComponent implements AfterViewInit {
 
   filteredPartners = computed(() => {
     const types = this.filterByTypeValue();
-    console.log(types, this.filteredPartnersByStatusAndPacks());
     return this.filteredPartnersByStatusAndPacks().filter((partner) => {
-      console.log({ partner });
       return types.indexOf(partner.type!) >= 0 || (!partner.type && types.indexOf('undefined') >= 0);
     });
   });
@@ -72,7 +73,6 @@ export class DashboardComponent implements AfterViewInit {
   dataSource = linkedSignal(() => {
     const dataSource = new MatTableDataSource(this.filteredPartners());
     dataSource.sort = this.sort();
-    console.log({ dataSource });
     return dataSource;
   });
 
@@ -109,10 +109,15 @@ export class DashboardComponent implements AfterViewInit {
     }
     return values.filter((value) => filterByPackSelected.includes(value));
   });
-  filterByPackSelected = signal<FilterByPackValueType[] | undefined>(undefined);
+  filterByPackSelected = signal<FilterByPackValueType[]>([]);
 
-  filterByPackHandler(pack: FilterByPackValueType[]) {
-    this.filterByPackSelected.set(pack);
+  filterByPackHandler(value: FilterByPackValueType) {
+    const isPresent = !!this.filterByPackSelected().find((a) => a === value);
+    if (!isPresent) {
+      this.filterByPackSelected.set([...this.filterByPackSelected(), value]);
+    } else {
+      this.filterByPackSelected.set([...this.filterByPackSelected().filter((e) => e !== value)]);
+    }
   }
 
   filterByType = linkedSignal(() => {
@@ -166,7 +171,6 @@ export class DashboardComponent implements AfterViewInit {
     this.partnerService.getCurrentConfiguration().then((config) => this.configuration.set(config));
 
     this.partnerService.getAll().subscribe((partners) => {
-      console.log(partners);
       this.originalPartners.set(
         partners.map((partners) => ({
           ...partners,
@@ -224,12 +228,22 @@ export class DashboardComponent implements AfterViewInit {
     ];
   }
 
-  filterByStatusValueHandler(values: FilterValueType[]) {
-    this.filterByStatusValue.set(values);
+  filterByStatusValueHandler(values: FilterValueType) {
+    const isPresent = !!this.filterByStatusValue().find((a) => a === values);
+    if (!isPresent) {
+      this.filterByStatusValue.set([...this.filterByStatusValue(), values]);
+    } else {
+      this.filterByStatusValue.set([...this.filterByStatusValue().filter((e) => e !== values)]);
+    }
   }
 
-  filterByTypeHandler(type: FilterByType[]) {
-    this.filterByTypeValue.set(type);
+  filterByTypeHandler(value: any) {
+    const isPresent = !!this.filterByTypeValue().find((a) => a === value);
+    if (!isPresent) {
+      this.filterByTypeValue.set([...this.filterByTypeValue(), value]);
+    } else {
+      this.filterByTypeValue.set([...this.filterByTypeValue().filter((e) => e !== value)]);
+    }
   }
 
   copyEmails() {

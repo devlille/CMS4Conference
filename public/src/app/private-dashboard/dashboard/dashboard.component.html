@@ -1,64 +1,74 @@
-<mat-card>
-  <mat-card-title>Filter</mat-card-title>
-  <p>Par Statut</p>
-  <mat-button-toggle-group [ngModel]="filterByStatusValue()" (ngModelChange)="filterByStatusValueHandler($event)" multiple>
-    @for (option of filterByStatus; track option) {
-      <mat-button-toggle [value]="option.value">{{ option.label }}</mat-button-toggle>
+<div id="container">
+  <div id="filters">
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Par Statut </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      @for (option of filterByStatus; track option) {
+        <mat-checkbox (change)="filterByStatusValueHandler(option.value)">{{ option.label }}</mat-checkbox>
+      }
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Par Pack </mat-panel-title>
+      </mat-expansion-panel-header>
+      @for (option of packOptions(); track option) {
+        <mat-checkbox (change)="filterByPackHandler(option.value)">{{ option.label }}</mat-checkbox>
+      }
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Par Type </mat-panel-title>
+      </mat-expansion-panel-header>
+      @for (option of filterByType(); track option) {
+        <mat-checkbox (change)="filterByTypeHandler(option.value)">{{ option.label }}</mat-checkbox>
+      }
+    </mat-expansion-panel>
+  </div>
+
+  <div id="main">
+    <button type="button" id="copy" (click)="copyEmails()" mat-raised-button color="primary">Copier les emails des sociétés affichées</button>
+
+    <button id="public" type="button" mat-raised-button color="primary" (click)="changeVisibility()">Inverser la visibilité du formulaire</button>
+
+    @if (shouldDisplayRelanceButton()) {
+      <button id="relance" type="button" mat-raised-button color="primary" (click)="relance()">Relancer ces partenaires</button>
     }
-  </mat-button-toggle-group>
 
-  <p>Par Pack</p>
-  <mat-button-toggle-group multiple [ngModel]="filterByPackValue()" (ngModelChange)="filterByPackHandler($event)">
-    @for (option of packOptions(); track option) {
-      <mat-button-toggle [value]="option.value">{{ option.label }}</mat-button-toggle>
-    }
-  </mat-button-toggle-group>
+    <table matSort mat-table [dataSource]="dataSource()" class="mat-elevation-z8 full-width">
+      <ng-container matColumnDef="creationDate">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Date Enregistrement</th>
+        <td mat-cell *matCellDef="let element">{{ element.formattedDate }}</td>
+      </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Nom</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
 
-  <p>Par Type</p>
-  <mat-button-toggle-group multiple [ngModel]="filterByTypeValue()" (ngModelChange)="filterByTypeHandler($event)">
-    @for (option of filterByType(); track option) {
-      <mat-button-toggle [value]="option.value">{{ option.label }}</mat-button-toggle>
-    }
-  </mat-button-toggle-group>
-</mat-card>
+      <!-- Weight Column -->
+      <ng-container matColumnDef="sponsoring">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Sponsoring</th>
+        <td mat-cell *matCellDef="let element">{{ element.sponsoring }}</td>
+      </ng-container>
+      <ng-container matColumnDef="secondSponsoring">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>2e Sponsoring</th>
+        <td mat-cell *matCellDef="let element">{{ element.secondSponsoring }}</td>
+      </ng-container>
 
-<button type="button" id="copy" (click)="copyEmails()" mat-raised-button color="primary">Copier les emails des sociétés affichées</button>
-
-<button id="public" type="button" mat-raised-button color="primary" (click)="changeVisibility()">Inverser la visibilité du formulaire</button>
-
-@if (shouldDisplayRelanceButton()) {
-  <button id="relance" type="button" mat-raised-button color="primary" (click)="relance()">Relancer ces partenaires</button>
-}
-
-<table matSort mat-table [dataSource]="dataSource()" class="mat-elevation-z8 full-width">
-  <ng-container matColumnDef="creationDate">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>Date Enregistrement</th>
-    <td mat-cell *matCellDef="let element">{{ element.formattedDate }}</td>
-  </ng-container>
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>Nom</th>
-    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-  </ng-container>
-
-  <!-- Weight Column -->
-  <ng-container matColumnDef="sponsoring">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>Sponsoring</th>
-    <td mat-cell *matCellDef="let element">{{ element.sponsoring }}</td>
-  </ng-container>
-  <ng-container matColumnDef="secondSponsoring">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>2e Sponsoring</th>
-    <td mat-cell *matCellDef="let element">{{ element.secondSponsoring }}</td>
-  </ng-container>
-
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="action">
-    <th mat-header-cell *matHeaderCellDef>Action</th>
-    <td mat-cell *matCellDef="let element">
-      <a [href]="'/admin/partner/' + element.id" mat-button color="primary"> Modifier </a>
-      <button (click)="archive(element.id)" mat-button color="warn">Archiver</button>
-    </td>
-  </ng-container>
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr [ngClass]="{ 'need-some-work': row.needAction }" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-</table>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <a [href]="'/admin/partner/' + element.id" mat-button color="primary"> Modifier </a>
+          <button (click)="archive(element.id)" mat-button color="warn">Archiver</button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr [ngClass]="{ 'need-some-work': row.needAction }" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

@@ -80,6 +80,7 @@ export interface WorkflowStatus {
 export type State = 'disabled' | 'enabled' | 'pending' | 'done' | 'refused' | 'retry';
 
 export interface Company {
+  public: boolean;
   archived?: boolean;
   billetWebDone?: boolean;
   billetWebUrl?: string;

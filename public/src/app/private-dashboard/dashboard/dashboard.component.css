@@ -1,3 +1,18 @@
+#container {
+  flex-direction: row;
+  display: flex;
+  width: 100%;
+  gap: 1em;
+}
+
+#filters {
+  width: 33%;
+}
+
+#main {
+  width: 66%;
+}
+
 mat-radio-button {
   margin-right: 1em;
 }

@@ -1,11 +1,12 @@
 import { Storage } from '@google-cloud/storage';
 
+import { Company } from '../model';
 import { getAddress } from '../utils/gmap';
 import { generate } from '../utils/image-resizing';
 import { update, remove } from './firestore-dao';
 import { save } from './storage-dao';
 
-export async function saveCompany(firestore: FirebaseFirestore.Firestore, storage: Storage, companyId: string, event: any, context: any) {
+export async function saveCompany(firestore: FirebaseFirestore.Firestore, storage: Storage, companyId: string, event: Company, context: any) {
   if (event.public == false) {
     console.log("The partner isn't public.");
     return;
@@ -14,7 +15,7 @@ export async function saveCompany(firestore: FirebaseFirestore.Firestore, storag
     console.log(`Partner is registered for another edition (${context.year}).`);
     return;
   }
-  if (event.status.paid != 'done') {
+  if (event.status?.paid != 'done') {
     console.log("Partner didn't paid yet.");
     return;
   }

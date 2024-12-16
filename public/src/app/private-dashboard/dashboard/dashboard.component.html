@@ -1,33 +1,5 @@
 <div id="container">
-  <div id="filters">
-    <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Par Statut </mat-panel-title>
-      </mat-expansion-panel-header>
-
-      @for (option of filterByStatus; track option) {
-        <mat-checkbox (change)="filterByStatusValueHandler(option.value)">{{ option.label }}</mat-checkbox>
-      }
-    </mat-expansion-panel>
-
-    <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Par Pack </mat-panel-title>
-      </mat-expansion-panel-header>
-      @for (option of packOptions(); track option) {
-        <mat-checkbox (change)="filterByPackHandler(option.value)">{{ option.label }}</mat-checkbox>
-      }
-    </mat-expansion-panel>
-
-    <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Par Type </mat-panel-title>
-      </mat-expansion-panel-header>
-      @for (option of filterByType(); track option) {
-        <mat-checkbox (change)="filterByTypeHandler(option.value)">{{ option.label }}</mat-checkbox>
-      }
-    </mat-expansion-panel>
-  </div>
+  <cms-dashboard-filter [model]="value()" (modelChange)="onFilterChange($event)"></cms-dashboard-filter>
 
   <div id="main">
     <button type="button" id="copy" (click)="copyEmails()" mat-raised-button color="primary">Copier les emails des sociétés affichées</button>

@@ -21,8 +21,8 @@ export enum StatusEnum {
 export async function onDocumentChange(firestore: FirebaseFirestore.Firestore, before: Company, after: Company, id: string, configuration: Configuration) {
   const document = firestore.doc('companies-2025/' + id);
   console.log(`onDocumentChange ${id}: ${JSON.stringify(before.status)} -> ${JSON.stringify(after.status)}`);
-  const status = after.status!;
-  const beforeStatus = before.status!;
+  const status = after.status ?? {};
+  const beforeStatus = before.status ?? {};
   if (status.generated === StatusEnum.PENDING) {
     if (!!after.address && !!after.zipCode && !!after.city && !!after.siret && !!after.representant && !!after.role) {
       return document.update({

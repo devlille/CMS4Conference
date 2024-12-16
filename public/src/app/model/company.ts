@@ -20,7 +20,11 @@ export type Configuration = SponsoringType & {
   sponsoringOptions?: SponsoringOption[];
 } & z.infer<typeof ZodConfiguration>;
 
-export type SponsoringOption = { key: string; label: string; price: number };
+export interface SponsoringOption {
+  key: string;
+  label: string;
+  price: number;
+}
 export interface Workflow {
   id: number;
   steps: WorkflowStep[];

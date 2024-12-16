@@ -1,6 +1,6 @@
-import { Configuration } from '../../model';
+import { Company, Configuration } from '../../model';
 
-export default (partner: Record<string, unknown>, configuration: Configuration) => {
+export default (partner: Company, configuration: Configuration) => {
   return {
     subject: `Partenariat ${configuration.gdg.event} ${configuration.convention.edition}: Relance Paiement`,
     body: `

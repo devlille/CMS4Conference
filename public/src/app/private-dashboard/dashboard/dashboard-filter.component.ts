@@ -4,15 +4,18 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
 type FilterValueType = 'sign' | 'generated' | 'validated' | 'paid' | 'received' | 'communicated' | 'code';
 
-type Option = { value: FilterValueType | string; label: string };
+interface Option {
+  value: FilterValueType | string;
+  label: string;
+}
 type Options = Option[];
 type OptionWithChecked = Option & { checked: boolean };
 
-export type Search = {
+export interface Search {
   status: string[];
   packs: string[];
   types: string[];
-};
+}
 
 const PackOptions: Options = [
   { value: 'bronze', label: `Bronze` },

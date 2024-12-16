@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, computed, inject, linkedSignal, signal, viewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, inject, linkedSignal, signal, viewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Timestamp } from '@angular/fire/firestore';
 import { Functions, httpsCallable } from '@angular/fire/functions';
 import { FormsModule } from '@angular/forms';
@@ -11,10 +12,17 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Company, Configuration, WorkflowStatus } from '../../model/company';
 import { PartnerService } from '../../services/partner.service';
 import { DashboardFilterComponent, Search } from './dashboard-filter.component';
+
+const DefaultSearchValue = {
+  status: ['sign', 'generated', 'validated', 'paid', 'received', 'communicated', 'code'],
+  packs: ['bronze', 'silver', 'gold', 'party'],
+  types: ['esn', 'other', 'undefined']
+};
 
 @Component({
   selector: 'cms-dashboard',
@@ -35,12 +43,35 @@ import { DashboardFilterComponent, Search } from './dashboard-filter.component';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements AfterViewInit {
-  value = signal<Search>({
-    status: ['sign', 'generated', 'validated', 'paid', 'received', 'communicated', 'code'],
-    packs: ['bronze', 'silver', 'gold', 'party'],
-    types: ['esn', 'other', 'undefined']
+  private readonly partnerService: PartnerService = inject(PartnerService);
+  private readonly functions: Functions = inject(Functions);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+
+  private readonly queryParameters = toSignal(this.route.queryParams);
+
+  value = linkedSignal<Search>(() => {
+    const queryParameterValues = this.queryParameters();
+    if (queryParameterValues && Object.keys(queryParameterValues).length > 0) {
+      return {
+        status: queryParameterValues['status']?.split(',') ?? [],
+        packs: queryParameterValues['packs']?.split(',') ?? [],
+        types: queryParameterValues['types']?.split(',') ?? []
+      };
+    }
+    return DefaultSearchValue;
   });
 
+  syncParams = effect(() => {
+    this.router.navigate([], {
+      queryParams: {
+        status: this.value().status?.join(','),
+        packs: this.value().packs?.join(','),
+        types: this.value().types?.join(',')
+      },
+      queryParamsHandling: 'merge'
+    });
+  });
   readonly sort = viewChild.required(MatSort);
 
   onFilterChange = (search: Search) => {
@@ -74,9 +105,6 @@ export class DashboardComponent implements AfterViewInit {
     dataSource.sort = this.sort();
     return dataSource;
   });
-
-  private readonly partnerService: PartnerService = inject(PartnerService);
-  private readonly functions: Functions = inject(Functions);
 
   async relance() {
     const status = this.value().status;

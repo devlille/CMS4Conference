@@ -7,7 +7,7 @@ import { Configuration } from '../../model';
 export const sendToWebhooks = async (configuration: Configuration, changes: Change<QueryDocumentSnapshot>) => {
   const length = configuration.webhooks?.length ?? 0;
   if (length > 0) {
-    for (const webhook of configuration.webhooks!) {
+    for (const webhook of configuration.webhooks ?? []) {
       console.log(`Sending to webhook ${webhook} information about ${changes.after.data().name}`);
       await axios.post(webhook, {
         id: changes.after.id,

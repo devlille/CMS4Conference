@@ -71,6 +71,7 @@ function generateFile(company: Company, fileName: string, fileModule: { default:
       PO: company.PO,
       SPONSORING_TEXT,
       SPONSORING_NUMBER: total,
+      INSTALLATION_DATE: configuration.convention.installationdate,
       START_DATE: configuration.convention.startdate,
       END_DATE: configuration.convention.enddate,
       DATE,

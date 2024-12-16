@@ -1,18 +1,22 @@
 import { Timestamp } from 'firebase-admin/firestore';
 
-export type EmailContent = { subject: string; body: string };
+export interface EmailContent {
+  subject: string;
+  body: string;
+}
 
-export type Convention = {
+export interface Convention {
   edition: string;
   startdate: string;
   enddate: string;
-};
+  installationdate: string;
+}
 
-export type Hosting = {
+export interface Hosting {
   baseurl: string;
-};
+}
 
-export type Association = {
+export interface Association {
   address: string;
   zipcode: string;
   city: string;
@@ -20,9 +24,9 @@ export type Association = {
   tel: string;
   accountantemail: string;
   website: string;
-};
+}
 
-export type Email = {
+export interface Email {
   mailgun: string;
   mailgun_email: 'mailgun@sandbox07d5e9881cce48d691889e3818d67885.mailgun.org';
   enabled: string;
@@ -31,15 +35,15 @@ export type Email = {
   from: string;
   fromname: string;
   cc: string;
-};
+}
 
-export type Mailjet = {
+export interface Mailjet {
   api: string;
   private: string;
-};
+}
 
 export type SponsoringType = Record<string, number>;
-export type SponsorshipConfiguration = {
+export interface SponsorshipConfiguration {
   freeTickets: number;
   name: string;
   price: number;
@@ -47,7 +51,7 @@ export type SponsorshipConfiguration = {
   considerations: string[];
   considerationsEn: string[];
   hasBooth: boolean;
-};
+}
 
 export type Configuration = SponsoringType & {
   next_value: string;
@@ -63,7 +67,10 @@ export type Configuration = SponsoringType & {
   template_folder: string;
 };
 
-export type SponsoringOption = { label: string; price: number };
+export interface SponsoringOption {
+  label: string;
+  price: number;
+}
 export type SponsoringOptions = SponsoringOption[];
 
 export interface WorkflowStatus {

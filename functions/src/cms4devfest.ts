@@ -62,21 +62,21 @@ export const relancePartnaireConventionASigner = functions.https.onCall(async ()
   const configuration = await getConfiguration(firestore);
   const data = await firestore.collection('companies-2025').get();
   const partners = data.docs.map((d) => d.data()).filter((p) => p.status.sign === StatusEnum.PENDING);
-  relance(relanceConventionSignee, partners, configuration);
+  relance(relanceConventionSignee, partners as Company[], configuration);
 });
 
 export const relancePartnaireFacture = functions.https.onCall(async () => {
   const configuration = await getConfiguration(firestore);
   const data = await firestore.collection('companies-2025').get();
   const partners = data.docs.map((d) => d.data()).filter((p) => p.status.paid === StatusEnum.PENDING);
-  relance(relancePaiement, partners, configuration);
+  relance(relancePaiement, partners as Company[], configuration);
 });
 
 export const relanceInformationPourGeneration = functions.https.onCall(async () => {
   const configuration = await getConfiguration(firestore);
   const data = await firestore.collection('companies-2025').get();
   const partners = data.docs.map((d) => d.data()).filter((p) => p.status.generated === StatusEnum.PENDING);
-  relance(relanceInformationsComplementaires, partners, configuration);
+  relance(relanceInformationsComplementaires, partners as Company[], configuration);
 });
 
 export const newPartner = functions.firestore.document('companies-2025/{companyId}').onCreate(async (snap) => {

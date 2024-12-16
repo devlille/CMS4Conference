@@ -34,7 +34,7 @@ ${configuration.mail.signature} ${configuration.convention.edition}
 });
 
 export default (company: Company, configuration: Configuration) => {
-  const billetWebUrl = company.billetWebUrl!;
+  const billetWebUrl = company.billetWebUrl ?? '';
   if (company.sponsoring === 'Platinium' || company.sponsoring === 'Gold' || company.sponsoring === 'Silver') {
     return generateEmailForSponsorWithStand(billetWebUrl, configuration);
   }

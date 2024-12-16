@@ -42,7 +42,7 @@ As indicated in the invoice, here are the Banking Information of the association
 - BIC QNTOFRP1XXX
 
 <% if (HAS_BOOTH === 'true') { %>
-The Partner is committed to install its stand on June, the 5th. A security team will be present the night in the exhibition room.
+The Partner is committed to install its stand on <%= INSTALLATION_DATE %>. A security team will be present the night in the exhibition room.
 <% } %>
 
 

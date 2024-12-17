@@ -10,6 +10,10 @@
       <button id="relance" type="button" mat-raised-button color="primary" (click)="relance()">Relancer ces partenaires</button>
     }
 
+    <mat-card appearance="outlined">
+      <mat-card-content>Il y a {{ filteredPartners().length }} partenaires dans cette liste </mat-card-content>
+    </mat-card>
+
     <table matSort mat-table [dataSource]="dataSource()" class="mat-elevation-z8 full-width">
       <ng-container matColumnDef="creationDate">
         <th mat-header-cell mat-sort-header *matHeaderCellDef>Date Enregistrement</th>

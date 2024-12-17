@@ -15,7 +15,6 @@ export default [
       '@typescript-eslint/no-require-imports': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-inferrable-types': 'off',
-      '@typescript-eslint/no-extraneous-class': 'off',
       '@typescript-eslint/no-confusing-non-null-assertion': 'off',
       '@typescript-eslint/no-empty-function': 'off'
     }

@@ -1,7 +1,7 @@
-@if (company().invoiceUrl) {
+@if (companySignal().invoiceUrl) {
   <cms-files [files]="files"></cms-files>
 }
-@if (company().status?.[step().key] !== 'done') {
+@if (companySignal().status?.[stepSignal().key] !== 'done') {
   <div class="inline-bloc">
     <button mat-raised-button color="primary" (click)="setDone()">
       <mat-icon>done</mat-icon>

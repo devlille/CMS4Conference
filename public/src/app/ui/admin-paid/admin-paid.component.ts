@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -21,11 +21,15 @@ export class AdminPaidComponent {
   readonly id = input.required<string>();
   files = {};
 
+  idSignal = computed(() => this.id as unknown as string);
+  stepSignal = computed(() => this.step as unknown as WorkflowStep);
+  companySignal = computed(() => this.company as unknown as Company);
+
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);
 
   ngOnInit() {
-    this.storageService.getInvoice(this.id()).then((invoice) => {
+    this.storageService.getInvoice(this.idSignal()).then((invoice) => {
       this.files = {
         Facture: invoice
       };
@@ -33,10 +37,10 @@ export class AdminPaidComponent {
   }
 
   updateStatus(status: State) {
-    this.partnerService.update(this.id(), {
+    this.partnerService.update(this.idSignal(), {
       status: {
-        ...this.company().status,
-        [this.step().key]: status
+        ...this.companySignal().status,
+        [this.stepSignal().key]: status
       }
     });
   }
@@ -47,8 +51,8 @@ export class AdminPaidComponent {
     this.updateStatus('done');
   }
   uploadInvoice(file: Blob) {
-    this.storageService.uploadInvoice(this.id(), file).then((url) => {
-      this.partnerService.update(this.id(), {
+    this.storageService.uploadInvoice(this.idSignal(), file).then((url) => {
+      this.partnerService.update(this.idSignal(), {
         invoiceUrl: url
       });
     });

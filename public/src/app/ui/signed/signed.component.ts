@@ -54,7 +54,7 @@ export class SignedComponent {
     this.partnerService.update(this.id as unknown as string, {
       status: {
         ...this.companySignal().status,
-        [this.step().key]: status
+        [this.stepSignal().key]: status
       }
     });
   }

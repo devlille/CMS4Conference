@@ -21,8 +21,8 @@ export class WorkflowComponent {
   public id: string | undefined | null;
   public workflow: Workflow | undefined;
   public partner: Company | undefined;
-  public isLoading: boolean = true;
-  public isAdmin: boolean = false;
+  public isLoading = true;
+  public isAdmin = false;
 
   private readonly route = inject(ActivatedRoute);
   private readonly partnerStore = inject(StoreService);

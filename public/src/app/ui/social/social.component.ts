@@ -27,7 +27,7 @@ export class SocialComponent {
   readonly id = input.required<string>();
   readonly step = input.required<WorkflowStep>();
   files = {};
-  isAdmin: boolean = false;
+  isAdmin = false;
 
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);

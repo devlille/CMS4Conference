@@ -30,7 +30,7 @@ import { WorkflowComponent } from '../workflow/workflow.component';
 })
 export class PartnerComponent {
   partner$: Observable<Company> | undefined;
-  isLoading: boolean = true;
+  isLoading = true;
   isAdmin = false;
   partner: Company | undefined;
 

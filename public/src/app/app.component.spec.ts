@@ -4,7 +4,7 @@ import { Auth } from '@angular/fire/auth';
 import { AppComponent } from './app.component';
 
 const MockAuth = {
-  onAuthStateChanged: () => {}
+  onAuthStateChanged: jest.fn()
 };
 
 describe('AppComponent', () => {

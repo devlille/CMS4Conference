@@ -39,9 +39,9 @@ export const getAllPublicSponsors = functions.https.onRequest(async (req, resp) 
   const partners = data.docs
     .map((d) => ({
       id: d.id,
-      ...d.data()
+      ...(d.data() as Company)
     }))
-    .filter((p: any) => p.status.paid === StatusEnum.DONE && p.public && !!p.siteUrl && !!p.logoUrl);
+    .filter((p: Company) => p.status?.paid === StatusEnum.DONE && p.public && !!p.siteUrl && !!p.logoUrl);
   resp.send(partners);
 });
 

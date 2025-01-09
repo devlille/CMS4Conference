@@ -51,7 +51,7 @@ export class SignedComponent {
   }
 
   updateStatus(status: State) {
-    this.partnerService.update(this.id as unknown as string, {
+    this.partnerService.update(this.idSignal(), {
       status: {
         ...this.companySignal().status,
         [this.stepSignal().key]: status
@@ -64,8 +64,8 @@ export class SignedComponent {
   }
 
   uploadConvention(file: Blob) {
-    this.storageService.uploadFile(this.id as unknown as string, file, 'conventionSigned').then((url) => {
-      this.partnerService.update(this.id as unknown as string, {
+    this.storageService.uploadFile(this.idSignal() as unknown as string, file, 'conventionSigned').then((url) => {
+      this.partnerService.update(this.idSignal() as unknown as string, {
         conventionSignedUrl: url
       });
     });

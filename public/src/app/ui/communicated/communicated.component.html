@@ -1,19 +1,19 @@
-@if (company().status?.communicated === 'pending') {
+@if (companySignal().status?.communicated === 'pending') {
   <p>
     L'équipe est en train de programmer la communication sur les réseaux sociaux.
-    @if (company().publicationDate) {
+    @if (companySignal().publicationDate) {
       La date de publication est prévue pour le
-      {{ company().publicationDate | date }}
+      {{ companySignal().publicationDate | date }}
     }
   </p>
 }
-@if (company().status?.communicated === 'done') {
+@if (companySignal().status?.communicated === 'done') {
   <p>
     L'équipe a publié la communication sur les réseaux sociaux le
-    {{ company().publicationDate | date }}
+    {{ companySignal().publicationDate | date }}
   </p>
 }
 
-@if (company().flyerUrl) {
-  <cms-files [files]="files"></cms-files>
+@if (companySignal().flyerUrl) {
+  <cms-files [files]="files()"></cms-files>
 }

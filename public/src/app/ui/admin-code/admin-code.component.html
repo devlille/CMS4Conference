@@ -1,31 +1,31 @@
 <div class="inline-bloc">
   <mat-form-field appearance="fill">
     <mat-label>URL Billetweb</mat-label>
-    <input matInput type="text" [(ngModel)]="company().billetWebUrl" />
+    <input matInput type="text" [(ngModel)]="companySignal().billetWebUrl" />
   </mat-form-field>
 </div>
 <div class="inline-bloc">
   <mat-form-field appearance="fill">
     <mat-label>Identifiant WeLoveDevs</mat-label>
-    <input matInput type="text" [(ngModel)]="company().wldId" />
+    <input matInput type="text" [(ngModel)]="companySignal().wldId" />
   </mat-form-field>
 </div>
 <div class="inline-bloc">
   <mat-form-field appearance="fill">
     <mat-label>Activités sur le Stand</mat-label>
-    <textarea [(ngModel)]="company().activities" matInput maxlength="280"></textarea>
+    <textarea [(ngModel)]="companySignal().activities" matInput maxlength="280"></textarea>
   </mat-form-field>
 </div>
 <div class="inline-bloc">
   <mat-form-field appearance="fill">
     <mat-label>Heure d'arrivée pour l'installation du Stand</mat-label>
-    <textarea matInput [(ngModel)]="company().standInstallationTime"></textarea>
+    <textarea matInput [(ngModel)]="companySignal().standInstallationTime"></textarea>
   </mat-form-field>
 </div>
 <div class="inline-bloc">
   <mat-form-field appearance="fill">
     <mat-label>Numéro de téléphone de la personne en charge de l'installation</mat-label>
-    <textarea matInput [(ngModel)]="company().standPhoneNumber"></textarea>
+    <textarea matInput [(ngModel)]="companySignal().standPhoneNumber"></textarea>
   </mat-form-field>
 </div>
 <div class="inline-bloc">

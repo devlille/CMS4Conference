@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,19 +20,23 @@ export class AdminCodeComponent {
   readonly id = input.required<string>();
   readonly step = input.required<WorkflowStep>();
 
+  idSignal = computed(() => this.id as unknown as string);
+  stepSignal = computed(() => this.step as unknown as WorkflowStep);
+  companySignal = computed(() => this.company as unknown as Company);
+
   private readonly partnerService = inject(PartnerService);
 
   updateBilletwebUrl() {
-    this.partnerService.update(this.id(), {
-      billetWebUrl: this.company().billetWebUrl ?? '',
-      wldId: this.company().wldId ?? '',
-      standInstallationTime: this.company().standInstallationTime,
-      standPhoneNumber: this.company().standPhoneNumber
+    this.partnerService.update(this.idSignal(), {
+      billetWebUrl: this.companySignal().billetWebUrl ?? '',
+      wldId: this.companySignal().wldId ?? '',
+      standInstallationTime: this.companySignal().standInstallationTime,
+      standPhoneNumber: this.companySignal().standPhoneNumber
     });
   }
 
   updateBilletwebDone() {
-    this.partnerService.update(this.id(), {
+    this.partnerService.update(this.idSignal(), {
       billetWebDone: true
     });
   }

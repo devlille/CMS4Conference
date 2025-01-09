@@ -1,11 +1,11 @@
 <mat-form-field class="full-width">
-  <input matInput type="date" placeholder="date de publication" [(ngModel)]="company().publicationDate" />
+  <input matInput type="date" placeholder="date de publication" [(ngModel)]="companySignal().publicationDate" />
 </mat-form-field>
 
 <br />
 
-@if (company().flyerUrl) {
-  <cms-files [files]="files"></cms-files>
+@if (companySignal().flyerUrl) {
+  <cms-files [files]="files()"></cms-files>
 }
 
 <div class="inline-bloc">

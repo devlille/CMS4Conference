@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,37 +22,43 @@ export class AdminCommunicatedComponent {
   readonly step = input.required<WorkflowStep>();
   readonly company = input.required<Company>();
   readonly id = input.required<string>();
-  files = {};
+
+  idSignal = computed(() => this.id as unknown as string);
+  stepSignal = computed(() => this.step as unknown as WorkflowStep);
+  workflowSignal = computed(() => this.workflow as unknown as Workflow);
+  companySignal = computed(() => this.company as unknown as Company);
+
+  files = signal({});
 
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);
 
   setDate() {
-    this.partnerService.update(this.id(), {
-      publicationDate: this.company().publicationDate
+    this.partnerService.update(this.idSignal(), {
+      publicationDate: this.companySignal().publicationDate
     });
   }
   uploadFlyer(file: Blob) {
-    this.storageService.uploadFile(this.id(), file, 'flyers').then((url) => {
-      this.partnerService.update(this.id(), {
+    this.storageService.uploadFile(this.idSignal(), file, 'flyers').then((url) => {
+      this.partnerService.update(this.idSignal(), {
         flyerUrl: url
       });
     });
   }
 
   ngOnInit() {
-    this.storageService.getFlyers(this.id()).then((flyer) => {
-      this.files = {
+    this.storageService.getFlyers(this.idSignal()).then((flyer) => {
+      this.files.set({
         Flyer: flyer
-      };
+      });
     });
   }
 
   updateStatus(status: State) {
-    this.partnerService.update(this.id(), {
+    this.partnerService.update(this.idSignal(), {
       status: {
-        ...this.company().status,
-        [this.step().key]: status
+        ...this.companySignal().status,
+        [this.stepSignal().key]: status
       }
     });
   }

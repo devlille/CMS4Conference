@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,36 +26,41 @@ export class SocialComponent {
   readonly company = input.required<Company>();
   readonly id = input.required<string>();
   readonly step = input.required<WorkflowStep>();
-  files = {};
-  isAdmin = false;
+  isAdmin = signal(false);
+
+  idSignal = computed(() => this.id as unknown as string);
+  stepSignal = computed(() => this.step as unknown as WorkflowStep);
+  companySignal = computed(() => this.company as unknown as Company);
 
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);
   private readonly auth = inject(Auth);
 
-  ngOnInit() {
-    this.files = {
-      Logo: this.company().logoUrl
+  files = computed(() => {
+    return {
+      Logo: this.companySignal().logoUrl!
     };
+  });
 
+  ngOnInit() {
     this.auth.onAuthStateChanged((state) => {
-      this.isAdmin = state?.email?.endsWith('@' + environment.emailDomain) ?? false;
+      this.isAdmin.set(state?.email?.endsWith('@' + environment.emailDomain) ?? false);
     });
   }
   update() {
-    this.partnerService.update(this.id(), {
-      linkedinAccount: this.company().linkedinAccount || '',
-      twitterAccount: this.company().twitterAccount || '',
-      twitter: this.company().twitter || '',
-      linkedin: this.company().linkedin || '',
-      description: this.company().description || '',
-      keepDevFestTeam: this.company().keepDevFestTeam || false,
-      socialInformationComplete: this.company().socialInformationComplete ?? false
+    this.partnerService.update(this.idSignal(), {
+      linkedinAccount: this.companySignal().linkedinAccount || '',
+      twitterAccount: this.companySignal().twitterAccount || '',
+      twitter: this.companySignal().twitter || '',
+      linkedin: this.companySignal().linkedin || '',
+      description: this.companySignal().description || '',
+      keepDevFestTeam: this.companySignal().keepDevFestTeam || false,
+      socialInformationComplete: this.companySignal().socialInformationComplete ?? false
     });
   }
   upload(file: Blob) {
-    this.storageService.uploadFile(this.id(), file).then((url: string) => {
-      this.partnerService.update(this.id(), {
+    this.storageService.uploadFile(this.idSignal(), file).then((url: string) => {
+      this.partnerService.update(this.idSignal(), {
         logoUrl: url
       });
     });

@@ -6,12 +6,12 @@
     </p>
     <div>
       <cms-upload (uploadFile)="upload($event)" [isEnable]="" accept=".svg" label="Logo (*.svg)">Choisir un logo</cms-upload>
-      <cms-files [files]="files"></cms-files>
+      <cms-files [files]="files()"></cms-files>
     </div>
   </div>
 
   <mat-divider></mat-divider>
-  @if (isAdmin || company().sponsoring === 'Gold' || company().sponsoring === 'Silver') {
+  @if (isAdmin() || companySignal().sponsoring === 'Gold' || companySignal().sponsoring === 'Silver') {
     <div class="social-container-row">
       <p>
         Vous pouvez nous indiquer les comptes LinkedIN et X de votre société. Ils seront utilisés par l'équipe pour les différentes communications réalisées. Vous pouvez également
@@ -22,39 +22,39 @@
       <div class="social-fields">
         <mat-form-field class="full-width">
           <mat-label>Compte X (Twitter)</mat-label>
-          <input matInput type="text" [(ngModel)]="company().twitterAccount" />
+          <input matInput type="text" [(ngModel)]="companySignal().twitterAccount" />
         </mat-form-field>
 
         <mat-form-field class="full-width">
           <mat-label>Compte Linkedin</mat-label>
-          <input matInput type="text" [(ngModel)]="company().linkedinAccount" />
+          <input matInput type="text" [(ngModel)]="companySignal().linkedinAccount" />
         </mat-form-field>
 
-        <mat-checkbox [(ngModel)]="company().keepDevFestTeam">Laissez l'équipe organisatrice écrire vos messages!</mat-checkbox>
+        <mat-checkbox [(ngModel)]="companySignal().keepDevFestTeam">Laissez l'équipe organisatrice écrire vos messages!</mat-checkbox>
         <mat-form-field class="full-width">
           <mat-label>Message X (Twitter)</mat-label>
-          <textarea [(ngModel)]="company().twitter" matInput maxlength="280"></textarea>
+          <textarea [(ngModel)]="companySignal().twitter" matInput maxlength="280"></textarea>
         </mat-form-field>
         <mat-form-field class="full-width">
           <mat-label>Message LinkedIN</mat-label>
-          <textarea [(ngModel)]="company().linkedin" matInput></textarea>
+          <textarea [(ngModel)]="companySignal().linkedin" matInput></textarea>
         </mat-form-field>
       </div>
     </div>
   }
 
-  @if (!isAdmin && company().sponsoring !== 'Gold' && company().sponsoring !== 'Silver') {
+  @if (!isAdmin() && companySignal().sponsoring !== 'Gold' && companySignal().sponsoring !== 'Silver') {
     <div class="social-container-row">
       <p>Vous pouvez nous indiquer les comptes LinkedIN et X de votre société. Ils seront utilisés par l'équipe pour les différentes communications réalisées.</p>
       <div class="social-fields">
         <mat-form-field class="full-width">
           <mat-label>Compte X (Twitter)</mat-label>
-          <input matInput type="text" [(ngModel)]="company().twitterAccount" />
+          <input matInput type="text" [(ngModel)]="companySignal().twitterAccount" />
         </mat-form-field>
 
         <mat-form-field class="full-width">
           <mat-label>Compte Linkedin</mat-label>
-          <input matInput type="text" [(ngModel)]="company().linkedinAccount" />
+          <input matInput type="text" [(ngModel)]="companySignal().linkedinAccount" />
         </mat-form-field>
       </div>
     </div>
@@ -63,9 +63,9 @@
     <p>Vous pouvez également indiquer une petite description de votre société.</p>
     <div class="social-fields">
       <mat-form-field class="full-width">
-        <textarea [(ngModel)]="company().description" matInput placeholder="Description" maxlength="280"></textarea>
+        <textarea [(ngModel)]="companySignal().description" matInput placeholder="Description" maxlength="280"></textarea>
       </mat-form-field>
-      <mat-checkbox [(ngModel)]="company().socialInformationComplete">Je confirme que toutes les informations ci-dessus sont complètes</mat-checkbox>
+      <mat-checkbox [(ngModel)]="companySignal().socialInformationComplete">Je confirme que toutes les informations ci-dessus sont complètes</mat-checkbox>
     </div>
   </div>
 </div>

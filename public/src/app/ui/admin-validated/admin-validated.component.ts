@@ -90,9 +90,10 @@ export class AdminValidatedComponent {
   }
   updateSponsoring() {
     const company = this.companySignal();
+    const sponsoring = this.form().value.sponsoring!;
     this.partnerService.update(this.id as unknown as string, {
-      sponsoring: this.form().value.sponsoring!,
-      secondSponsoring: this.form().value.sponsoring! === company?.sponsoring ? company?.secondSponsoring : company?.sponsoring
+      sponsoring: sponsoring,
+      secondSponsoring: sponsoring === company?.sponsoring ? company?.secondSponsoring : company?.sponsoring
     });
   }
 }

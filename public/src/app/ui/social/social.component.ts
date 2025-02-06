@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { VideoInputComponent } from 'src/app/v3/video-input.component';
 
 import { environment } from '../../../environments/environment';
 import { Company, WorkflowStep } from '../../model/company';
@@ -30,7 +31,8 @@ import { UploadComponent } from '../upload/upload.component';
     MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    VideoInputComponent
   ],
   templateUrl: './social.component.html',
   styleUrls: ['./social.component.css']

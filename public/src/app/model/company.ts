@@ -84,6 +84,8 @@ export interface Company {
   flyerUrl?: string;
   creationDate?: Timestamp;
   logoUrl?: string;
+  videoUrl?: string;
+  editedVideoUrl?: string;
   conventionSignedUrl?: string;
   edition?: number;
   siteUrl?: string;

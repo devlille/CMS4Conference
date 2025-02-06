@@ -83,7 +83,7 @@ export async function onDocumentChange(firestore: FirebaseFirestore.Firestore, b
     (beforeStatus.communicated !== status.communicated && status.communicated === StatusEnum.DONE) ||
     (status.communicated === StatusEnum.DONE && before.publicationDate !== after.publicationDate)
   ) {
-    if (!!after.publicationDate && (after.publicationDate as any) !== '') {
+    if (!!after.publicationDate && (after.publicationDate as unknown as string) !== '') {
       const emailTemplate = CommunicationScheduledFactory(Intl.DateTimeFormat('fr').format(new Date(after.publicationDate)), configuration);
       sendEmailToAllContacts(after, emailTemplate, configuration);
 

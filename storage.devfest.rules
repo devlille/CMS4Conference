@@ -10,6 +10,14 @@ service firebase.storage {
                     && request.resource.contentType.matches('image/.*');
      		}
   		}
+		match /video {
+     		match /{allPaths=**} {
+      		allow read: if true;
+    		}
+    		match /{imageId} {
+       		allow write: if request.resource.size < 500 * 1024 * 1024;
+     		}
+  		}
       match /facture {
      		match /{allPaths=**} {
         	allow read: if true;

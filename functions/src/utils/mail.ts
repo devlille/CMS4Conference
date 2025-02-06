@@ -14,10 +14,6 @@ export function getFrom(mail: Email): {
 }
 
 export function sendEmailToAllContacts(company: Company, emailFactory: EmailContent, configuration: Configuration) {
-  if (!configuration.mail.enabled) {
-    return;
-  }
-
   const emails = Array.isArray(company.email) ? company.email : [company.email];
 
   return sendEmail(

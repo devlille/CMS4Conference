@@ -1,78 +1,103 @@
-<div class="social-container">
-  <div class="social-container-row">
-    <p>
-      Vous pouvez uploader le logo de votre société au format svg, et si possible avec un fond transparent. Il sera utilisé par l'équipe pour créer le flyer qui sera publier sur
-      les réseaux sociaux ainsi que sur le site web.
-    </p>
-    <div>
-      <cms-upload (uploadFile)="upload($event)" [isEnable]="" accept=".svg" label="Logo (*.svg)">Choisir un logo</cms-upload>
-      <cms-files [files]="files()"></cms-files>
-    </div>
+@if (uploadingVideo()) {
+  <div class="spinner">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
   </div>
+}
 
-  <mat-divider></mat-divider>
-  @if (isAdmin() || companySignal().sponsoring === 'Gold' || companySignal().sponsoring === 'Silver') {
+@if (!uploadingVideo()) {
+  <div class="social-container">
     <div class="social-container-row">
       <p>
-        Vous pouvez nous indiquer les comptes LinkedIN et X de votre société. Ils seront utilisés par l'équipe pour les différentes communications réalisées. Vous pouvez également
-        indiquer les messages que vous souhaitez voir publier sur les réseaux sociaux. Si vous n'avez pas d'imagination, vous pouvez laisser l'équipe le faire pour vous. Dans ce
-        cas, seules les informations liées à vos profils LinkedIN et X nous sont utiles.
+        Vous pouvez uploader le logo de votre société au format svg, et si possible avec un fond transparent. Il sera utilisé par l'équipe pour créer le flyer qui sera publier sur
+        les réseaux sociaux ainsi que sur le site web.
       </p>
-
-      <div class="social-fields">
-        <mat-form-field class="full-width">
-          <mat-label>Compte X (Twitter)</mat-label>
-          <input matInput type="text" [(ngModel)]="companySignal().twitterAccount" />
-        </mat-form-field>
-
-        <mat-form-field class="full-width">
-          <mat-label>Compte Linkedin</mat-label>
-          <input matInput type="text" [(ngModel)]="companySignal().linkedinAccount" />
-        </mat-form-field>
-
-        <mat-checkbox [(ngModel)]="companySignal().keepDevFestTeam">Laissez l'équipe organisatrice écrire vos messages!</mat-checkbox>
-        <mat-form-field class="full-width">
-          <mat-label>Message X (Twitter)</mat-label>
-          <textarea [(ngModel)]="companySignal().twitter" matInput maxlength="280"></textarea>
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <mat-label>Message LinkedIN</mat-label>
-          <textarea [(ngModel)]="companySignal().linkedin" matInput></textarea>
-        </mat-form-field>
+      <div>
+        <cms-upload (uploadFile)="uploadLogo($event)" [isEnable]="" accept=".svg" label="Logo (*.svg)">Choisir un logo</cms-upload>
+        <cms-files [files]="logos()"></cms-files>
       </div>
     </div>
-  }
 
-  @if (!isAdmin() && companySignal().sponsoring !== 'Gold' && companySignal().sponsoring !== 'Silver') {
+    @if (companySignal().sponsoring === 'gold') {
+      <div class="social-container-row">
+        <p>
+          En tant que partenaire Gold, vous pouvez également nous envoyer une video (5mn max). Elle sera publiée sur nos réseaux sociaux et accessible depuis notre site web et nos
+          application mobiles. Si vous avez un soucis avec l'upload, vous pouvez nous la partager par email.
+        </p>
+
+        <div>
+          <cms-upload (uploadFile)="uploadVideo($event)" [isEnable]="" label="Video (*.svg)">Choisir une video</cms-upload>
+          @if (isAdmin()) {
+            <cms-upload (uploadFile)="uploadEditedVideo($event)" [isEnable]="" label="Video (*.svg)">Choisir la video éditée</cms-upload>
+          }
+          <cms-files [files]="videos()"></cms-files>
+        </div>
+      </div>
+    }
+
+    <mat-divider></mat-divider>
+    @if (isAdmin() || companySignal().sponsoring === 'gold' || companySignal().sponsoring === 'silver') {
+      <div class="social-container-row">
+        <p>
+          Vous pouvez nous indiquer les comptes LinkedIN et X de votre société. Ils seront utilisés par l'équipe pour les différentes communications réalisées. Vous pouvez
+          également indiquer les messages que vous souhaitez voir publier sur les réseaux sociaux. Si vous n'avez pas d'imagination, vous pouvez laisser l'équipe le faire pour
+          vous. Dans ce cas, seules les informations liées à vos profils LinkedIN et X nous sont utiles.
+        </p>
+
+        <div class="social-fields">
+          <mat-form-field class="full-width">
+            <mat-label>Compte X (Twitter)</mat-label>
+            <input matInput type="text" [(ngModel)]="companySignal().twitterAccount" />
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <mat-label>Compte Linkedin</mat-label>
+            <input matInput type="text" [(ngModel)]="companySignal().linkedinAccount" />
+          </mat-form-field>
+
+          <mat-checkbox [(ngModel)]="companySignal().keepDevFestTeam">Laissez l'équipe organisatrice écrire vos messages!</mat-checkbox>
+          <mat-form-field class="full-width">
+            <mat-label>Message X (Twitter)</mat-label>
+            <textarea [(ngModel)]="companySignal().twitter" matInput maxlength="280"></textarea>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Message LinkedIN</mat-label>
+            <textarea [(ngModel)]="companySignal().linkedin" matInput></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    }
+
+    @if (!isAdmin() && companySignal().sponsoring !== 'gold' && companySignal().sponsoring !== 'silver') {
+      <div class="social-container-row">
+        <p>Vous pouvez nous indiquer les comptes LinkedIN et X de votre société. Ils seront utilisés par l'équipe pour les différentes communications réalisées.</p>
+        <div class="social-fields">
+          <mat-form-field class="full-width">
+            <mat-label>Compte X (Twitter)</mat-label>
+            <input matInput type="text" [(ngModel)]="companySignal().twitterAccount" />
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <mat-label>Compte Linkedin</mat-label>
+            <input matInput type="text" [(ngModel)]="companySignal().linkedinAccount" />
+          </mat-form-field>
+        </div>
+      </div>
+    }
     <div class="social-container-row">
-      <p>Vous pouvez nous indiquer les comptes LinkedIN et X de votre société. Ils seront utilisés par l'équipe pour les différentes communications réalisées.</p>
+      <p>Vous pouvez également indiquer une petite description de votre société.</p>
       <div class="social-fields">
         <mat-form-field class="full-width">
-          <mat-label>Compte X (Twitter)</mat-label>
-          <input matInput type="text" [(ngModel)]="companySignal().twitterAccount" />
+          <textarea [(ngModel)]="companySignal().description" matInput placeholder="Description" maxlength="280"></textarea>
         </mat-form-field>
-
-        <mat-form-field class="full-width">
-          <mat-label>Compte Linkedin</mat-label>
-          <input matInput type="text" [(ngModel)]="companySignal().linkedinAccount" />
-        </mat-form-field>
+        <mat-checkbox [(ngModel)]="companySignal().socialInformationComplete">Je confirme que toutes les informations ci-dessus sont complètes</mat-checkbox>
       </div>
-    </div>
-  }
-  <div class="social-container-row">
-    <p>Vous pouvez également indiquer une petite description de votre société.</p>
-    <div class="social-fields">
-      <mat-form-field class="full-width">
-        <textarea [(ngModel)]="companySignal().description" matInput placeholder="Description" maxlength="280"></textarea>
-      </mat-form-field>
-      <mat-checkbox [(ngModel)]="companySignal().socialInformationComplete">Je confirme que toutes les informations ci-dessus sont complètes</mat-checkbox>
     </div>
   </div>
-</div>
 
-<div class="inline-bloc">
-  <button color="primary" mat-raised-button (click)="update()">
-    <mat-icon>save</mat-icon>
-    Sauvegarder
-  </button>
-</div>
+  <div class="inline-bloc">
+    <button color="primary" mat-raised-button (click)="update()">
+      <mat-icon>save</mat-icon>
+      Sauvegarder
+    </button>
+  </div>
+}

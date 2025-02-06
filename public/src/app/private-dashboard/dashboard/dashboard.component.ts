@@ -120,7 +120,7 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   archive(id: string) {
-    this.partnerService.update(id, { archived: true });
+    this.partnerService.archive(id);
   }
 
   ngAfterViewInit() {
@@ -138,7 +138,10 @@ export class DashboardComponent implements AfterViewInit {
                 timeStyle: 'long'
               } as any).format((partners.creationDate as Timestamp).toDate())
             : '',
-          needAction: (!!partners.conventionSignedUrl && partners.status!.sign === 'pending') || (partners.status!.generated === 'pending' && !!partners.address)
+          needAction:
+            (!!partners.conventionSignedUrl && partners.status!.sign === 'pending') ||
+            (partners.status!.generated === 'pending' && !!partners.address) ||
+            partners.status!.validated === 'pending'
         }))
       );
     });

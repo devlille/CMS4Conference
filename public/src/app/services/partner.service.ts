@@ -56,6 +56,9 @@ export class PartnerService {
     );
   }
 
+  public archive(id: string): void {
+    this.update(id, { archived: true });
+  }
   public update(id: string, fields: Partial<Company>) {
     this.updateFlag.next(true);
 

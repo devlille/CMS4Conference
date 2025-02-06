@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, linkedSignal, signal } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +8,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 import { environment } from '../../../environments/environment';
 import { Company, WorkflowStep } from '../../model/company';
@@ -18,7 +19,19 @@ import { UploadComponent } from '../upload/upload.component';
 
 @Component({
   selector: 'cms-social',
-  imports: [CommonModule, FilesComponent, UploadComponent, MatDividerModule, MatInputModule, FormsModule, MatFormFieldModule, MatButtonModule, MatIconModule, MatCheckboxModule],
+  imports: [
+    CommonModule,
+    MatProgressSpinner,
+    FilesComponent,
+    UploadComponent,
+    MatDividerModule,
+    MatInputModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCheckboxModule
+  ],
   templateUrl: './social.component.html',
   styleUrls: ['./social.component.css']
 })
@@ -32,13 +45,22 @@ export class SocialComponent {
   stepSignal = computed(() => this.step as unknown as WorkflowStep);
   companySignal = computed(() => this.company as unknown as Company);
 
+  uploadingVideo = signal(false);
+
   private readonly partnerService = inject(PartnerService);
   private readonly storageService = inject(StorageService);
   private readonly auth = inject(Auth);
 
-  files = computed(() => {
+  logos = computed(() => {
     return {
       Logo: this.companySignal().logoUrl!
+    };
+  });
+
+  videos = linkedSignal(() => {
+    return {
+      Video: this.companySignal().videoUrl!,
+      'Vidéo Editée': this.companySignal().editedVideoUrl!
     };
   });
 
@@ -58,11 +80,38 @@ export class SocialComponent {
       socialInformationComplete: this.companySignal().socialInformationComplete ?? false
     });
   }
-  upload(file: Blob) {
+
+  uploadLogo(file: Blob) {
     this.storageService.uploadFile(this.idSignal(), file).then((url: string) => {
       this.partnerService.update(this.idSignal(), {
         logoUrl: url
       });
     });
+  }
+
+  uploadEditedVideo(file: Blob) {
+    this.uploadingVideo.set(true);
+    this.storageService
+      .uploadVideo(this.idSignal(), file)
+      .then((url: string) => {
+        this.partnerService.update(this.idSignal(), {
+          editedVideoUrl: url
+        });
+        this.videos.set({ Video: this.videos().Video, 'Vidéo Editée': url });
+      })
+      .finally(() => this.uploadingVideo.set(false));
+  }
+
+  uploadVideo(file: Blob) {
+    this.uploadingVideo.set(true);
+    this.storageService
+      .uploadVideo(this.idSignal(), file)
+      .then((url: string) => {
+        this.partnerService.update(this.idSignal(), {
+          videoUrl: url
+        });
+        this.videos.set({ Video: url, 'Vidéo Editée': this.videos()['Vidéo Editée'] });
+      })
+      .finally(() => this.uploadingVideo.set(false));
   }
 }

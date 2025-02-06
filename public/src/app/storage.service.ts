@@ -59,4 +59,9 @@ export class StorageService {
     const storageRef = ref(this.storage, `${bucket}/${name}.pdf`);
     return uploadBytes(storageRef, file).then((snapshot) => getDownloadURL(snapshot.ref)) as Promise<string>;
   }
+
+  public uploadVideo(name: string, file: Blob): Promise<string> {
+    const storageRef = ref(this.storage, `video/${name}.mp4`);
+    return uploadBytes(storageRef, file).then((snapshot) => getDownloadURL(snapshot.ref)) as Promise<string>;
+  }
 }

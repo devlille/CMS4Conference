@@ -1,8 +1,6 @@
 import { Timestamp } from '@google-cloud/firestore';
 
-import { Company } from '../model';
-
-export async function update(firestore: FirebaseFirestore.Firestore, c4hId: string, companyId: string, event: Company, address: any, media: any) {
+export async function update(firestore: FirebaseFirestore.Firestore, c4hId: string, companyId: string, event: any, address: any, media: any) {
   const docRef = firestore.collection('conferences4hall').doc(c4hId).collection('companies').doc(companyId);
   const hasTwitter = event.twitterAccount == '' || event.twitterAccount == undefined;
   const hasLinkedin = event.linkedinAccount == '' || event.linkedinAccount == undefined;

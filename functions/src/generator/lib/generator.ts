@@ -1,8 +1,21 @@
+import axios from 'axios';
 import * as ejs from 'ejs';
-import * as markdownToPDf from 'markdown-pdf';
+import { writeFileSync } from 'fs';
 import * as os from 'os';
 
 import { Company, Configuration, SponsoringOption, SponsorshipConfiguration } from '../../model';
+
+const generatePdf = (content: string) => {
+  return axios
+    .post('https://hook.eu2.make.com/bng7a8nbgg7093u3oofkwmm2t1hl9omd', content, {
+      responseType: 'arraybuffer',
+      headers: {
+        'Content-Type': 'text/plain'
+      }
+    })
+    .then((body) => body.data)
+    .catch((err: string) => console.log(err));
+};
 
 function getSponsoringFees(sponsoringConfiguration: SponsorshipConfiguration): [string, number, number] {
   if (!sponsoringConfiguration) {
@@ -91,13 +104,11 @@ function generateFile(company: Company, fileName: string, fileModule: { default:
       console.log(data);
 
       const str = ejs.render(file, data);
-      markdownToPDf({
-        paperBorder: '3cm'
-      })
-        .from.string(str)
-        .to(os.tmpdir() + '/' + fileName, () => {
-          resolve(fileName);
-        });
+      generatePdf(str)
+        .then((pdf) => {
+          return writeFileSync(os.tmpdir() + '/' + fileName, pdf);
+        })
+        .then(() => resolve(fileName));
     } catch (e) {
       console.log('Generator:', 'error when generating ' + fileName, e);
 

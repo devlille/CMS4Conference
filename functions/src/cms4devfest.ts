@@ -1,13 +1,17 @@
 import { Timestamp } from '@google-cloud/firestore';
+import axios from 'axios';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import { writeFileSync } from 'fs';
+///import * as markdownToPDf from 'markdown-pdf';
+import * as os from 'os';
 
 import relanceConventionSignee from './emails/template/relanceConventionSignee';
 import relanceInformationsComplementaires from './emails/template/relanceInformationsComplementaires';
 import relancePaiement from './emails/template/relancePaiement';
 import type { Company, Configuration, EmailContent, WorkflowStatus } from './model';
 import { StatusEnum, onDocumentChange } from './utils/document-change';
-import { sendEmail, sendEmailToAllContacts } from './utils/mail';
+import { sendEmailToAllContacts } from './utils/mail';
 import { sendNewPartnerToOrganizationTeam, sendWelcomeEmail } from './v3/domain/email';
 import { getConfiguration } from './v3/infrastructure/getConfiguration';
 
@@ -46,9 +50,20 @@ export const getAllPublicSponsors = functions.https.onRequest(async (req, resp) 
 });
 
 export const testEmail = functions.https.onRequest(async (req, resp) => {
-  const configuration = await getConfiguration(firestore);
-  await sendEmail(['demey.emmanuel@gmail.com'], 'subject', 'body', configuration);
-  resp.send(1);
+  const content = '# Title 23';
+  const path = os.tmpdir() + '/test2.pdf';
+  axios
+    .post('https://hook.eu2.make.com/bng7a8nbgg7093u3oofkwmm2t1hl9omd', content, {
+      responseType: 'arraybuffer',
+      headers: {
+        'Content-Type': 'text/plain'
+      }
+    })
+    .then((body) => {
+      writeFileSync(path, body.data);
+      resp.send(path);
+    })
+    .catch((err: string) => console.log(err));
 });
 
 const relance = (emailFactory: (partner: Company, configuration: Configuration) => EmailContent, partners: Company[], configuration: Configuration) => {

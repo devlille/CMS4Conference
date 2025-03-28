@@ -31,11 +31,14 @@ The Association is committed to provide to the Partner an electrical power strip
 
 The previous items will be applied after the association receive the payment. The payment has to be done before May the 13th 2025. 
 
+Furthermore, any communication project by the Association related to the Event shall be carried out subject to the Association’s compliance with: (i) the Partner’s brand image and (ii) the graphic charter provided by the Partner.
+
+Any licenses for the use of trademarks, names, logos, company names, or other distinctive signs that may be granted by the Partner to the Association within the framework of the Event are strictly for the exclusive purpose of executing this Agreement. If granted, such licenses are non-exclusive, non-transferable, and non-assignable, valid only for the duration of this Agreement, and do not result in any transfer of ownership rights from the Partner to the Association.
 
 ## III - OBLIGATIONS OF THE PARTNER
 
 The Partner is committed to allocate to the Association the amount hereafter, in order to comply with the Agreement purpose: <%= SPONSORING_TEXT %> euros TTC (<%= SPONSORING_NUMBER %> €). The 
-payment has to be done respecting the following conditions: payment of the total amount at the Partnership Agreement signature.
+payment has to be done respecting the following conditions: payment of the total amount at the Partnership Agreement signature and within a period of 45 days. If this deadline is exceeded, we would be obliged to terminate our partnership.
 
 As indicated in the invoice, here are the Banking Information of the association :  
 - IBAN FR76 1695 8000 0172 9071 8946 558
@@ -43,12 +46,20 @@ As indicated in the invoice, here are the Banking Information of the association
 
 <% if (HAS_BOOTH === 'true') { %>
 The Partner is committed to install its stand on <%= INSTALLATION_DATE %>. A security team will be present the night in the exhibition room.
+The Partner agrees to set up their booth on the afternoon of <%= INSTALLATION_DATE %> between 2:00 PM and 6:00 PM. A security team will be present overnight to monitor the exhibition area.
+
+The booth must comply with the following constraints:
+
+- The back panel must not exceed a height of 2.4m.
+- The side panels must not exceed a height of 1.2m.
+
+Dismantling will take place on Friday starting at 4:30 PM.
 <% } %>
 
 
 ## IV DURATION OF THE AGREEMENT**
 
-The present Partnership Agreement settled between the Association and the Partner starts the day this convention has be signed by the Partner and it concludes plainly and with no further formalities the <%= END_DATE %>.
+The present Partnership Agreement settled between the Association and the Partner starts the day this convention has be signed by the Partner and it concludes plainly and with no further formalities the <%= END_DATE %>, subject to the possible application of the 'Agreement withdrawal' clause.
 
 
 ## V - AGREEMENT WITHDRAWAL
@@ -56,21 +67,23 @@ The present Partnership Agreement settled between the Association and the Partne
 Any of the Parties can withdraw from the Partnership Agreement, of free will, and at any time, without previous notice, in the case the other Part would severely fail with its contractual obligations.
 The Agreement withdrawal must be preceded of a notice of intention by signed regular mail, and it has no effect for a 30 (thirty) calendar days.
 
-If the withdrawal comes from the initiative of the Partner, he may not pretend to refund, in part or in totality,  of the amount allocated at the time of the signature of the present Agreement.
+VI - CANCELLATION
 
-In case the Conference will be canceled due to Force Majeure, including for pandemic reasons, Partner will be entitled to a refund of sums already paid
+The Association will be compelled to cancel the event in the case of force majeure preventing its execution at the initially planned venue. Events considered as force majeure shall be those meeting the conditions of Article 1148 of the French Civil Code or the following events: strike, lockout, fire, flood, equipment failure, riot, war, power outage, or suspension of telecommunications. The same applies in the case of a pandemic.
 
-## VI - MODIFICATIONS
+In such a case, the Association commits to rescheduling the event within the following year. The Partner may then choose either to receive a full refund of the amount specified in Section III - OBLIGATIONS OF THE PARTNER or to maintain their partnership for the rescheduled event date determined by the Association.
+
+## VII - MODIFICATIONS
 
 Upon request from one of the Parties, modifications may be provided to the present Partnership Agreement by means of written consent between Parties. Those modifications will be considered as add-ons to the present Agreement 
 and they will be an integrant part of it.
 
-## VII : CONFIDENTIALITY
+## VIII : CONFIDENTIALITY
 
 Both Parties are committed to consider the dispositions of the present Agreement as being confidential 
 and to not communicate them to third parties without written and express consent of the other Part.
 
-## VIII : LITIGATION
+## IX : LITIGATION
 
 Both Parties are committed to settle in good will any eventual conflict that may outcome from the 
 present Agreement. In case of failure, the jurisdiction of Lille will be the only competent channel.

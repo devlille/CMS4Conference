@@ -20,7 +20,7 @@ import { DashboardFilterComponent, Search } from './dashboard-filter.component';
 
 const DefaultSearchValue = {
   status: ['sign', 'generated', 'validated', 'paid', 'received', 'communicated', 'code'],
-  packs: ['bronze', 'silver', 'gold', 'party'],
+  packs: ['bronze', 'silver', 'gold', 'party', 'freelance / startup', 'graine de dev', 'fresque du climat'],
   types: ['esn', 'other', 'undefined']
 };
 

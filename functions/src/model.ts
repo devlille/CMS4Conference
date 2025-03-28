@@ -99,6 +99,8 @@ export interface Company {
   zipCode: string;
   city: string;
   siret: string;
+  invoiceAmountNumber: number;
+  invoiceAmountString: string;
   representant: string;
   email: string | string[];
   role: string;

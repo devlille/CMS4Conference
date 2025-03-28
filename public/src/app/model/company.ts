@@ -69,6 +69,8 @@ export interface Company {
   email: string | string[];
   role: string;
   PO?: number;
+  invoiceAmountNumber?: number;
+  invoiceAmountString?: string;
   sponsoring: string;
   secondSponsoring?: string;
   status?: WorkflowStatus;

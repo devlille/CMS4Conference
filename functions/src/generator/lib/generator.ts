@@ -44,8 +44,13 @@ function generateFile(company: Company, fileName: string, fileModule: { default:
     return Promise.reject();
   }
 
-  const [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(sponsoringConfiguration);
+  // eslint-disable-next-line prefer-const
+  let [SPONSORING_TEXT, SPONSORING_NUMBER, NUMBER_PLACE] = getSponsoringFees(sponsoringConfiguration);
 
+  if (company.invoiceAmountNumber) {
+    SPONSORING_NUMBER = company.invoiceAmountNumber;
+    SPONSORING_TEXT = company.invoiceAmountString;
+  }
   const LINES: { label: string; price: number }[] = [];
   let total = 0;
 

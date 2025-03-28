@@ -21,7 +21,10 @@ const PackOptions: Options = [
   { value: 'bronze', label: `Bronze` },
   { value: 'silver', label: `Silver` },
   { value: 'gold', label: `Gold` },
-  { value: 'party', label: `Party` }
+  { value: 'party', label: `Party` },
+  { value: 'freelance / startup', label: `Freelance / Startup` },
+  { value: 'fresque du climat', label: `Fresque du Climat` },
+  { value: 'graine de dev', label: `Graine de Dev` }
 ];
 const TypeOptions: Options = [
   { value: 'esn', label: `ESN` },

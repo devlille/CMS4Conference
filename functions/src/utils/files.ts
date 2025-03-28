@@ -17,7 +17,7 @@ export async function storeFile(cloudStorageDest: string, tempPath: string) {
     .storage()
     .bucket()
     .file(cloudStorageDest + tempPath)
-    .getSignedUrl({ action: 'read', expires: '03-17-2025' });
+    .getSignedUrl({ action: 'read', expires: '03-17-2026' });
 }
 export async function generateAndStoreProformaInvoiceAndConvention(company: Company, id: string, configuration: Configuration) {
   console.log('Generate Proforma invoice and convention for ' + id);

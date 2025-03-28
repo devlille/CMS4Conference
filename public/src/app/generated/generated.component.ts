@@ -50,6 +50,8 @@ export class GeneratedComponent {
       siteUrl: new FormControl(company.siteUrl, Validators.required),
       invoiceType: new FormControl(company.invoiceType, Validators.required),
       PO: new FormControl(company.PO),
+      invoiceAmountNumber: new FormControl(company.invoiceAmountNumber),
+      invoiceAmountString: new FormControl(company.invoiceAmountString),
       lang: new FormControl(company.lang, Validators.required)
     });
   });

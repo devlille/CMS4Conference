@@ -28,7 +28,7 @@
     "mailgun.js": "^10.2.4",
     "markdown-pdf": "11.0.0",
     "marked": "^4.2.12",
-    "md-to-pdf": "^5.2.4",
+    "md-to-pdf": "^5.2.5",
     "sharp": "^0.32.6"
   },
   "devDependencies": {
